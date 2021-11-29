@@ -9,22 +9,20 @@ public class Exit : MonoBehaviour
         controller = GameObject.Find("Controller").GetComponent<GameControler>();
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            int keys = controller.GetKeys();
-            if (keys == 0) controller.PlayerWin();
-            else
-            {
-                controller.Message($"Keys need to be found {keys}");
-            }
+            controller.PlayerEnterExit();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) controller.Message($"");
+        if (other.CompareTag("Player"))
+        {
+            controller.PlayerExitExit();
+        }
     }
 
 }

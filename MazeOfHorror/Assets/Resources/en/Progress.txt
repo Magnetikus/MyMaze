@@ -1,0 +1,16 @@
+1
+Increases the movement speed of the hero
+2
+Increases hero power
+3
+Increases hero's manna
+4
+Increases the number of lives of the hero
+5
+Increases the number of possible wall movements
+6
+Increases the number of possible wall passes
+7
+Increases the number of possible teleports
+8
+Increases the number of possible uses of invulnerability

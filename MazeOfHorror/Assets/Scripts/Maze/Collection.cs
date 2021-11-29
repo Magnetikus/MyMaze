@@ -13,27 +13,33 @@ public class Collection : MonoBehaviour
 
     public Name nameObject;
 
+    private GameControler _controller;
+
+    private void Start()
+    {
+        _controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControler>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameControler controller = GameObject.Find("Controller").GetComponent<GameControler>();
+            
             switch (nameObject)
             {
                 case Name.Gold:
-                    controller.MinusGold();
+                    _controller.MinusGold();
                     
                     break;
                 case Name.Key:
-                    controller.MinusKeys();
+                    _controller.MinusKeys();
                     
                     break;
                 case Name.Map:
-                    controller.MapCollect();
+                    _controller.MapCollect();
                     
                     break;
                 case Name.Treasure:
-                    controller.TreasureCollection();
+                    _controller.TreasureCollection();
                     
                     break;
             }

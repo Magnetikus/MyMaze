@@ -131,7 +131,7 @@ public class MonsterController : MonoBehaviour
         Vector3 distance = playerPosition - myPosition;
 
         float angle = Vector3.Angle(transform.forward, distance);
-        if (angle < 60f) return true;
+        if (angle < 90f) return true;
         return false;
     }
 
@@ -262,7 +262,7 @@ public class MonsterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (player == null) player = GameObject.Find("Player(Clone)");
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         if (!gameContr.pausedGame)
         {
             positionPlayer = player.transform.position;
@@ -575,9 +575,7 @@ public class MonsterController : MonoBehaviour
                             if (hit.collider.CompareTag("Player"))
                             {
                                 state = State.Alert;
-
                             }
-
                         }
                     }
 

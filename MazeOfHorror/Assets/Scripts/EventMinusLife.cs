@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class EventMinusLife : MonoBehaviour
 {
-    public GameControler gameContr;
+    private GameControler gameContr;
+
+    private void Start()
+    {
+        gameContr = GameObject.Find("Controller").GetComponent<GameControler>();
+    }
 
     public void EndAnimation()
     {
-        gameContr.PausedGame(false);
+        gameContr.EndMinusLife();
     }
 }

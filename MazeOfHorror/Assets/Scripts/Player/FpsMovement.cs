@@ -2,43 +2,54 @@
 
 [RequireComponent(typeof(CharacterController))]
 
-// basic WASD-style movement control
+
 public class FpsMovement : MonoBehaviour
 {
-    [SerializeField] private Camera headCam;
+    [SerializeField] private Camera _headCam;
 
-    public float speed = 5.0f;
-    public float gravity = -9.8f;
+    private static float _speed = 3.0f; // max 7
+    private static float _gravity = -9.8f;
+    private static float _sensitivityHor = 4.5f;
+    private static float _sensitivityVert = 4.5f;
+    private static float _minimumVert = -45.0f;
+    private static float _maximumVert = 45.0f;
 
-    public float sensitivityHor = 9.0f;
-    public float sensitivityVert = 9.0f;
+    private float _rotationVert = 0;
 
-    public float minimumVert = -45.0f;
-    public float maximumVert = 45.0f;
+    private CharacterController _charController;
+    private GameControler _gameContr;
+    private JoystickController _joystController;
+    private JoystickLooket _joystickLooket;
 
-    private float rotationVert = 0;
-
-    private bool isMovetCube = false;
-
-    private CharacterController charController;
-    private GameControler gameContr;
-
-    public void SetIsMovetCube(bool value)
+    public void SetSpeedWithOrNotCube(float value)
     {
-        isMovetCube = value;
+        _speed *= value;
     }
 
-    void Start()
+    public void SetSpeed(float value)
     {
-        charController = GetComponent<CharacterController>();
-        gameContr = GameObject.Find("Controller").GetComponent<GameControler>();
-    }
-
-    void Update()
-    {
-        if (!gameContr.pausedGame)
+        if (value != 0)
         {
-            SetSpeedPlayer();
+            _speed = value;
+        }
+        else
+        {
+            _speed = 3f;
+        }
+    }
+
+    private void Start()
+    {
+        _charController = GetComponent<CharacterController>();
+        _gameContr = GameObject.Find("Controller").GetComponent<GameControler>();
+        _joystController = GameObject.FindGameObjectWithTag("JoystickMovet").GetComponent<JoystickController>();
+        _joystickLooket = GameObject.FindGameObjectWithTag("JoystickLooket").GetComponent<JoystickLooket>();
+    }
+
+    private void Update()
+    {
+        if (!_gameContr.pausedGame)
+        {
             MoveCharacter();
             RotateCharacter();
             RotateCamera();
@@ -47,17 +58,18 @@ public class FpsMovement : MonoBehaviour
 
     private void MoveCharacter()
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
-        float deltaZ = Input.GetAxis("Vertical") * speed;
+
+        float deltaX = _joystController.Horizontal() * _speed;
+        float deltaZ = _joystController.Vertical() * _speed;
 
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
-        movement = Vector3.ClampMagnitude(movement, speed);
+        movement = Vector3.ClampMagnitude(movement, _speed);
 
-        movement.y = gravity;
+        movement.y = _gravity;
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
 
-        charController.Move(movement);
+        _charController.Move(movement);
 
         var pos = transform.position;
         if (pos.y != 0) pos.y = 0;
@@ -66,26 +78,14 @@ public class FpsMovement : MonoBehaviour
 
     private void RotateCharacter()
     {
-        transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityHor, 0);
+        transform.Rotate(0, _joystickLooket.HorizontalRotate() * _sensitivityHor * Time.deltaTime,0);
     }
 
     private void RotateCamera()
     {
-        rotationVert -= Input.GetAxis("Mouse Y") * sensitivityVert;
-        rotationVert = Mathf.Clamp(rotationVert, minimumVert, maximumVert);
+        _rotationVert -= _joystickLooket.VerticalRotate() * _sensitivityVert * Time.deltaTime;
+        _rotationVert = Mathf.Clamp(_rotationVert, _minimumVert, _maximumVert);
 
-        headCam.transform.localEulerAngles = new Vector3(rotationVert, headCam.transform.localEulerAngles.y, 0);
-    }
-
-    private void SetSpeedPlayer()
-    {
-        if (isMovetCube == true)
-        {
-            speed = 2.0f;
-        }
-        else
-        {
-            speed = 5.0f;
-        }
+        _headCam.transform.localEulerAngles = new Vector3(_rotationVert, _headCam.transform.localEulerAngles.y, 0);
     }
 }

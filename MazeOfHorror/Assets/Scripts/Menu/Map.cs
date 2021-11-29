@@ -2,36 +2,29 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    [SerializeField] private Camera mapCamera;
-    [SerializeField] private GameObject mapPoint;
-    [SerializeField] private GameObject map;
-    [SerializeField] private GameControler controller;
+    [SerializeField] private Camera _mapCamera;
+    [SerializeField] private GameObject _mapPoint;
+    [SerializeField] private GameControler _controller;
 
-    private int[] sizeMaze;
-    private int sizeCamera;
-    private bool isActive = false;
+    private int[] _sizeMaze;
+    private int _sizeCamera;
 
     private void Start()
     {
-        sizeMaze = controller.GetSizeMaze();
-        if (sizeMaze[0] > sizeMaze[1])
+        _sizeMaze = _controller.GetSizeMaze();
+        if (_sizeMaze[0] > _sizeMaze[1])
         {
-            sizeCamera = sizeMaze[0];
+            _sizeCamera = _sizeMaze[0];
         }
-        else sizeCamera = sizeMaze[1];
-        mapPoint.transform.position = new Vector3(sizeMaze[0], 20, sizeMaze[1]);
-        mapCamera.orthographicSize = sizeCamera + 2;
+        else _sizeCamera = _sizeMaze[1];
+        _mapPoint.transform.position = new Vector3(_sizeMaze[0], 20, _sizeMaze[1]);
+        _mapCamera.orthographicSize = _sizeCamera;
     }
 
-
-    private void Update()
+    public int[] GetSizeMazeAndMaximum()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            isActive = !isActive;
-            map.SetActive(isActive);
-            mapPoint.SetActive(isActive);
-        }
-
+        int[] array = { _sizeMaze[0], _sizeMaze[1], _sizeCamera };
+        return array;
     }
+
 }

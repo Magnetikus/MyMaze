@@ -5,14 +5,13 @@ public class SaveLoadGame : MonoBehaviour
 {
     public Slider sliderVolume;
     public Slider sliderMusic;
-    public Slider sliderSound;    
+    public Slider sliderSound;
 
     public void Save()
     {
         PlayerPrefs.SetFloat("Volume", sliderVolume.value);
         PlayerPrefs.SetFloat("Music", sliderMusic.value);
         PlayerPrefs.SetFloat("Sound", sliderSound.value);
-        
 
         PlayerPrefs.Save();
     }

@@ -42,9 +42,12 @@ public class VisibleOnn : MonoBehaviour
         while (_amountScent > 0)
         {
             _amountScent -= 1;
+            if (_amountScent < 0)
+            {
+                CounterScentStop();
+            }
             yield return wait;
         }
-        CounterScentStop();
     }
 
     public float GetAmountScent()
@@ -85,20 +88,26 @@ public class VisibleOnn : MonoBehaviour
         return _busy;
     }
 
-
-    private void OnTriggerStay(Collider other)
+    public void SetBusy(bool value)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Monster"))
-        {
-            _busy = true;
-        }
+        _busy = value;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player") || other.CompareTag("Monster"))
-        {
-            _busy = false;
-        }
-    }
+
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.CompareTag("Player") || other.CompareTag("Monster"))
+    //    {
+    //        _busy = true;
+    //    }
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player") || other.CompareTag("Monster"))
+    //    {
+    //        _busy = false;
+    //    }
+    //}
 }

@@ -16,23 +16,27 @@ public class ConstructorMaze : MonoBehaviour
         Monster,
         Map
     }
-    private TagName tagName;
 
-    public int changeRange;
+    [SerializeField] private LoadResurces _loadResurces;
 
-    public GameObject prefabWoll;       //1   - цифра замещения в конструкторе лабиринта
-    public GameObject prefabPoint;      //0
-    public GameObject prefabFloor;
-    public GameObject prefabTop;
-    public GameObject prefabGold;       //8
-    public GameObject player;           //3
-    public GameObject exit;             //2
-    public GameObject prefabKeys;       //4
-    public GameObject prefabMonster;    //5
-    public GameObject prefabMonster1;   //6
-    public GameObject prefabMonster2;   //7
-    public GameObject prefabMap;        //9
-    public GameObject prefabTreasure;   //10
+    public GameObject prefabPoint;         //0    - цифра замещения в конструкторе лабиринта
+
+    private GameObject prefabWoll;          //1   
+
+    public GameObject prefabExit;          //2
+    public GameObject prefabPlayer;        //3
+    public GameObject prefabKeys;          //4
+
+    private GameObject prefabMonsterEar;    //5
+    private GameObject prefabMonsterEye;    //6
+    private GameObject prefabMonsterNose;   //7
+
+    public GameObject prefabGold;          //8
+    public GameObject prefabMap;           //9
+    public GameObject prefabTreasure;      //10
+
+    private GameObject prefabFloor;
+    private GameObject prefabTop;
 
     // данные для получения
     private int sizeRows;
@@ -97,6 +101,15 @@ public class ConstructorMaze : MonoBehaviour
         amountMonster1 = constrMaze[4];
         amountMonster2 = constrMaze[5];
 
+        GameObject[] arrayResurces = _loadResurces.GetResurces();
+        
+        prefabWoll = arrayResurces[0];
+        prefabTop = arrayResurces[1];
+        prefabFloor = arrayResurces[2];
+        prefabMonsterEar = arrayResurces[3];
+        prefabMonsterEye = arrayResurces[4];
+        prefabMonsterNose = arrayResurces[5];
+
 
         Data = dataGenerator.FromDimensions(sizeRows, sizeCols);                                //генерация лабиринта
         CopyData = Data;
@@ -135,9 +148,14 @@ public class ConstructorMaze : MonoBehaviour
 
     public void Restart()
     {
+        DeleteAll();
+        DisplayMaze(CopyData);
+    }
+
+    public void DeleteAll()
+    {
         foreach (var e in listDeletedObject) Destroy(e);
         listDeletedObject.Clear();
-        DisplayMaze(CopyData);
     }
 
 
@@ -167,11 +185,11 @@ public class ConstructorMaze : MonoBehaviour
                         break;
                     case (2):
                         CreateActivCellDesactivWoll(i, j);
-                        CreateObject(exit, true, TagName.Exit, i, j);
+                        CreateObject(prefabExit, true, TagName.Exit, i, j);
                         break;
                     case (3):
                         CreateActivCellDesactivWoll(i, j);
-                        CreateObject(player, true, TagName.Player, i, j);
+                        CreateObject(prefabPlayer, true, TagName.Player, i, j);
 
                         break;
                     case (4):
@@ -180,15 +198,15 @@ public class ConstructorMaze : MonoBehaviour
                         break;
                     case (5):
                         CreateActivCellDesactivWoll(i, j);
-                        CreateObject(prefabMonster, true, TagName.Monster, i, j);
+                        CreateObject(prefabMonsterEar, true, TagName.Monster, i, j);
                         break;
                     case (6):
                         CreateActivCellDesactivWoll(i, j);
-                        CreateObject(prefabMonster1, true, TagName.Monster, i, j);
+                        CreateObject(prefabMonsterEye, true, TagName.Monster, i, j);
                         break;
                     case (7):
                         CreateActivCellDesactivWoll(i, j);
-                        CreateObject(prefabMonster2, true, TagName.Monster, i, j);
+                        CreateObject(prefabMonsterNose, true, TagName.Monster, i, j);
                         break;
                     case (8):
                         CreateActivCellDesactivWoll(i, j);
@@ -217,7 +235,7 @@ public class ConstructorMaze : MonoBehaviour
     {
         GameObject go = Instantiate(prefab);
         go.transform.position = new Vector3(i * sizeCell, 0, j * sizeCell);
-        if (tag != TagName.Exit || tag != TagName.Map || tag != TagName.Key)
+        if (tag != TagName.Exit && tag != TagName.Map)
         {
             go.transform.Rotate(Vector3.up, ChangeAngle());
         }

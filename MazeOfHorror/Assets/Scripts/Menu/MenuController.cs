@@ -4,10 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    enum Screen
+    private enum Screen
     {
         Game,
         Global,
+        Progress,
         Setting,
         GameChange,
         EasyMediumHard,
@@ -15,30 +16,41 @@ public class MenuController : MonoBehaviour
         SettingInPause,
         Constructor,
         Victory,
-        Loser
+        Loser,
+        Shop
     }
     private Screen screen;
-    List<int> constrMaze;
+    private List<int> constrMaze;
 
-    public GameControler gameContr;
-    public UsingConstructorMaze usingConstr;
-    public SaveLoadGame saveLoadGame;    
+    [SerializeField] private GameControler gameContr;
+    [SerializeField] private GameObject menuBackground;
+    [SerializeField] private UsingConstructorMaze usingConstr;
+    [SerializeField] private SaveLoadGame saveLoadGame;
+    [SerializeField] private SaveProgress saveProgress;
+    [SerializeField] private LosMenu loseMenu;
+    [SerializeField] private MenuStartRandomGame _menuRandomGame;
 
-    public CanvasGroup gameCanvas;
-    public CanvasGroup globalMenu;
-    public CanvasGroup settingMenu;
-    public CanvasGroup gameChangeMenu;
-    public CanvasGroup easyMediumHardMenu;
-    public CanvasGroup pausedMenu;
-    public CanvasGroup settingInPause;
-    public CanvasGroup constructor;
-    public CanvasGroup victory;
-    public CanvasGroup loser;
+    [SerializeField] private CanvasGroup gameCanvas;
+    [SerializeField] private CanvasGroup globalMenu;
+    [SerializeField] private CanvasGroup progressMenu;
+    [SerializeField] private CanvasGroup shopMenu;
+    [SerializeField] private CanvasGroup settingMenu;
+    [SerializeField] private CanvasGroup gameChangeMenu;
+    [SerializeField] private CanvasGroup easyMediumHardMenu;
+    [SerializeField] private CanvasGroup pausedMenu;
+    [SerializeField] private CanvasGroup settingInPause;
+    [SerializeField] private CanvasGroup constructor;
+    [SerializeField] private CanvasGroup victory;
+    [SerializeField] private CanvasGroup loser;
 
-    void SetCurrentScreen(Screen screen)
+    private int _levelPlayer;
+    private int _coefficient;
+
+    private void SetCurrentScreen(Screen screen)
     {
         Utility.SetCanvasGroupEnabled(gameCanvas, screen == Screen.Game);
         Utility.SetCanvasGroupEnabled(globalMenu, screen == Screen.Global);
+        Utility.SetCanvasGroupEnabled(progressMenu, screen == Screen.Progress);
         Utility.SetCanvasGroupEnabled(settingMenu, screen == Screen.Setting);
         Utility.SetCanvasGroupEnabled(gameChangeMenu, screen == Screen.GameChange);
         Utility.SetCanvasGroupEnabled(easyMediumHardMenu, screen == Screen.EasyMediumHard);
@@ -47,14 +59,31 @@ public class MenuController : MonoBehaviour
         Utility.SetCanvasGroupEnabled(constructor, screen == Screen.Constructor);
         Utility.SetCanvasGroupEnabled(victory, screen == Screen.Victory);
         Utility.SetCanvasGroupEnabled(loser, screen == Screen.Loser);
+        Utility.SetCanvasGroupEnabled(shopMenu, screen == Screen.Shop);
     }
 
-    void Start()
+    private void Start()
     {
-
         saveLoadGame.Load();
+        saveProgress.Load();
+        if (saveProgress.LifePlayer == 0)
+        {
+            saveProgress.SetLife(3);
+        }
+        if (saveProgress.AmountMovetWoll == 0)
+        {
+            saveProgress.SetWoll(3);
+        }
+        _levelPlayer = saveProgress.LevelPlayer;
+        Global();
+    }
+
+    public void Global()
+    {
+        menuBackground.SetActive(true);
         SetCurrentScreen(Screen.Global);
         screen = Screen.Global;
+
     }
 
     public void NewGame()
@@ -69,8 +98,27 @@ public class MenuController : MonoBehaviour
         screen = Screen.Setting;
     }
 
+    public void Progress()
+    {
+        SetCurrentScreen(Screen.Progress);
+        screen = Screen.Progress;
+    }
+
+    public void Shop()
+    {
+        SetCurrentScreen(Screen.Shop);
+        screen = Screen.Shop;
+    }
+
+    public void ExitProgress()
+    {
+        SetCurrentScreen(Screen.Global);
+        screen = Screen.Global;
+    }
+
     public void Exit()
     {
+        saveProgress.Save();
         Application.Quit();
     }
 
@@ -85,6 +133,8 @@ public class MenuController : MonoBehaviour
     {
         SetCurrentScreen(Screen.EasyMediumHard);
         screen = Screen.EasyMediumHard;
+        _levelPlayer = saveProgress.LevelPlayer;
+        _menuRandomGame.SetDB(_levelPlayer);
     }
 
     public void ConstructorLevel()
@@ -111,25 +161,85 @@ public class MenuController : MonoBehaviour
 
     public void Easy()
     {
+        _menuRandomGame.AllFalse();
+
         SetCurrentScreen(Screen.Game);
         screen = Screen.Game;
-        constrMaze = new List<int> { 15, 15, 1, 1, 1, 1 };
+        if (_levelPlayer < 10)
+        {
+            _coefficient = 1;
+        }
+        else
+        {
+            _coefficient = 2;
+        }
+        constrMaze = new List<int> { 15, 15, 1 * _coefficient, 1 * _coefficient, 1 * _coefficient, 1 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
     public void Medium()
     {
+        _menuRandomGame.AllFalse();
+
         SetCurrentScreen(Screen.Game);
         screen = Screen.Game;
-        constrMaze = new List<int> { 25, 25, 2, 2, 2, 2 };
+        if (_levelPlayer < 15)
+        {
+            _coefficient = 1;
+        }
+        else if (_levelPlayer < 20)
+        {
+            _coefficient = 2;
+        }
+        else
+        {
+            _coefficient = 3;
+        }
+        constrMaze = new List<int> { 25, 25, 2, 2 * _coefficient, 2 * _coefficient, 2 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
     public void Hard()
     {
+        _menuRandomGame.AllFalse();
+
         SetCurrentScreen(Screen.Game);
         screen = Screen.Game;
-        constrMaze = new List<int> { 45, 45, 3, 3, 3, 3 };
+        if (_levelPlayer < 25)
+        {
+            _coefficient = 1;
+        }
+        else if (_levelPlayer < 30)
+        {
+            _coefficient = 2;
+        }
+        else
+        {
+            _coefficient = 3;
+        }
+        constrMaze = new List<int> { 35, 35, 4, 3 * _coefficient, 3 * _coefficient, 3 * _coefficient };
+        gameContr.StartNewGame(constrMaze);
+    }
+
+    public void Crazy()
+    {
+        _menuRandomGame.AllFalse();
+
+        SetCurrentScreen(Screen.Game);
+        screen = Screen.Game;
+        if (_levelPlayer < 35)
+        {
+            _coefficient = 1;
+        }
+        else if (_levelPlayer < 40)
+        {
+            _coefficient = 2;
+        }
+        else
+        {
+            _coefficient = 3;
+        }
+        constrMaze = new List<int> { 55, 55, 9, 5 * _coefficient, 5 * _coefficient, 5 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
@@ -172,6 +282,8 @@ public class MenuController : MonoBehaviour
 
     public void ExitInMenu()
     {
+        saveProgress.Save();
+        saveLoadGame.Save();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -193,47 +305,7 @@ public class MenuController : MonoBehaviour
     {
         SetCurrentScreen(Screen.Loser);
         screen = Screen.Loser;
+        loseMenu.SetDimond();
     }
 
-    void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            switch (screen)
-            {
-                case Screen.Game:
-                    Paused();
-                    break;
-                case Screen.Global:
-                    Exit();
-                    break;
-                case Screen.Setting:
-                    ExitSetting();
-                    break;
-                case Screen.GameChange:
-                    ExitGame();
-                    break;
-                case Screen.EasyMediumHard:
-                    ExitEMH();
-                    break;
-                case Screen.Paused:
-                    Continue();
-                    break;
-                case Screen.SettingInPause:
-                    Paused();
-                    break;
-                case Screen.Constructor:
-                    ExitEMH();
-                    break;
-                case Screen.Victory:
-                    ExitInMenu();
-                    break;
-                case Screen.Loser:
-                    ExitInMenu();
-                    break;
-
-            }
-        }
-    }
 }

@@ -101,13 +101,12 @@ public class MosterMenu : MonoBehaviour
                 transform.position = transform.position;
                 animator.SetFloat(Speed, 0f);
 
-                if (Random.value < 0.1f)
+                if (Random.value < 0.2f)
                 {
-
                     animator.SetTrigger(RotationAnim);
                     state = State.Rotation;
                 }
-                else if (Random.value < 0.8f)
+                else if (Random.value < 0.2f)
                 {
                     animator.SetTrigger(RoarAnim);
                     state = State.Roar;

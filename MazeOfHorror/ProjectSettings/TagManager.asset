@@ -18,6 +18,9 @@ TagManager:
   - Treasure
   - Looker
   - Marker
+  - JoystickMovet
+  - JoystickLooket
+  - LostHeart
   layers:
   - Default
   - TransparentFX
