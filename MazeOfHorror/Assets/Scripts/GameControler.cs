@@ -14,6 +14,9 @@ public class GameControler : MonoBehaviour
     private int gold, startGold;
     private int treasure;
     private int cubes;
+    private int passage;
+    private int port;
+    private int invisy;
     private float gameTime;
     private int seconds;
     private int minutes;
@@ -23,6 +26,11 @@ public class GameControler : MonoBehaviour
     [SerializeField] private MenuController menuContr;
     [SerializeField] private SaveProgress saveProgress;
     [SerializeField] private WinMenu winMenu;
+    [SerializeField] private PowerMovet powerMovet;
+    [SerializeField] private PowerPassage powerPassage;
+    [SerializeField] private GameObject iconePowerPassage;
+    [SerializeField] private GameObject iconePowerPort;
+    [SerializeField] private GameObject iconePowerInvisy;
     [SerializeField] private GameObject menuBackground;
     [SerializeField] private GameObject joystick;
     [SerializeField] private GameObject joystickLooket;
@@ -37,6 +45,9 @@ public class GameControler : MonoBehaviour
     [SerializeField] private Text textGoldStart;
     [SerializeField] private Text textGold;
     [SerializeField] private Text textCubes;
+    [SerializeField] private Text textPassage;
+    [SerializeField] private Text textPort;
+    [SerializeField] private Text textInvisy;
     [SerializeField] private Text textTimes;
     [SerializeField] private GameObject imageFindKey;
     [SerializeField] private Text textFindKey;
@@ -79,8 +90,8 @@ public class GameControler : MonoBehaviour
     private void ResetDataBase()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<FpsMovement>().SetSpeed(saveProgress.SpeedPlayer);
         player.GetComponent<MovetCube>().ResetEndGame();
+        player.GetComponent<Passage>().PassageEnd();
         menuBackground.SetActive(false);
         mimimap.SetActive(true);
         joystick.SetActive(true);
@@ -88,6 +99,8 @@ public class GameControler : MonoBehaviour
         joystickLooket.SetActive(true);
         joystickLooket.GetComponent<JoystickLooket>().Zero();
         iconePower.SetActive(true);
+        powerMovet.SetTimeRevers(saveProgress.MannaPlayer);
+        powerPassage.SetTimeRevers(saveProgress.MannaPlayer);
         seconds = 0;
         minutes = 0;
         lifes = saveProgress.LifePlayer;
@@ -102,6 +115,33 @@ public class GameControler : MonoBehaviour
         }
         gold = 0;
         cubes = saveProgress.AmountMovetWoll;
+        passage = saveProgress.AmountPassage;
+        port = saveProgress.AmountPort;
+        invisy = saveProgress.AmountImmunity;
+        if (passage == 0)
+        {
+            iconePowerPassage.SetActive(false);
+        }
+        else
+        {
+            iconePowerPassage.SetActive(true);
+        }
+        if (port == 0)
+        {
+            iconePowerPort.SetActive(false);
+        }
+        else
+        {
+            iconePowerPort.SetActive(true);
+        }
+        if (invisy == 0)
+        {
+            iconePowerInvisy.SetActive(false);
+        }
+        else
+        {
+            iconePowerInvisy.SetActive(true);
+        }
         treasure = 0;
         Color colorTreasure = treasureOut.color;
         colorTreasure.a = 0.4f;
@@ -124,6 +164,9 @@ public class GameControler : MonoBehaviour
         textGoldStart.text = $"( {startGold} )";
         textGold.text = $" {gold} ";
         textCubes.text = $" {cubes} ";
+        textPassage.text = $"{passage}";
+        textPort.text = $"{port}";
+        textInvisy.text = $"{invisy}";
         textTimes.text = $" {minutes:d2} : {seconds:d2} ";
     }
 
@@ -162,6 +205,7 @@ public class GameControler : MonoBehaviour
 
     public void MinusLifes()
     {
+        
         pausedGame = true;
         minusLifeImage.SetActive(true);
         minusLifeImage.GetComponent<Animator>().enabled = true;
@@ -190,6 +234,9 @@ public class GameControler : MonoBehaviour
             generator.TransformingMonstersAffterMinusLifePlayer();
             pausedGame = false;
         }
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<MovetCube>().ResetFromMinusLife();
+        player.GetComponent<Passage>().ResetFromMinusLife();
     }
 
     public void MinusKeys()
@@ -215,12 +262,31 @@ public class GameControler : MonoBehaviour
     public void MinusCube()
     {
         cubes--;
-        if (cubes < 0) cubes = 0;
+        if (cubes <= 0)
+        {
+            cubes = 0;
+            powerMovet.ButtonDesactiv();
+        }
     }
 
     public int GetCube()
     {
         return cubes;
+    }
+
+    public void MinusPassage()
+    {
+        passage--;
+        if (passage <= 0)
+        {
+            passage = 0;
+            powerPassage.StartRevers();
+        }
+    }
+
+    public int GetPassage()
+    {
+        return passage;
     }
 
     public void MinusGold()
@@ -244,10 +310,13 @@ public class GameControler : MonoBehaviour
 
     private void SelectionObjectsWithTag(string tag)
     {
+        int index = 0;
         GameObject[] array = GameObject.FindGameObjectsWithTag(tag);
         foreach (GameObject e in array)
         {
+            print(e.name + " " + index);
             e.GetComponent<VisibleOnn>().OnSpriteMap();
+            index++;
         }
     }
 

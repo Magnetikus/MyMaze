@@ -28,16 +28,16 @@ public class MonsterController : MonoBehaviour
     public Transform scanerForward;
     public Transform scanerLeft;
     public Transform scanerRight;
-    
 
-    private const float _speedNormal = 10f;
-    private const float _speedAttack = 20f;
-    private const float _speedMaximum = 40f;
-    private const float _speedRotation = 10f;
-    private const float _speedPlayerForChangeInAlert = 0.05f;
-    private const float _distanceToPlayerForChangeInAlert = 8f;
-    private const float _distanceToPlayerForChangeInRunTarget = 4f;
-    private const float _distanceInAttack = 1f;
+
+    private static float _speedNormal = 10f;
+    private static float _speedAttack = 2 * _speedNormal;
+    private static float _speedMaximum = 4 * _speedNormal;
+    private static float _speedRotation = 10f;
+    private static float _speedPlayerForChangeInAlert = 0.05f;
+    private static float _distanceToPlayerForChangeInAlert = 8f;
+    private static float _distanceToPlayerForChangeInRunTarget = 0.5f * _distanceToPlayerForChangeInAlert;
+    private static float _distanceInAttack = 0.25f * _distanceToPlayerForChangeInAlert;
 
 
     private List<Vector3> listPoint;
@@ -56,6 +56,12 @@ public class MonsterController : MonoBehaviour
     private static readonly int AttackAnim = Animator.StringToHash("Attack");
     private static readonly int RoarAnim = Animator.StringToHash("Roar");
 
+
+    public void SetSpeedNormal(float value)
+    {
+        _speedNormal += value * 0.1f;
+        _distanceToPlayerForChangeInAlert += value * 0.1f;
+    }
 
     public void Restart()
     {
@@ -83,23 +89,13 @@ public class MonsterController : MonoBehaviour
     {
         animator.SetFloat(SpeedAnim, speedMovet / _speedNormal);
 
-        if (speedMovet > _speedNormal)
-        {
-            if (nameMonster != NameMonster.Nose)
-            {
-                if (RaycastForwardToMonsters())
-                {
-                    rb.velocity = Vector3.zero;
-                    return true;
-                }
-            }
-        }
-
         Vector3 distance = targetPosition - transform.position;
         if (distance.magnitude < 0.01f)
         {
-            rb.MovePosition(targetPosition);
+            rb.isKinematic = true;
+            transform.position = targetPosition;
             rb.velocity = Vector3.zero;
+            rb.isKinematic = false;
             return true;
         }
         Vector3 direction = distance.normalized;
@@ -108,11 +104,17 @@ public class MonsterController : MonoBehaviour
 
         rb.rotation = Quaternion.LookRotation(direction);
 
+        if (RaycastForwardToMonsters())
+        {
+            rb.velocity = Vector3.zero;
+            return true;
+        }
+
         // Movet
 
         float velocity = rb.velocity.sqrMagnitude;
 
-        if (distance.magnitude > 0.02f)
+        if (distance.magnitude > 0.1f)
         {
             if (velocity < _speedMaximum)
             {
@@ -121,6 +123,7 @@ public class MonsterController : MonoBehaviour
             else rb.AddRelativeForce(Vector3.zero);
             return false;
         }
+        else rb.AddRelativeForce(Vector3.zero);
 
         transform.position = targetPosition;
         return true;
@@ -130,8 +133,8 @@ public class MonsterController : MonoBehaviour
     {
         Vector3 distance = playerPosition - myPosition;
 
-        float angle = Vector3.Angle(transform.forward, distance);
-        if (angle < 90f) return true;
+        float angle = Mathf.Abs(Vector3.Angle(transform.forward, distance));
+        if (angle < 120f) return true;
         return false;
     }
 
@@ -146,8 +149,9 @@ public class MonsterController : MonoBehaviour
                 if (go.GetComponent<VisibleOnn>().GetBusy() == false)
                 {
                     listPoint.Add(go.GetComponent<Transform>().position);
+                    listScentPlayer.Add(go.GetComponent<VisibleOnn>().GetAmountScent());
                 }
-                listScentPlayer.Add(go.GetComponent<VisibleOnn>().GetAmountScent());
+                
             }
         }
         return listPoint;
@@ -156,16 +160,7 @@ public class MonsterController : MonoBehaviour
     private List<Vector3> ScanerForward()
     {
         bool iMonster = false;
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(scanerTransform.position, scanerTransform.TransformDirection(Vector3.forward), 6f);
-        for (int i = 0; i < hits.Length; i++)
-        {
-            RaycastHit hit = hits[i];
-            if (hit.collider.CompareTag("Monster"))
-            {
-                iMonster = true;
-            }
-        }
+        iMonster = RaycastForwardToMonsters();
         if (!iMonster) Scaner(Vector3.forward);
         else Scaner(Vector3.back);
         return listPoint;
@@ -191,7 +186,7 @@ public class MonsterController : MonoBehaviour
         {
             Vector3 direction = (positionPlayer - transform.position).normalized;
             float angle = Vector3.Angle(transform.forward, direction);
-            if (angle < 0.5f)
+            if (angle < 5f)
             {
                 state = State.Idle;
             }
@@ -213,6 +208,7 @@ public class MonsterController : MonoBehaviour
         {
             if (hit.collider.CompareTag("Movet"))
             {
+                
                 return true;
             }
             else return false;
@@ -222,15 +218,18 @@ public class MonsterController : MonoBehaviour
 
     private bool RaycastForwardToMonsters()
     {
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, 3f))
+
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(scanerTransform.position, scanerTransform.TransformDirection(Vector3.forward), 6f);
+        for (int i = 0; i < hits.Length; i++)
         {
+            RaycastHit hit = hits[i];
             if (hit.collider.CompareTag("Monster"))
             {
                 return true;
             }
-            else return false;
         }
-        else return false;
+        return false;
     }
 
     private float ScanerLeftAndRight()
@@ -286,6 +285,7 @@ public class MonsterController : MonoBehaviour
             {
                 case State.Idle:
                     transform.position = transform.position;
+                    positionMovet = transform.position;
                     animator.SetFloat(SpeedAnim, 0f);
                     switch (nameMonster)
                     {
@@ -299,13 +299,13 @@ public class MonsterController : MonoBehaviour
 
                                 }
                             }
-                            else if (Random.value < 0.1f)
+                            else if (Random.value < 0.05f)
                             {
 
                                 animator.SetTrigger(RotationAnim);
                                 state = State.Rotation;
                             }
-                            else if (Random.value < 0.1f)
+                            else if (Random.value > 0.95f)
                             {
                                 animator.SetTrigger(RoarAnim);
                                 state = State.Roar;
@@ -324,13 +324,13 @@ public class MonsterController : MonoBehaviour
                                 state = State.Alert;
 
                             }
-                            else if (Random.value < 0.1f)
+                            else if (Random.value < 0.05f)
                             {
 
                                 animator.SetTrigger(RotationAnim);
                                 state = State.Rotation;
                             }
-                            else if(Random.value < 0.1f)
+                            else if (Random.value > 0.95f)
                             {
                                 animator.SetTrigger(RoarAnim);
                                 state = State.Roar;
@@ -342,13 +342,13 @@ public class MonsterController : MonoBehaviour
                             break;
 
                         case NameMonster.Nose:
-                            if (Random.value < 0.1f)
+                            if (Random.value < 0.05f)
                             {
 
                                 animator.SetTrigger(RotationAnim);
                                 state = State.Rotation;
                             }
-                            else if (Random.value < 0.1f)
+                            else if (Random.value > 0.95f)
                             {
                                 animator.SetTrigger(RoarAnim);
                                 state = State.Roar;
@@ -376,20 +376,25 @@ public class MonsterController : MonoBehaviour
                     Scaner(Vector3.back);
 
                     int lenghtListPoint = listPoint.Count;
+                    float randomValue1 = Random.value;
+                    float randomValue2 = Random.value;
                     switch (lenghtListPoint)
                     {
                         case (1):
                             positionMovet = listPoint[0];
                             break;
                         case (2):
-                            positionMovet = Random.value < 0.95f ? listPoint[0] : listPoint[1];
+                            positionMovet = randomValue1 < 0.99f ? listPoint[0] : listPoint[1];
                             break;
                         case (3):
-                            positionMovet = Random.value < 0.8f ? listPoint[0] : Random.value < 0.8f ? listPoint[1] : listPoint[2];
+                            positionMovet = randomValue1 < 0.99f ? listPoint[0] : randomValue2 > 0.5f ? listPoint[1] : listPoint[2];
                             break;
                         case (4):
-                            positionMovet = Random.value > 0.05f ? listPoint[0] : Random.value < 0.5f ? listPoint[3] :
-                                Random.value < 0.5f ? listPoint[1] : listPoint[2];
+                            positionMovet = randomValue1 < 0.99f ? listPoint[0] : randomValue2 > 0.95f ? listPoint[3] :
+                                randomValue1 < 0.5f ? listPoint[1] : listPoint[2];
+                            break;
+                        default:
+                            state = State.Idle;
                             break;
                     }
 
@@ -474,7 +479,7 @@ public class MonsterController : MonoBehaviour
 
                             if (Movet(positionPlayerOutSight, _speedAttack, _speedRotation))
                             {
-                                state = State.Rotation;
+                                state = State.Scaner;
 
                             }
 
@@ -494,7 +499,7 @@ public class MonsterController : MonoBehaviour
 
                             if (Movet(positionPlayerOutSight, _speedAttack, _speedRotation))
                             {
-                                state = State.Rotation;
+                                state = State.Scaner;
 
                             }
 
@@ -522,7 +527,7 @@ public class MonsterController : MonoBehaviour
 
                             if (Movet(positionMovet, _speedAttack, _speedRotation))
                             {
-                                state = State.Rotation;
+                                state = State.Scaner;
 
                             }
 
@@ -533,17 +538,19 @@ public class MonsterController : MonoBehaviour
 
                 case State.RunTarget:
 
+                    positionPlayerOutSight = player.GetComponentInChildren<TriggerCell>().positionCell;
+
                     if (RaycastToPlayer())
                     {
-                        positionPlayerOutSight = player.GetComponentInChildren<TriggerCell>().positionCell;
-
                         if (distanceToPlayer < _distanceInAttack)
                         {
+                            rb.velocity = Vector3.zero;
                             state = State.Attack;
                         }
 
                         if (Movet(positionPlayer, _speedAttack + _speedNormal, _speedRotation))
                         {
+                            rb.velocity = Vector3.zero;
                             state = State.Attack;
                         }
                     }
@@ -553,7 +560,6 @@ public class MonsterController : MonoBehaviour
                         if (Movet(positionPlayerOutSight, _speedAttack + _speedNormal, _speedRotation))
                         {
                             state = State.Alert;
-
                         }
                     }
 
@@ -561,7 +567,8 @@ public class MonsterController : MonoBehaviour
 
                 case State.Attack:
                     animator.SetTrigger(AttackAnim);
-                    gameContr.MinusLifes();
+                    gameContr.PausedGame(true);
+                    Invoke("MinusLife", 1f);
 
                     break;
 
@@ -582,10 +589,16 @@ public class MonsterController : MonoBehaviour
                     break;
 
                 case State.Roar:
+                    animator.SetTrigger(RoarAnim);
 
                     break;
             }
         }
+    }
+
+    private void MinusLife()
+    {
+        gameContr.MinusLifes();
     }
 
     private void LateUpdate()

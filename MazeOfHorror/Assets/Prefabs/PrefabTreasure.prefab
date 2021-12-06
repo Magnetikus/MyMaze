@@ -43,7 +43,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.34015658, g: 0.37875715, b: 0.990566, a: 1}
-  m_Intensity: 1
+  m_Intensity: 3
   m_Range: 1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -353,6 +353,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dca26a353f3b941428ac2d7a6d92ab2c, type: 3}
       propertyPath: m_Name
       value: Treasure1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dca26a353f3b941428ac2d7a6d92ab2c, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dca26a353f3b941428ac2d7a6d92ab2c, type: 3}

@@ -5,6 +5,7 @@ public class JoystickLooket : MonoBehaviour
     private Vector2 _inputVector;
     private float _screenWidth;
 
+
     private void Start()
     {
         _screenWidth = Screen.width;
@@ -18,6 +19,7 @@ public class JoystickLooket : MonoBehaviour
             {
                 if (e.position.x > _screenWidth / 2)
                 {
+
                     if (e.phase == TouchPhase.Moved)
                     {
                         _inputVector = e.deltaPosition;
@@ -35,6 +37,7 @@ public class JoystickLooket : MonoBehaviour
     {
         _inputVector = Vector2.zero;
     }
+
 
     public float HorizontalRotate()
     {
@@ -59,4 +62,5 @@ public class JoystickLooket : MonoBehaviour
             return 0f;
         }
     }
+
 }

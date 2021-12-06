@@ -1,17 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PowerMovet : MonoBehaviour
+public class PowerPassage : MonoBehaviour
 {
-    private MovetCube _movetCube;
+    private Passage _passage;
     [SerializeField] private Button _button;
     [SerializeField] private Image _imagePower;
     private float _timeRevers = 100f;
 
     private void Start()
     {
-        _movetCube = GameObject.FindGameObjectWithTag("Player").GetComponent<MovetCube>();
+        _passage = GameObject.FindGameObjectWithTag("Player").GetComponent<Passage>();
     }
 
     public void SetTimeRevers(int mannaPlayer)
@@ -19,34 +20,34 @@ public class PowerMovet : MonoBehaviour
         _timeRevers -= mannaPlayer * 5f;
     }
 
-    public void CubeMovetFirstStep()
+    public void PassageFirstStep()
     {
-        _movetCube.CubeMovetFirstStep();
+        _passage.PassageFirstStep();
         Invoke("ButtonDesactiv", 0.5f);
     }
 
-    public void CubeDesactive()
+    public void PassageActivate()
     {
-        _movetCube.CubeDesactive();
-        
-    }
-
-    public void CubeActive()
-    {
-        _movetCube.CubeActive();
+        _passage.PassageActivate();
         _imagePower.fillAmount = 0;
         StartCoroutine(FillImage());
-    }
-
-    public void EscapeMovet()
-    {
-        _movetCube.EscapeMovet();
-        _button.enabled = true;
     }
 
     public void ButtonDesactiv()
     {
         _button.enabled = false;
+
+    }
+
+    public void EscapePassage()
+    {
+        _button.enabled = true;
+        _passage.PassageEnd();
+    }
+
+    public void StartRevers()
+    {
+        StartCoroutine(FillImage());
     }
 
     private IEnumerator FillImage()
@@ -64,4 +65,5 @@ public class PowerMovet : MonoBehaviour
         _imagePower.color = color;
         _button.enabled = true;
     }
+
 }

@@ -18,6 +18,7 @@ public class ConstructorMaze : MonoBehaviour
     }
 
     [SerializeField] private LoadResurces _loadResurces;
+    [SerializeField] private SaveProgress _saveProgress;
 
     public GameObject prefabPoint;         //0    - цифра замещения в конструкторе лабиринта
 
@@ -52,12 +53,13 @@ public class ConstructorMaze : MonoBehaviour
     private int minDistance;
     private MazeDataGenerator dataGenerator;
     private Transform transformPlayer;
-    private GameObject[] transformsMonsters;
+    private List<GameObject> transformsMonsters;
 
     private int[] listMonster;
 
     private List<GameObject> listDeletedObject;
     private int[] positionMap;
+    private int levelPlayer;
 
     public int[,] Data
     {
@@ -93,6 +95,7 @@ public class ConstructorMaze : MonoBehaviour
     public void GenerateNewMaze(List<int> constrMaze)
     {
         listDeletedObject = new List<GameObject>();
+        transformsMonsters = new List<GameObject>();
         //получение данных
         sizeRows = constrMaze[0];
         sizeCols = constrMaze[1];
@@ -109,6 +112,20 @@ public class ConstructorMaze : MonoBehaviour
         prefabMonsterEar = arrayResurces[3];
         prefabMonsterEye = arrayResurces[4];
         prefabMonsterNose = arrayResurces[5];
+
+        
+        if ((sizeCell + sizeCols) / 2 < 25 && levelPlayer > 15)
+        {
+            levelPlayer = 15;
+        }
+        if ((sizeCell + sizeCols) / 2 < 35 && levelPlayer > 25)
+        {
+            levelPlayer = 25;
+        }
+        if ((sizeCell + sizeCols) / 2 < 55 && levelPlayer > 35)
+        {
+            levelPlayer = 35;
+        }
 
 
         Data = dataGenerator.FromDimensions(sizeRows, sizeCols);                                //генерация лабиринта
@@ -239,6 +256,16 @@ public class ConstructorMaze : MonoBehaviour
         {
             go.transform.Rotate(Vector3.up, ChangeAngle());
         }
+        if (tag == TagName.Player)
+        {
+            go.GetComponent<MovetCube>().SetCubeInHundle(prefabWoll);
+            go.GetComponent<FpsMovement>().SetSpeed(_saveProgress.SpeedPlayer);
+        }
+        if (tag == TagName.Monster)
+        {
+            go.GetComponent<MonsterController>().SetSpeedNormal(levelPlayer);
+            transformsMonsters.Add(go);
+        }
         go.tag = tag.ToString();
         go.SetActive(isActiv);
         listDeletedObject.Add(go);
@@ -320,11 +347,12 @@ public class ConstructorMaze : MonoBehaviour
         int x = (int)transformPlayer.position.x;
         int z = (int)transformPlayer.position.z;
         int[] posPlayer = { x, z };
-        transformsMonsters = GameObject.FindGameObjectsWithTag("Monster");
+        //transformsMonsters = GameObject.FindGameObjectsWithTag("Monster");
         foreach (var go in transformsMonsters)
         {
             if ((go.transform.position - transformPlayer.position).magnitude < 7)
             {
+                go.GetComponentInChildren<TriggerBusyMonsters>().NoBusy();
                 bool isWollNot = true;
                 Vector3 positionGO = go.transform.position;
                 do

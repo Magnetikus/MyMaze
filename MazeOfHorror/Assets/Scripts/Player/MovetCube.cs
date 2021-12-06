@@ -5,11 +5,14 @@ public class MovetCube : MonoBehaviour
     [SerializeField] private FpsMovement _fpsMovement;
     [SerializeField] private GameObject _cubeInHundle;
 
+    private GameObject _prefabWoll;
     private GameControler _gameController;
+    private SaveProgress _saveProgress;
     private bool _firstStepMovetCube = false;
     private bool _secondStepMovetCube = false;
     private GameObject _wollMovet;
     private GameObject _cellForCube;
+    private float _speedPlayer;
 
 
     private static string movet = "Movet";
@@ -17,12 +20,23 @@ public class MovetCube : MonoBehaviour
 
     private void Start()
     {
-        _gameController = GameObject.Find("Controller").GetComponent<GameControler>();
+        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControler>();
+        _saveProgress = _gameController.GetComponent<SaveProgress>();
+
+    }
+
+    public void SetCubeInHundle(GameObject prefabNew)
+    {
+        _prefabWoll = Instantiate(prefabNew);
+        _prefabWoll.transform.SetParent(_cubeInHundle.transform, false);
+        _prefabWoll.GetComponent<VisibleOnn>().SetVisible(true);
+        _cubeInHundle.SetActive(false);
     }
 
     public void CubeMovetFirstStep()
     {
         _firstStepMovetCube = true;
+        _speedPlayer = _fpsMovement.GetSpeed();
     }
 
     public void CubeDesactive()
@@ -34,7 +48,7 @@ public class MovetCube : MonoBehaviour
         wollMovetScript.DesactivCube();
         wollMovetScript.ActivCell();
         _wollMovet.SetActive(false);
-        _fpsMovement.SetSpeedWithOrNotCube(0.5f);
+        _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer * (0.5f + _saveProgress.PowerPlayer * 0.05f));
         _cubeInHundle.SetActive(true);
         _secondStepMovetCube = true;
     }
@@ -48,7 +62,7 @@ public class MovetCube : MonoBehaviour
         cellMovetScript.DeactivCell();
         cellMovetScript.ActivWoll();
         _cellForCube.SetActive(false);
-        _fpsMovement.SetSpeedWithOrNotCube(2f);
+        _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer);
         _cubeInHundle.SetActive(false);
         _gameController.MinusCube();
         _firstStepMovetCube = false;
@@ -66,9 +80,36 @@ public class MovetCube : MonoBehaviour
         _secondStepMovetCube = false;
     }
 
+    public void ResetFromMinusLife()
+    {
+        if (_firstStepMovetCube)
+        {
+            _cubeInHundle.SetActive(false);
+            _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer);
+            if (!_secondStepMovetCube)
+            {
+                if (_wollMovet != null)
+                {
+                    WollMovet wollMovetScript = _wollMovet.GetComponentInChildren<WollMovet>();
+                    wollMovetScript.DesactivCube();
+                }
+            }
+            else
+            {
+                if (_cellForCube != null)
+                {
+                    CellMovet cellMovetScript = _cellForCube.GetComponentInChildren<CellMovet>();
+                    cellMovetScript.DeactivCell();
+                }
+            }
+        }
+        _firstStepMovetCube = false;
+        _secondStepMovetCube = false;
+    }
+
     private void Update()
     {
-        if (!_gameController.pausedGame && _gameController.GetCube() > 0)
+        if (!_gameController.pausedGame)
         {
 
             if (_firstStepMovetCube && !_secondStepMovetCube)
@@ -78,7 +119,7 @@ public class MovetCube : MonoBehaviour
                     if (hit.collider.CompareTag(movet))
                     {
                         _wollMovet = hit.collider.gameObject;
-                        _wollMovet.GetComponentInChildren<WollMovet>().ActivCube();
+                        if (_wollMovet != null) _wollMovet.GetComponentInChildren<WollMovet>().ActivCube();
                     }
                 }
             }
@@ -89,7 +130,7 @@ public class MovetCube : MonoBehaviour
                     if (hit.collider.CompareTag(cell))
                     {
                         _cellForCube = hit.collider.gameObject;
-                        _cellForCube.GetComponentInChildren<CellMovet>().ActivCell();
+                        if (_cellForCube != null) _cellForCube.GetComponentInChildren<CellMovet>().ActivCell();
                     }
                 }
             }

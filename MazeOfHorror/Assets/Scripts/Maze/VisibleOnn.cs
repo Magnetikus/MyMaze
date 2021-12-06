@@ -24,28 +24,22 @@ public class VisibleOnn : MonoBehaviour
         return _go;
     }
 
+
     public void CounterScentStart(int value)
     {
+        StopCoroutine(CounterScent());
         _amountScent = value;
         StartCoroutine(CounterScent());
     }
 
-    private void CounterScentStop()
-    {
-        _amountScent = 0;
-        StopCoroutine(CounterScent());
-    }
 
     private IEnumerator CounterScent()
     {
-        var wait = new WaitForSeconds(1f);
+        var wait = new WaitForSecondsRealtime(1f);
         while (_amountScent > 0)
         {
             _amountScent -= 1;
-            if (_amountScent < 0)
-            {
-                CounterScentStop();
-            }
+            GetComponentInChildren<TextMesh>().text = $"{_amountScent}";
             yield return wait;
         }
     }
@@ -53,6 +47,13 @@ public class VisibleOnn : MonoBehaviour
     public float GetAmountScent()
     {
         return _amountScent;
+    }
+
+    
+
+    public void SetVisible(bool value)
+    {
+        _vision.SetActive(value);
     }
 
     public void OnVisible()
@@ -93,21 +94,4 @@ public class VisibleOnn : MonoBehaviour
         _busy = value;
     }
 
-
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.CompareTag("Player") || other.CompareTag("Monster"))
-    //    {
-    //        _busy = true;
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.CompareTag("Player") || other.CompareTag("Monster"))
-    //    {
-    //        _busy = false;
-    //    }
-    //}
 }

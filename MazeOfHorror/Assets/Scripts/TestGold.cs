@@ -9,6 +9,7 @@ public class TestGold : MonoBehaviour
     [SerializeField] Text _textDimond;
     [SerializeField] Text _textLevel;
     [SerializeField] SaveProgress _saveProgress;
+    [SerializeField] Text _textSensity;
 
     private int _gold;
     private int _dimond;
@@ -59,6 +60,14 @@ public class TestGold : MonoBehaviour
         _saveProgress.SetImmuny(0);
         _saveProgress.Save();
     }
+
+    public void SetSensity(float value)
+    {
+        FpsMovement fps = GameObject.FindGameObjectWithTag("Player").GetComponent<FpsMovement>();
+        fps.SetSensity(value);
+        _textSensity.text = $"Sensitivity = {value}";
+    }
+
 
     private void OnGUI()
     {

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LoadResurces : MonoBehaviour
 {
+
     [SerializeField] private GameObject[] _resurcesCastle;
     [SerializeField] private GameObject[] _resurcesNature;
     [SerializeField] private GameObject[] _resurcesSpace;
@@ -15,10 +16,12 @@ public class LoadResurces : MonoBehaviour
 
     public GameObject[] GetResurces()
     {
+
         switch (_location)
         {
             case (1):
                 return _resurcesCastle;
+
             case (2):
                 if (_resurcesNature.Length != 0)
                 {
@@ -28,6 +31,7 @@ public class LoadResurces : MonoBehaviour
                 {
                     return _resurcesCastle;
                 }
+
             case (3):
                 if (_resurcesSpace.Length != 0)
                 {
@@ -37,6 +41,7 @@ public class LoadResurces : MonoBehaviour
                 {
                     return _resurcesCastle;
                 }
+
             default:
                 return _resurcesCastle;
         }

@@ -308,4 +308,9 @@ public class MenuController : MonoBehaviour
         loseMenu.SetDimond();
     }
 
+    public void GameAfterLoser()
+    {
+        SetCurrentScreen(Screen.Game);
+        screen = Screen.Game;
+    }
 }

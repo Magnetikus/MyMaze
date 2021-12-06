@@ -21,6 +21,7 @@ TagManager:
   - JoystickMovet
   - JoystickLooket
   - LostHeart
+  - SystemPassage
   layers:
   - Default
   - TransparentFX

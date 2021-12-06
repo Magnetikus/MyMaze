@@ -7,10 +7,9 @@ public class FpsMovement : MonoBehaviour
 {
     [SerializeField] private Camera _headCam;
 
-    private static float _speed = 3.0f; // max 7
+    private static float _speed = 2.5f; // max 4.5
     private static float _gravity = -9.8f;
-    private static float _sensitivityHor = 4.5f;
-    private static float _sensitivityVert = 4.5f;
+    private static float _sensitivity = 3f; //max 4
     private static float _minimumVert = -45.0f;
     private static float _maximumVert = 45.0f;
 
@@ -23,19 +22,23 @@ public class FpsMovement : MonoBehaviour
 
     public void SetSpeedWithOrNotCube(float value)
     {
-        _speed *= value;
+        _speed = value;
+    }
+
+    public float GetSpeed()
+    {
+        return _speed;
     }
 
     public void SetSpeed(float value)
     {
-        if (value != 0)
-        {
-            _speed = value;
-        }
-        else
-        {
-            _speed = 3f;
-        }
+        _speed += value * 0.2f;
+        _sensitivity += value * 0.1f;
+    }
+
+    public void SetSensity(float value)
+    {
+        _sensitivity = value;
     }
 
     private void Start()
@@ -58,9 +61,16 @@ public class FpsMovement : MonoBehaviour
 
     private void MoveCharacter()
     {
+#if UNITY_EDITOR
+        float deltaX = Input.GetAxis("Horizontal") * _speed;
+        float deltaZ = Input.GetAxis("Vertical") * _speed;
+
+#else
 
         float deltaX = _joystController.Horizontal() * _speed;
         float deltaZ = _joystController.Vertical() * _speed;
+
+#endif
 
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
         movement = Vector3.ClampMagnitude(movement, _speed);
@@ -78,12 +88,21 @@ public class FpsMovement : MonoBehaviour
 
     private void RotateCharacter()
     {
-        transform.Rotate(0, _joystickLooket.HorizontalRotate() * _sensitivityHor * Time.deltaTime,0);
+#if UNITY_EDITOR
+        transform.Rotate(0, Input.GetAxis("Mouse X") * _sensitivity * 30f * Time.deltaTime, 0);
+#else
+        transform.Rotate(0, _joystickLooket.HorizontalRotate() * _sensitivity * Time.deltaTime, 0);
+#endif
     }
 
     private void RotateCamera()
     {
-        _rotationVert -= _joystickLooket.VerticalRotate() * _sensitivityVert * Time.deltaTime;
+#if UNITY_EDITOR
+        _rotationVert -= Input.GetAxis("Mouse Y") * _sensitivity * 30f * Time.deltaTime;
+#else
+        _rotationVert -= _joystickLooket.VerticalRotate() * _sensitivity * Time.deltaTime;
+#endif
+
         _rotationVert = Mathf.Clamp(_rotationVert, _minimumVert, _maximumVert);
 
         _headCam.transform.localEulerAngles = new Vector3(_rotationVert, _headCam.transform.localEulerAngles.y, 0);

@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ProgressMenuGUI : MonoBehaviour
 {
-    
+
     [SerializeField] private SaveProgress _saveProgress;
     [SerializeField] private LoadResurces _loadResurces;
     [SerializeField] private Text _textLevel;
@@ -46,15 +44,15 @@ public class ProgressMenuGUI : MonoBehaviour
     private int _priceGold;
     private int _priceDimond;
     private int _changeResurce;
-    
-
-    private int _location;
-
 
     private void Start()
     {
         _changeResurce = 0;
-        _location = 1;
+    }
+
+    public int GetLevel()
+    {
+        return _levelPlayer;
     }
 
     public void SetColorResurce(AmountUpdate nameAmount, int numberResurce)
@@ -104,7 +102,7 @@ public class ProgressMenuGUI : MonoBehaviour
         SetColorResurce(_amountUpdateImmunity, _amountImmunity);
     }
 
-    public void UpdateDataBase() 
+    public void UpdateDataBase()
     {
         _levelPlayer = _saveProgress.LevelPlayer;
         _lifePlayer = _saveProgress.LifePlayer;
@@ -273,7 +271,7 @@ public class ProgressMenuGUI : MonoBehaviour
             _priceDimond = CalculationPriceMagic(temp, horizontal)[2];
         }
     }
-    
+
     public void Buy()
     {
         if (_priceLevel <= _levelPlayer && _priceGold <= _amountGold && _priceDimond <= _amountDimond)
@@ -334,25 +332,22 @@ public class ProgressMenuGUI : MonoBehaviour
                 default:
                     break;
             }
-            
+
         }
     }
 
     public void LocationCastle()
     {
-        _location = 1;
         _loadResurces.SetLocation(1);
     }
 
     public void LocationNature()
     {
-        _location = 2;
         _loadResurces.SetLocation(2);
     }
 
     public void LocationSpace()
     {
-        _location = 3;
         _loadResurces.SetLocation(3);
     }
 

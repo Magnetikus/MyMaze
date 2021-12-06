@@ -51,6 +51,7 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IPointerUp
         _inputVector = Vector2.zero;
     }
 
+
     public float Horizontal()
     {
         if (_inputVector.x != 0)
