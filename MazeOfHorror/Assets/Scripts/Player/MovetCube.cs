@@ -41,32 +41,40 @@ public class MovetCube : MonoBehaviour
 
     public void CubeDesactive()
     {
-        VisibleOnn visibleOnnScript = _wollMovet.GetComponent<VisibleOnn>();
-        WollMovet wollMovetScript = _wollMovet.GetComponentInChildren<WollMovet>();
-        visibleOnnScript.OffVisible();
-        visibleOnnScript.OffSpriteMap();
-        wollMovetScript.DesactivCube();
-        wollMovetScript.ActivCell();
-        _wollMovet.SetActive(false);
-        _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer * (0.5f + _saveProgress.PowerPlayer * 0.05f));
-        _cubeInHundle.SetActive(true);
-        _secondStepMovetCube = true;
+        if (_wollMovet != null)
+        {
+            VisibleOnn visibleOnnScript = _wollMovet.GetComponent<VisibleOnn>();
+            WollMovet wollMovetScript = _wollMovet.GetComponentInChildren<WollMovet>();
+            visibleOnnScript.OffVisible();
+            visibleOnnScript.OffSpriteMap();
+            wollMovetScript.DesactivCube();
+            wollMovetScript.ActivCell();
+            _wollMovet.SetActive(false);
+            _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer * (0.5f + _saveProgress.PowerPlayer * 0.05f));
+            _cubeInHundle.SetActive(true);
+            _secondStepMovetCube = true;
+        }
+        
     }
 
     public void CubeActive()
     {
-        VisibleOnn visibleOnnScript = _cellForCube.GetComponent<VisibleOnn>();
-        CellMovet cellMovetScript = _cellForCube.GetComponentInChildren<CellMovet>();
-        visibleOnnScript.OffVisible();
-        visibleOnnScript.OffSpriteMap();
-        cellMovetScript.DeactivCell();
-        cellMovetScript.ActivWoll();
-        _cellForCube.SetActive(false);
-        _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer);
-        _cubeInHundle.SetActive(false);
-        _gameController.MinusCube();
-        _firstStepMovetCube = false;
-        _secondStepMovetCube = false;
+        if (_cellForCube != null)
+        {
+            VisibleOnn visibleOnnScript = _cellForCube.GetComponent<VisibleOnn>();
+            CellMovet cellMovetScript = _cellForCube.GetComponentInChildren<CellMovet>();
+            visibleOnnScript.OffVisible();
+            visibleOnnScript.OffSpriteMap();
+            cellMovetScript.DeactivCell();
+            cellMovetScript.ActivWoll();
+            _cellForCube.SetActive(false);
+            _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer);
+            _cubeInHundle.SetActive(false);
+            _gameController.MinusCube();
+            _firstStepMovetCube = false;
+            _secondStepMovetCube = false;
+        }
+        
     }
 
     public void EscapeMovet()

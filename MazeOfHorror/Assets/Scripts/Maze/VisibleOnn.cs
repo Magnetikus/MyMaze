@@ -1,20 +1,20 @@
 using UnityEngine;
-using System.Collections;
 
 public class VisibleOnn : MonoBehaviour
 {
     [SerializeField] private GameObject _vision;
     [SerializeField] private GameObject _spriteMap;
+    [SerializeField] private GameObject _spriteTeleport;
 
     private GameObject _go;
-    private int _amountScent = 0;
     private bool _busy = false;
+    private bool _isPassage = false;
     private const string Movet = "Movet";
     private const string NoMovet = "NoMovet";
     private const string Cell = "Cell";
-    
-   
-    public void SetGo (GameObject go)
+
+
+    public void SetGo(GameObject go)
     {
         _go = go;
     }
@@ -23,33 +23,6 @@ public class VisibleOnn : MonoBehaviour
     {
         return _go;
     }
-
-
-    public void CounterScentStart(int value)
-    {
-        StopCoroutine(CounterScent());
-        _amountScent = value;
-        StartCoroutine(CounterScent());
-    }
-
-
-    private IEnumerator CounterScent()
-    {
-        var wait = new WaitForSecondsRealtime(1f);
-        while (_amountScent > 0)
-        {
-            _amountScent -= 1;
-            GetComponentInChildren<TextMesh>().text = $"{_amountScent}";
-            yield return wait;
-        }
-    }
-
-    public float GetAmountScent()
-    {
-        return _amountScent;
-    }
-
-    
 
     public void SetVisible(bool value)
     {
@@ -94,4 +67,33 @@ public class VisibleOnn : MonoBehaviour
         _busy = value;
     }
 
+    public void OnSpriteTeleport()
+    {
+        _spriteTeleport.SetActive(true);
+    }
+
+    public void OffSpriteTeleport()
+    {
+        _spriteTeleport.SetActive(false);
+    }
+
+    public void OnBlueColorTeleport()
+    {
+        _spriteTeleport.GetComponent<SpriteRenderer>().color = Color.blue;
+    }
+
+    public void OnGreenColorTeleport()
+    {
+        _spriteTeleport.GetComponent<SpriteRenderer>().color = Color.green;
+    }
+
+    public void SetPassage(bool value)
+    {
+        _isPassage = value;
+    }
+
+    public bool GetPassage()
+    {
+        return _isPassage;
+    }
 }

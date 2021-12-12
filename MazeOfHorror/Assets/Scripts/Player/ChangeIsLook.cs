@@ -11,12 +11,11 @@ public class ChangeIsLook : MonoBehaviour
         if (other.CompareTag(_movet) || other.CompareTag(_noMovet) || other.CompareTag(_cell))
         {
             other.GetComponent<VisibleOnn>().OnVisible();
-            other.GetComponent<VisibleOnn>().OnSpriteMap();
-        }
 
-        if (other.CompareTag(_movet) || other.CompareTag(_noMovet))
-        {
-            other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            if (other.CompareTag(_cell) == false)
+            {
+                other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            }
         }
     }
 
@@ -24,12 +23,14 @@ public class ChangeIsLook : MonoBehaviour
     {
         if (other.CompareTag(_movet) || other.CompareTag(_noMovet) || other.CompareTag(_cell))
         {
-            other.GetComponent<VisibleOnn>().OffVisible();
-        }
-
-        if (other.CompareTag(_movet) || other.CompareTag(_noMovet))
-        {
-            other.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+            if (other.GetComponent<VisibleOnn>().GetPassage() == false)
+            {
+                other.GetComponent<VisibleOnn>().OffVisible();
+            }
+            if (other.CompareTag(_cell) == false)
+            {
+                other.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+            }
         }
     }
 }

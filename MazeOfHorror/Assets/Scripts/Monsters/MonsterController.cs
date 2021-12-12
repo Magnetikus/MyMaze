@@ -43,7 +43,6 @@ public class MonsterController : MonoBehaviour
     private List<Vector3> listPoint;
     private List<float> listScentPlayer;
     private GameObject player;
-    private ChangeColliderPlayer collaiderPlayer;
     private Vector3 positionPlayer;
     private Vector3 positionPlayerOld;
     private Vector3 positionMovet;
@@ -79,7 +78,6 @@ public class MonsterController : MonoBehaviour
         listPoint = new List<Vector3>();
         listScentPlayer = new List<float>();
         player = GameObject.Find("Player(Clone)");
-        collaiderPlayer = player.GetComponent<ChangeColliderPlayer>();
         gameContr = GameObject.Find("Controller").GetComponent<GameControler>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -149,7 +147,7 @@ public class MonsterController : MonoBehaviour
                 if (go.GetComponent<VisibleOnn>().GetBusy() == false)
                 {
                     listPoint.Add(go.GetComponent<Transform>().position);
-                    listScentPlayer.Add(go.GetComponent<VisibleOnn>().GetAmountScent());
+                    listScentPlayer.Add(go.GetComponent<TimerScentPayer>().GetAmountScent());
                 }
                 
             }
@@ -267,19 +265,6 @@ public class MonsterController : MonoBehaviour
             positionPlayer = player.transform.position;
             float speedPlayerReal = (positionPlayer - positionPlayerOld).magnitude;
             float distanceToPlayer = (positionPlayer - transform.position).magnitude;
-
-
-            if (nameMonster == NameMonster.Ear)
-            {
-                if (RaycastToPlayer())
-                {
-                    collaiderPlayer.SetIsMonsterEarNearby(true);
-                }
-                else
-                {
-                    collaiderPlayer.SetIsMonsterEarNearby(false);
-                }
-            }
 
             switch (state)
             {
@@ -566,6 +551,7 @@ public class MonsterController : MonoBehaviour
                     break;
 
                 case State.Attack:
+                    rb.rotation = Quaternion.LookRotation(positionPlayer);
                     animator.SetTrigger(AttackAnim);
                     gameContr.PausedGame(true);
                     Invoke("MinusLife", 1f);

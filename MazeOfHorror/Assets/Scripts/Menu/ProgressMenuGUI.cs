@@ -317,16 +317,22 @@ public class ProgressMenuGUI : MonoBehaviour
                     SetPrice(22);
                     break;
                 case (23):
-                    _amountPort++;
-                    _saveProgress.SetPort(_amountPort);
-                    _amountUpdatePort.SetColorRect(_amountPort);
-                    SetPrice(23);
+                    if (_amountPassage > 0)
+                    {
+                        _amountPort++;
+                        _saveProgress.SetPort(_amountPort);
+                        _amountUpdatePort.SetColorRect(_amountPort);
+                        SetPrice(23);
+                    }
                     break;
                 case (24):
-                    _amountImmunity++;
-                    _saveProgress.SetImmuny(_amountImmunity);
-                    _amountUpdateImmunity.SetColorRect(_amountImmunity);
-                    SetPrice(24);
+                    if (_amountPort > 0)
+                    {
+                        _amountImmunity++;
+                        _saveProgress.SetImmuny(_amountImmunity);
+                        _amountUpdateImmunity.SetColorRect(_amountImmunity);
+                        SetPrice(24);
+                    }
                     break;
 
                 default:

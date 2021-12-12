@@ -63,12 +63,10 @@ public class Passage : MonoBehaviour
                 {
                     if (hit.collider.CompareTag("Movet"))
                     {
-                        print("see : " + hit.collider.name + " with tag : " + hit.collider.tag);
                         _woll = hit.collider.gameObject;
                         if (_woll != null)
                         {
                             _woll.GetComponentInChildren<WollMovet>().ActivCube();
-                            print("start metod ActivCube from Passage");
                         }
                     }
                 }

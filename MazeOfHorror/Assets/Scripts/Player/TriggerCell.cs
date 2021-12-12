@@ -6,7 +6,7 @@ public class TriggerCell : MonoBehaviour
     public Vector3 positionCell;
 
     private int _levelPlayer;
-    private int _timeScent = 60;
+    private int _timeScent = 500;
 
     private void Start()
     {
@@ -20,9 +20,8 @@ public class TriggerCell : MonoBehaviour
         if (other.CompareTag("Cell"))
         {
             positionCell = other.transform.position;
-            VisibleOnn visibleOnn = other.GetComponent<VisibleOnn>();
-            visibleOnn.CounterScentStart(_timeScent);
-            visibleOnn.SetBusy(false);
+            other.GetComponent<VisibleOnn>().SetBusy(false);
+            other.GetComponent<TimerScentPayer>().CounterScentStart(_timeScent);
         }
     }
 

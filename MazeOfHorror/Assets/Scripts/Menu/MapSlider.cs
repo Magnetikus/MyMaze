@@ -24,6 +24,7 @@ public class MapSlider : MonoBehaviour
         _maximum = array[2];
         _slider.minValue = _minimum;
         _slider.maxValue = _maximum;
+        _slider.value = _maximum;
         _step = _maximum / _minimum;
     }
 

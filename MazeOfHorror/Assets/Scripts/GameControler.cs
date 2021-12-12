@@ -5,73 +5,68 @@ using UnityEngine.UI;
 public class GameControler : MonoBehaviour
 {
 
-    private ConstructorMaze generator;
+    private ConstructorMaze _generator;
 
-    private int sizeRows;
-    private int sizeCols;
-    private int lifes;
-    private int keys, startKeys;
-    private int gold, startGold;
-    private int treasure;
-    private int cubes;
-    private int passage;
-    private int port;
-    private int invisy;
-    private float gameTime;
-    private int seconds;
-    private int minutes;
+    private int _sizeRowsX;
+    private int _sizeColsZ;
+    private int _lifes;
+    private int _keys, _startKeys;
+    private int _gold, _startGold;
+    private int _treasure;
+    private int _cubes;
+    private int _passage;
+    private int _port;
+    private int _invisy;
+    private float _gameTime;
+    private int _seconds;
+    private int _minutes;
+    private int _amountIconesPower;
 
-    private int EXP = 30;
+    private int _EXP = 30;
 
-    [SerializeField] private MenuController menuContr;
-    [SerializeField] private SaveProgress saveProgress;
-    [SerializeField] private WinMenu winMenu;
-    [SerializeField] private PowerMovet powerMovet;
-    [SerializeField] private PowerPassage powerPassage;
-    [SerializeField] private GameObject iconePowerPassage;
-    [SerializeField] private GameObject iconePowerPort;
-    [SerializeField] private GameObject iconePowerInvisy;
-    [SerializeField] private GameObject menuBackground;
-    [SerializeField] private GameObject joystick;
-    [SerializeField] private GameObject joystickLooket;
-    [SerializeField] private GameObject iconePower;
-    [SerializeField] private GameObject iconeHandle;
-    [SerializeField] private GameObject iconeZell;
-    [SerializeField] private AmountHeartOut heartOut;
-    [SerializeField] private AmountHeartOut keyOut;
-    [SerializeField] private GameObject minusLifeImage;
-    [SerializeField] private GameObject[] heartsMinusLife = new GameObject[10];
-    [SerializeField] private Image treasureOut;
-    [SerializeField] private Text textGoldStart;
-    [SerializeField] private Text textGold;
-    [SerializeField] private Text textCubes;
-    [SerializeField] private Text textPassage;
-    [SerializeField] private Text textPort;
-    [SerializeField] private Text textInvisy;
-    [SerializeField] private Text textTimes;
-    [SerializeField] private GameObject imageFindKey;
-    [SerializeField] private Text textFindKey;
-    [SerializeField] private GameObject key1;
-    [SerializeField] private GameObject key2;
-    [SerializeField] private GameObject key3;
-    [SerializeField] private GameObject mimimap;
+    [SerializeField] private MenuController _menuContr;
+    [SerializeField] private SaveProgress _saveProgress;
+    [SerializeField] private WinMenu _winMenu;
+    [SerializeField] private GameObject[] _iconesPower;
+    [SerializeField] private GameObject _menuBackground;
+    [SerializeField] private GameObject _joystick;
+    [SerializeField] private GameObject _joystickLooket;
+    [SerializeField] private GameObject _iconePower;
+    [SerializeField] private AmountHeartOut _heartOut;
+    [SerializeField] private AmountHeartOut _keyOut;
+    [SerializeField] private GameObject _minusLifeImage;
+    [SerializeField] private GameObject[] _heartsMinusLife = new GameObject[10];
+    [SerializeField] private Image _treasureOut;
+    [SerializeField] private Text _textGoldStart;
+    [SerializeField] private Text _textGold;
+    [SerializeField] private Text _textCubes;
+    [SerializeField] private Text _textPassage;
+    [SerializeField] private Text _textPort;
+    [SerializeField] private Text _textInvisy;
+    [SerializeField] private Text _textTimes;
+    [SerializeField] private GameObject _imageFindKey;
+    [SerializeField] private Text _textFindKey;
+    [SerializeField] private GameObject _key1;
+    [SerializeField] private GameObject _key2;
+    [SerializeField] private GameObject _key3;
+    [SerializeField] private GameObject _mimimap;
 
 
     public bool pausedGame { get; private set; }
 
     private void Start()
     {
-        generator = GetComponent<ConstructorMaze>();
+        _generator = GetComponent<ConstructorMaze>();
     }
 
 
     public void StartNewGame(List<int> constrMaze)
     {
-        generator.GenerateNewMaze(constrMaze);
-        sizeRows = constrMaze[0];
-        sizeCols = constrMaze[1];
-        startKeys = constrMaze[2];
-        startGold = (sizeRows + sizeCols) / 2;
+        _generator.GenerateNewMaze(constrMaze);
+        _sizeRowsX = constrMaze[0];
+        _sizeColsZ = constrMaze[1];
+        _startKeys = constrMaze[2];
+        _startGold = (_sizeRowsX + _sizeColsZ) / 2;
         ResetDataBase();
     }
 
@@ -84,7 +79,7 @@ public class GameControler : MonoBehaviour
     public void RestartGame()
     {
         ResetDataBase();
-        generator.Restart();
+        _generator.Restart();
     }
 
     private void ResetDataBase()
@@ -92,161 +87,182 @@ public class GameControler : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<MovetCube>().ResetEndGame();
         player.GetComponent<Passage>().PassageEnd();
-        menuBackground.SetActive(false);
-        mimimap.SetActive(true);
-        joystick.SetActive(true);
-        joystick.GetComponent<JoystickController>().Zero();
-        joystickLooket.SetActive(true);
-        joystickLooket.GetComponent<JoystickLooket>().Zero();
-        iconePower.SetActive(true);
-        powerMovet.SetTimeRevers(saveProgress.MannaPlayer);
-        powerPassage.SetTimeRevers(saveProgress.MannaPlayer);
-        seconds = 0;
-        minutes = 0;
-        lifes = saveProgress.LifePlayer;
-        for (int i = 1; i <= lifes; i++)
+        _menuBackground.SetActive(false);
+        _mimimap.SetActive(true);
+        _joystick.SetActive(true);
+        _joystick.GetComponent<JoystickController>().Zero();
+        _joystickLooket.SetActive(true);
+        _joystickLooket.GetComponent<JoystickLooket>().Zero();
+        _iconePower.SetActive(true);
+        _iconePower.GetComponent<PowerMovet>().SetTimeRevers(_saveProgress.MannaPlayer);
+        _iconePower.GetComponent<PowerPassage>().SetTimeRevers(_saveProgress.MannaPlayer);
+        _iconePower.GetComponent<PowerPort>().SetTimeRevers(_saveProgress.MannaPlayer);
+        _iconePower.GetComponent<PowerImmuny>().SetTimeRevers(_saveProgress.MannaPlayer);
+        _seconds = 0;
+        _minutes = 0;
+        _lifes = _saveProgress.LifePlayer;
+        for (int i = 1; i <= _lifes; i++)
         {
-            heartOut.SetColorHeart(i, 1);
+            _heartOut.SetColorHeart(i, 1);
         }
-        keys = startKeys;
-        for (int i = 1; i <= keys; i++)
+        _keys = _startKeys;
+        for (int i = 1; i <= _keys; i++)
         {
-            keyOut.SetColorHeart(i, 0.5f);
+            _keyOut.SetColorHeart(i, 0.5f);
         }
-        gold = 0;
-        cubes = saveProgress.AmountMovetWoll;
-        passage = saveProgress.AmountPassage;
-        port = saveProgress.AmountPort;
-        invisy = saveProgress.AmountImmunity;
-        if (passage == 0)
+        _gold = 0;
+        
+        _cubes = _saveProgress.AmountMovetWoll;
+        _passage = _saveProgress.AmountPassage;
+        _port = _saveProgress.AmountPort;
+        _invisy = _saveProgress.AmountImmunity;
+        if (_invisy > 0)
         {
-            iconePowerPassage.SetActive(false);
+            _amountIconesPower = 4;
         }
-        else
+        else if (_port > 0)
         {
-            iconePowerPassage.SetActive(true);
+            _amountIconesPower = 3;
         }
-        if (port == 0)
+        else if (_passage > 0)
         {
-            iconePowerPort.SetActive(false);
-        }
-        else
-        {
-            iconePowerPort.SetActive(true);
-        }
-        if (invisy == 0)
-        {
-            iconePowerInvisy.SetActive(false);
+            _amountIconesPower = 2;
         }
         else
         {
-            iconePowerInvisy.SetActive(true);
+            _amountIconesPower = 1;
         }
-        treasure = 0;
-        Color colorTreasure = treasureOut.color;
+        IsVisibleIconesPower(true);
+        ImageFillIn100(_iconesPower[0]);
+        ImageFillIn100(_iconesPower[1]);
+        ImageFillIn100(_iconesPower[2]);
+        ImageFillIn100(_iconesPower[3]);
+        _treasure = 0;
+        Color colorTreasure = _treasureOut.color;
         colorTreasure.a = 0.4f;
-        treasureOut.color = colorTreasure;
-        textGoldStart.color = new Color(250, 39, 13);
-        textGold.color = Color.white;
-        iconeHandle.SetActive(false);
-        iconeZell.SetActive(false);
+        _treasureOut.color = colorTreasure;
+        _textGoldStart.color = new Color(250, 39, 13);
+        _textGold.color = Color.white;
         pausedGame = false;
+    }
+
+    private void ImageFillIn100(GameObject go)
+    {
+        go.GetComponent<Button>().enabled = true;
+        Image[] listImage = go.GetComponentsInChildren<Image>();
+        foreach (var e in listImage)
+        {
+            e.fillAmount = 1f;
+        }
+    }
+
+    public void IsVisibleIconesPower(bool chek)
+    {
+        for (int i = 0; i < _amountIconesPower; i++)
+        {
+            _iconesPower[i].SetActive(chek);
+        }
     }
 
     public int[] GetSizeMaze()
     {
-        int[] array = { sizeRows, sizeCols };
+        int[] array = { _sizeRowsX, _sizeColsZ };
         return array;
     }
 
     private void OnGUI()
     {
-        textGoldStart.text = $"( {startGold} )";
-        textGold.text = $" {gold} ";
-        textCubes.text = $" {cubes} ";
-        textPassage.text = $"{passage}";
-        textPort.text = $"{port}";
-        textInvisy.text = $"{invisy}";
-        textTimes.text = $" {minutes:d2} : {seconds:d2} ";
+        _textGoldStart.text = $"( {_startGold} )";
+        _textGold.text = $" {_gold} ";
+        _textCubes.text = $" {_cubes} ";
+        _textPassage.text = $"{_passage}";
+        _textPort.text = $"{_port}";
+        _textInvisy.text = $"{_invisy}";
+        _textTimes.text = $" {_minutes:d2} : {_seconds:d2} ";
     }
 
     public void PlayerEnterExit()
     {
-        if (keys == 0)
+        if (_keys == 0)
         {
             PlayerWin();
         }
         else
         {
-            imageFindKey.SetActive(true);
-            textFindKey.text = $"{keys}";
-            if (keys % 10 == 1)
+            _imageFindKey.SetActive(true);
+            _textFindKey.text = $"{_keys}";
+            if (_keys % 10 == 1)
             {
-                key1.SetActive(true);
+                _key1.SetActive(true);
             }
-            else if (keys % 10 < 5)
+            else if (_keys % 10 < 5)
             {
-                key2.SetActive(true);
+                _key2.SetActive(true);
             }
             else
             {
-                key3.SetActive(true);
+                _key3.SetActive(true);
             }
         }
     }
 
     public void PlayerExitExit()
     {
-        key1.SetActive(false);
-        key2.SetActive(false);
-        key3.SetActive(false);
-        imageFindKey.SetActive(false);
+        _key1.SetActive(false);
+        _key2.SetActive(false);
+        _key3.SetActive(false);
+        _imageFindKey.SetActive(false);
     }
 
     public void MinusLifes()
     {
         
         pausedGame = true;
-        minusLifeImage.SetActive(true);
-        minusLifeImage.GetComponent<Animator>().enabled = true;
-        for (int i = 0; i < lifes; i++)
+        _minusLifeImage.SetActive(true);
+        _minusLifeImage.GetComponent<Animator>().enabled = true;
+        for (int i = 0; i < _lifes; i++)
         {
-            heartsMinusLife[i].SetActive(true);
+            _heartsMinusLife[i].SetActive(true);
         }
     }
 
     public void EndLifePanelOut()
     {
-        heartsMinusLife[lifes - 1].GetComponent<Animator>().enabled = true;
+        _heartsMinusLife[_lifes - 1].GetComponent<Animator>().enabled = true;
     }
 
     public void EndMinusLife()
     {
-        heartsMinusLife[lifes - 1].SetActive(false);
-        minusLifeImage.GetComponent<Animator>().enabled = false;
-        minusLifeImage.SetActive(false);
-        heartOut.SetColorHeart(lifes, 0);
-        lifes--;
-        if (lifes < 0) lifes = 0;
-        if (lifes == 0) PlayerLose();
+        _heartsMinusLife[_lifes - 1].SetActive(false);
+        _minusLifeImage.GetComponent<Animator>().enabled = false;
+        _minusLifeImage.SetActive(false);
+        _heartOut.SetColorHeart(_lifes, 0);
+        _lifes--;
+        if (_lifes < 0) _lifes = 0;
+        if (_lifes == 0) PlayerLose();
         else
         {
-            generator.TransformingMonstersAffterMinusLifePlayer();
+            _generator.TransformingMonstersAffterMinusLifePlayer(0);
             pausedGame = false;
         }
+        IsVisibleIconesPower(true);
+        _iconePower.GetComponent<PowerMovet>().AfterMinusLife();
+        _iconePower.GetComponent<PowerPort>().ResetAfterMinusLife();
+        _iconePower.GetComponent<PowerPassage>().ChekButton();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<MovetCube>().ResetFromMinusLife();
         player.GetComponent<Passage>().ResetFromMinusLife();
+        
     }
 
     public void MinusKeys()
     {
-        keys--;
-        if (keys < 0) keys = 0;
+        _keys--;
+        if (_keys < 0) _keys = 0;
 
-        keyOut.SetColorHeart(startKeys - keys, 1);
+        _keyOut.SetColorHeart(_startKeys - _keys, 1);
         
-        if (keys == 0)
+        if (_keys == 0)
         {
             ParticleSystem part = GameObject.FindGameObjectWithTag("Exit").GetComponentInChildren<ParticleSystem>();
             ParticleSystem.MainModule main = part.main;
@@ -256,53 +272,79 @@ public class GameControler : MonoBehaviour
 
     public int GetKeys()
     {
-        return keys;
+        return _keys;
     }
 
     public void MinusCube()
     {
-        cubes--;
-        if (cubes <= 0)
+        _cubes--;
+        if (_cubes <= 0)
         {
-            cubes = 0;
-            powerMovet.ButtonDesactiv();
+            _cubes = 0;
         }
     }
 
     public int GetCube()
     {
-        return cubes;
+        return _cubes;
     }
 
     public void MinusPassage()
     {
-        passage--;
-        if (passage <= 0)
+        _passage--;
+        if (_passage <= 0)
         {
-            passage = 0;
-            powerPassage.StartRevers();
+            _passage = 0;
         }
     }
 
     public int GetPassage()
     {
-        return passage;
+        return _passage;
+    }
+
+    public void MinusPort()
+    {
+        _port--;
+        if (_port <= 0)
+        {
+            _port = 0;
+        }
+    }
+
+    public int GetPort()
+    {
+        return _port;
+    }
+
+    public void MinusInvisy()
+    {
+        _invisy--;
+        if (_invisy <= 0)
+        {
+            _invisy = 0;
+        }
+    }
+
+    public int GetInvisy()
+    {
+        return _invisy;
     }
 
     public void MinusGold()
     {
-        gold++;
-        if (gold > startGold) gold = startGold;
-        if (gold == startGold)
+        _gold++;
+        if (_gold > _startGold) _gold = _startGold;
+        if (_gold == _startGold)
         {
-            textGoldStart.color = Color.green;
-            textGold.color = Color.green;
+            _textGoldStart.color = Color.green;
+            _textGold.color = Color.green;
         }
     }
 
     public void MapCollect()
     {
-        generator.CreateTreasure();
+        _generator.CreateTreasure();
         SelectionObjectsWithTag("Movet");
         SelectionObjectsWithTag("NoMovet");
         SelectionObjectsWithTag("Cell");
@@ -310,57 +352,58 @@ public class GameControler : MonoBehaviour
 
     private void SelectionObjectsWithTag(string tag)
     {
-        int index = 0;
         GameObject[] array = GameObject.FindGameObjectsWithTag(tag);
         foreach (GameObject e in array)
         {
-            print(e.name + " " + index);
-            e.GetComponent<VisibleOnn>().OnSpriteMap();
-            index++;
+            print(e.name + " " + e.transform.position);
+            if (e.name != "Vision")
+            {
+                e.GetComponent<VisibleOnn>().OnSpriteMap();
+            }
         }
     }
 
     public void TreasureCollection()
     {
-        treasure += 1;
-        Color colorTreasure = treasureOut.color;
+        _treasure += 1;
+        Color colorTreasure = _treasureOut.color;
         colorTreasure.a = 1f;
-        treasureOut.color = colorTreasure;
+        _treasureOut.color = colorTreasure;
     }
 
     public void PlayerWin()
     {
-        mimimap.SetActive(false);
-        joystick.SetActive(false);
-        joystickLooket.SetActive(false);
-        iconePower.SetActive(false);
+        _mimimap.SetActive(false);
+        _joystick.SetActive(false);
+        _joystickLooket.SetActive(false);
+        _iconePower.SetActive(false);
         pausedGame = true;
-        menuContr.Victory();
-        winMenu.StartAnimator();
-        winMenu.SetGoldResultate(startGold, gold);
-        winMenu.SetLifeResultate(saveProgress.LifePlayer, lifes);
-        winMenu.SetTreasure(treasure);
-        winMenu.SetExp(EXP);
+        _menuContr.Victory();
+        _winMenu.StartAnimator();
+        _winMenu.SetGoldResultate(_startGold, _gold);
+        _winMenu.SetLifeResultate(_saveProgress.LifePlayer, _lifes);
+        _winMenu.SetTreasure(_treasure);
+        _winMenu.SetExp(_EXP);
     }
 
     public void PlayerLose()
     {
-        mimimap.SetActive(false);
-        joystick.SetActive(false);
-        joystickLooket.SetActive(false);
-        iconePower.SetActive(false);
+        _mimimap.SetActive(false);
+        _joystick.SetActive(false);
+        _joystickLooket.SetActive(false);
+        _iconePower.SetActive(false);
         pausedGame = true;
-        menuContr.Luser();
+        _menuContr.Luser();
     }
 
     public void GameAfterLose()
     {
-        mimimap.SetActive(true);
-        joystick.SetActive(true);
-        joystickLooket.SetActive(true);
-        iconePower.SetActive(true);
-        lifes++;
-        generator.TransformingMonstersAffterMinusLifePlayer();
+        _mimimap.SetActive(true);
+        _joystick.SetActive(true);
+        _joystickLooket.SetActive(true);
+        _iconePower.SetActive(true);
+        _lifes++;
+        _generator.TransformingMonstersAffterMinusLifePlayer(0);
         pausedGame = false;
     }
 
@@ -369,16 +412,16 @@ public class GameControler : MonoBehaviour
     {
         if (!pausedGame)
         {
-            gameTime += Time.deltaTime;
-            if (gameTime >= 1)
+            _gameTime += Time.deltaTime;
+            if (_gameTime >= 1)
             {
-                seconds += 1;
-                gameTime = 0;
+                _seconds += 1;
+                _gameTime = 0;
             }
-            if (seconds >= 60)
+            if (_seconds >= 60)
             {
-                minutes += 1;
-                seconds = 0;
+                _minutes += 1;
+                _seconds = 0;
             }
         }
     }

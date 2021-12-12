@@ -4,7 +4,7 @@ public class JoystickLooket : MonoBehaviour
 {
     private Vector2 _inputVector;
     private float _screenWidth;
-
+    private float _limitInputVector = 10f;
 
     private void Start()
     {
@@ -43,6 +43,7 @@ public class JoystickLooket : MonoBehaviour
     {
         if (_inputVector.x != 0)
         {
+            _inputVector.x = _inputVector.x > _limitInputVector ? _limitInputVector : _inputVector.x;
             return _inputVector.x;
         }
         else
@@ -55,6 +56,7 @@ public class JoystickLooket : MonoBehaviour
     {
         if (_inputVector.y != 0)
         {
+            _inputVector.y = _inputVector.y > _limitInputVector ? _limitInputVector : _inputVector.y;
             return _inputVector.y;
         }
         else

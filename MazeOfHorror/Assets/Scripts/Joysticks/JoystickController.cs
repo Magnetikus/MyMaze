@@ -20,7 +20,8 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_background.rectTransform, eventData.position, eventData.pressEventCamera, out _tuchPosition))
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_background.rectTransform, 
+            eventData.position, eventData.pressEventCamera, out _tuchPosition))
         {
             _tuchPosition.x /= _background.rectTransform.sizeDelta.x;
             _tuchPosition.y /= _background.rectTransform.sizeDelta.y;

@@ -13,6 +13,7 @@ public class PassageWoll : MonoBehaviour
 
     public void StartPassage(int powerPlayer)
     {
+        GetComponent<VisibleOnn>().SetPassage(true);
         _timePassage -= powerPlayer / 3;
         _system.SetActive(true);
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -28,14 +29,28 @@ public class PassageWoll : MonoBehaviour
     {
         var wait = new WaitForSeconds(0.1f);
         float radius = 0.5f;
+        float radiusThickness = 1f;
+        ParticleSystem.ShapeModule tempShape = new ParticleSystem.ShapeModule();
+        
         while (radius < 4)
         {
             for (int i = 0; i < 4; i++)
             {
-                ParticleSystem.ShapeModule shape = _arrayParticleSystem[i].shape;
-                shape.radius = radius;
+                tempShape = _arrayParticleSystem[i].shape;
+                tempShape.radius = radius;
             }
             radius += 3.5f / (_timePassage * 10f);
+            yield return wait;
+        }
+        while (radiusThickness > 0.1)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                tempShape = _arrayParticleSystem[i].shape;
+                tempShape.radiusThickness = radiusThickness;
+            }
+
+            radiusThickness -= 0.9f / (_timePassage * 10f);
             yield return wait;
         }
         _vision.SetActive(false);
@@ -49,8 +64,10 @@ public class PassageWoll : MonoBehaviour
         {
             ParticleSystem.ShapeModule shape = _arrayParticleSystem[i].shape;
             shape.radius = 0.5f;
+            shape.radiusThickness = 1;
             _arrayParticleSystem[i].Stop();
         }
+        GetComponent<VisibleOnn>().SetPassage(false);
         _system.SetActive(false);
         _vision.SetActive(true);
         

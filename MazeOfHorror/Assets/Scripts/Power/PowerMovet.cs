@@ -5,9 +5,13 @@ using UnityEngine.UI;
 public class PowerMovet : MonoBehaviour
 {
     private MovetCube _movetCube;
-    [SerializeField] private Button _button;
     [SerializeField] private Image _imagePower;
-    private float _timeRevers = 100f;
+    [SerializeField] private Button _button;
+    [SerializeField] private GameControler _gameController;
+    [SerializeField] private GameObject _cubeDeactive;
+    [SerializeField] private GameObject _cubeActive;
+    [SerializeField] private GameObject _buttonCancel;
+    private float _timeRevers = 60f;
 
     private void Start()
     {
@@ -16,24 +20,27 @@ public class PowerMovet : MonoBehaviour
 
     public void SetTimeRevers(int mannaPlayer)
     {
-        _timeRevers -= mannaPlayer * 5f;
+        _timeRevers -= mannaPlayer * 4f;
     }
+
 
     public void CubeMovetFirstStep()
     {
+
         _movetCube.CubeMovetFirstStep();
-        Invoke("ButtonDesactiv", 0.5f);
+        _gameController.IsVisibleIconesPower(false);
     }
 
     public void CubeDesactive()
     {
         _movetCube.CubeDesactive();
-        
     }
 
     public void CubeActive()
     {
         _movetCube.CubeActive();
+        _gameController.IsVisibleIconesPower(true);
+        _button.enabled = false;
         _imagePower.fillAmount = 0;
         StartCoroutine(FillImage());
     }
@@ -41,13 +48,17 @@ public class PowerMovet : MonoBehaviour
     public void EscapeMovet()
     {
         _movetCube.EscapeMovet();
-        _button.enabled = true;
+        _gameController.IsVisibleIconesPower(true);
     }
 
-    public void ButtonDesactiv()
+    public void AfterMinusLife()
     {
-        _button.enabled = false;
+        _cubeActive.SetActive(false);
+        _cubeDeactive.SetActive(false);
+        _buttonCancel.SetActive(false);
+        ChekButton();
     }
+
 
     private IEnumerator FillImage()
     {
@@ -62,6 +73,16 @@ public class PowerMovet : MonoBehaviour
         }
         color.a = 1f;
         _imagePower.color = color;
-        _button.enabled = true;
+        ChekButton();
+
+    }
+
+    public void ChekButton()
+    {
+        if (_gameController.GetCube() > 0)
+        {
+            _button.enabled = true;
+        }
+        else _button.enabled = false;
     }
 }

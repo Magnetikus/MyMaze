@@ -313,4 +313,11 @@ public class MenuController : MonoBehaviour
         SetCurrentScreen(Screen.Game);
         screen = Screen.Game;
     }
+
+    public void TitleMenu()
+    {
+        SceneManager.LoadScene("DemoScene");
+    }
+
+
 }

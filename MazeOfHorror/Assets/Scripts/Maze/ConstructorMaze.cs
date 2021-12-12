@@ -173,6 +173,7 @@ public class ConstructorMaze : MonoBehaviour
     {
         foreach (var e in listDeletedObject) Destroy(e);
         listDeletedObject.Clear();
+        transformsMonsters.Clear();
     }
 
 
@@ -251,7 +252,7 @@ public class ConstructorMaze : MonoBehaviour
     private GameObject CreateObject(GameObject prefab, bool isActiv, TagName tag, int i, int j)
     {
         GameObject go = Instantiate(prefab);
-        go.transform.position = new Vector3(i * sizeCell, 0, j * sizeCell);
+        
         if (tag != TagName.Exit && tag != TagName.Map)
         {
             go.transform.Rotate(Vector3.up, ChangeAngle());
@@ -268,6 +269,7 @@ public class ConstructorMaze : MonoBehaviour
         }
         go.tag = tag.ToString();
         go.SetActive(isActiv);
+        go.transform.position = new Vector3(i * sizeCell, 0, j * sizeCell);
         listDeletedObject.Add(go);
         return go;
     }
@@ -319,11 +321,18 @@ public class ConstructorMaze : MonoBehaviour
         Vector3 positionTarget = new Vector3(target[0], 0, target[1]);
         float distReal;
         int[] position;
+        int counter = 0;
         do
         {
             position = FindRandomPosition();
             Vector3 positionNew = new Vector3(position[0], 0, position[1]);
             distReal = (positionNew - positionTarget).magnitude;
+            counter++;
+            if (counter > 10)
+            {
+                position = new int[] { -5, -5 };
+                break;
+            }
         }
         while (distReal < distance);
         return position;
@@ -341,23 +350,22 @@ public class ConstructorMaze : MonoBehaviour
 
     }
 
-    public void TransformingMonstersAffterMinusLifePlayer()
+    public void TransformingMonstersAffterMinusLifePlayer(float powerPlayer)
     {
         transformPlayer = GameObject.FindGameObjectWithTag("Player").transform;
         int x = (int)transformPlayer.position.x;
         int z = (int)transformPlayer.position.z;
         int[] posPlayer = { x, z };
-        //transformsMonsters = GameObject.FindGameObjectsWithTag("Monster");
         foreach (var go in transformsMonsters)
         {
-            if ((go.transform.position - transformPlayer.position).magnitude < 7)
+            if ((go.transform.position - transformPlayer.position).magnitude < 7 + powerPlayer * 3)
             {
                 go.GetComponentInChildren<TriggerBusyMonsters>().NoBusy();
                 bool isWollNot = true;
                 Vector3 positionGO = go.transform.position;
                 do
                 {
-                    int[] newPosition = FindRandomPositionDistanceTarget(posPlayer, 10f);
+                    int[] newPosition = FindRandomPositionDistanceTarget(posPlayer, 10f + powerPlayer * 3);
                     positionGO.x = newPosition[0];
                     positionGO.z = newPosition[1];
                     positionGO.y = 5f;

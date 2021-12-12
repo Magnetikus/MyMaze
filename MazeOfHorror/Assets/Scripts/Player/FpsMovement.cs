@@ -8,7 +8,6 @@ public class FpsMovement : MonoBehaviour
     [SerializeField] private Camera _headCam;
 
     private static float _speed = 2.5f; // max 4.5
-    private static float _gravity = -9.8f;
     private static float _sensitivity = 3f; //max 4
     private static float _minimumVert = -45.0f;
     private static float _maximumVert = 45.0f;
@@ -53,6 +52,7 @@ public class FpsMovement : MonoBehaviour
     {
         if (!_gameContr.pausedGame)
         {
+            
             MoveCharacter();
             RotateCharacter();
             RotateCamera();
@@ -64,7 +64,6 @@ public class FpsMovement : MonoBehaviour
 #if UNITY_EDITOR
         float deltaX = Input.GetAxis("Horizontal") * _speed;
         float deltaZ = Input.GetAxis("Vertical") * _speed;
-
 #else
 
         float deltaX = _joystController.Horizontal() * _speed;
@@ -74,16 +73,10 @@ public class FpsMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
         movement = Vector3.ClampMagnitude(movement, _speed);
-
-        movement.y = _gravity;
+        movement.y = 0;
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
-
         _charController.Move(movement);
-
-        var pos = transform.position;
-        if (pos.y != 0) pos.y = 0;
-        transform.position = pos;
     }
 
     private void RotateCharacter()
