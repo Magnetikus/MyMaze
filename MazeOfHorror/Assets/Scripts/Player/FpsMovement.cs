@@ -7,17 +7,22 @@ public class FpsMovement : MonoBehaviour
 {
     [SerializeField] private Camera _headCam;
 
-    private static float _speed = 2.5f; // max 4.5
-    private static float _sensitivity = 3f; //max 4
-    private static float _minimumVert = -45.0f;
-    private static float _maximumVert = 45.0f;
+    private const float _normalSpeed = 2.5f;        //max 4.5
+    private const float _normalSensitivity = 3.5f;  //max 4.5
+    private const float _minimumVert = -45.0f;
+    private const float _maximumVert = 45.0f;
 
+    private static float _speed;
+    private static float _sensitivity;
     private float _rotationVert = 0;
+    private Vector3 _movement;
+    private Vector3 _myPosition;
 
     private CharacterController _charController;
     private GameControler _gameContr;
     private JoystickController _joystController;
     private JoystickLooket _joystickLooket;
+    private Transform _transformMinimap;
 
     public void SetSpeedWithOrNotCube(float value)
     {
@@ -31,8 +36,8 @@ public class FpsMovement : MonoBehaviour
 
     public void SetSpeed(float value)
     {
-        _speed += value * 0.2f;
-        _sensitivity += value * 0.1f;
+        _speed = _normalSpeed + value * 0.2f;
+        _sensitivity = _normalSensitivity + value * 0.1f;
     }
 
     public void SetSensity(float value)
@@ -46,6 +51,7 @@ public class FpsMovement : MonoBehaviour
         _gameContr = GameObject.Find("Controller").GetComponent<GameControler>();
         _joystController = GameObject.FindGameObjectWithTag("JoystickMovet").GetComponent<JoystickController>();
         _joystickLooket = GameObject.FindGameObjectWithTag("JoystickLooket").GetComponent<JoystickLooket>();
+        _transformMinimap = GameObject.FindGameObjectWithTag("MinimapPoint").GetComponent<Transform>();
     }
 
     private void Update()
@@ -56,6 +62,7 @@ public class FpsMovement : MonoBehaviour
             MoveCharacter();
             RotateCharacter();
             RotateCamera();
+            MinimapMovet();
         }
     }
 
@@ -71,12 +78,12 @@ public class FpsMovement : MonoBehaviour
 
 #endif
 
-        Vector3 movement = new Vector3(deltaX, 0, deltaZ);
-        movement = Vector3.ClampMagnitude(movement, _speed);
-        movement.y = 0;
-        movement *= Time.deltaTime;
-        movement = transform.TransformDirection(movement);
-        _charController.Move(movement);
+        _movement = new Vector3(deltaX, 0, deltaZ);
+        _movement = Vector3.ClampMagnitude(_movement, _speed);
+        _movement.y = 0;
+        _movement *= Time.deltaTime;
+        _movement = transform.TransformDirection(_movement);
+        _charController.Move(_movement);
     }
 
     private void RotateCharacter()
@@ -99,5 +106,12 @@ public class FpsMovement : MonoBehaviour
         _rotationVert = Mathf.Clamp(_rotationVert, _minimumVert, _maximumVert);
 
         _headCam.transform.localEulerAngles = new Vector3(_rotationVert, _headCam.transform.localEulerAngles.y, 0);
+    }
+
+    private void MinimapMovet()
+    {
+        _myPosition = transform.position;
+        _myPosition.y = 5;
+        _transformMinimap.position = _myPosition;
     }
 }

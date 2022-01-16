@@ -113,7 +113,7 @@ public class ConstructorMaze : MonoBehaviour
         prefabMonsterEye = arrayResurces[4];
         prefabMonsterNose = arrayResurces[5];
 
-        
+        levelPlayer = _saveProgress.LevelPlayer;
         if ((sizeCell + sizeCols) / 2 < 25 && levelPlayer > 15)
         {
             levelPlayer = 15;
@@ -252,7 +252,7 @@ public class ConstructorMaze : MonoBehaviour
     private GameObject CreateObject(GameObject prefab, bool isActiv, TagName tag, int i, int j)
     {
         GameObject go = Instantiate(prefab);
-        
+        go.transform.position = new Vector3(i * sizeCell, 0, j * sizeCell);
         if (tag != TagName.Exit && tag != TagName.Map)
         {
             go.transform.Rotate(Vector3.up, ChangeAngle());
@@ -269,7 +269,7 @@ public class ConstructorMaze : MonoBehaviour
         }
         go.tag = tag.ToString();
         go.SetActive(isActiv);
-        go.transform.position = new Vector3(i * sizeCell, 0, j * sizeCell);
+        
         listDeletedObject.Add(go);
         return go;
     }
@@ -328,7 +328,7 @@ public class ConstructorMaze : MonoBehaviour
             Vector3 positionNew = new Vector3(position[0], 0, position[1]);
             distReal = (positionNew - positionTarget).magnitude;
             counter++;
-            if (counter > 10)
+            if (counter > 20)
             {
                 position = new int[] { -5, -5 };
                 break;
@@ -358,14 +358,14 @@ public class ConstructorMaze : MonoBehaviour
         int[] posPlayer = { x, z };
         foreach (var go in transformsMonsters)
         {
-            if ((go.transform.position - transformPlayer.position).magnitude < 7 + powerPlayer * 3)
+            if ((go.transform.position - transformPlayer.position).magnitude < 7 + powerPlayer * 2)
             {
                 go.GetComponentInChildren<TriggerBusyMonsters>().NoBusy();
                 bool isWollNot = true;
                 Vector3 positionGO = go.transform.position;
                 do
                 {
-                    int[] newPosition = FindRandomPositionDistanceTarget(posPlayer, 10f + powerPlayer * 3);
+                    int[] newPosition = FindRandomPositionDistanceTarget(posPlayer, 10f + powerPlayer * 2);
                     positionGO.x = newPosition[0];
                     positionGO.z = newPosition[1];
                     positionGO.y = 5f;

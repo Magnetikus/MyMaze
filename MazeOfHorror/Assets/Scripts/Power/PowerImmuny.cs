@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,8 +22,11 @@ public class PowerImmuny : MonoBehaviour
 
     public void ActivateHurricane()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Immuny>().StartEffect();
         _gameController.GetComponent<ConstructorMaze>().TransformingMonstersAffterMinusLifePlayer(_gameController.GetComponent<SaveProgress>().PowerPlayer);
         _gameController.IsVisibleIconesPower(true);
+        _button.enabled = false;
+        _imagePower.fillAmount = 0;
         StartCoroutine(FillImage());
     }
 

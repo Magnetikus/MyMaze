@@ -7,6 +7,7 @@ public class PassageWoll : MonoBehaviour
     [SerializeField] private GameObject _system;
     [SerializeField] private ParticleSystem[] _arrayParticleSystem;
     [SerializeField] private GameObject _vision;
+    [SerializeField] private PlaySound _playSound;
     private float _timePassage = 4f;
 
     private GameObject _player;
@@ -27,6 +28,7 @@ public class PassageWoll : MonoBehaviour
 
     private IEnumerator StartPassageCicle()
     {
+        _playSound.Play("Open");
         var wait = new WaitForSeconds(0.1f);
         float radius = 0.5f;
         float radiusThickness = 1f;
@@ -56,10 +58,12 @@ public class PassageWoll : MonoBehaviour
         _vision.SetActive(false);
         GetComponent<BoxCollider>().isTrigger = true;
         _player.GetComponent<Passage>().PassageEnd();
+        _playSound.Play("Portal");
     }
 
     public void PassageEnd()
     {
+        _playSound.Stop();
         for (int i = 0; i < _arrayParticleSystem.Length; i++)
         {
             ParticleSystem.ShapeModule shape = _arrayParticleSystem[i].shape;

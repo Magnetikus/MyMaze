@@ -50,7 +50,6 @@ public class PowerPort : MonoBehaviour
             distance = (positionPlayer - _arrayAllCell[i].transform.position).magnitude;
             if (distance < _distanceForTeleport)
             {
-                print("array Cell : " + _arrayAllCell[i].name + " in position : " + _arrayAllCell[i].transform.position);
                 if (_arrayAllCell[i].name != "Vision")
                 {
                     _arrayAllCell[i].GetComponent<VisibleOnn>().OnSpriteTeleport();
@@ -109,7 +108,7 @@ public class PowerPort : MonoBehaviour
         _button.enabled = true;
         _firstStep = false;
         _imagePower.fillAmount = 1;
-        if (_arrayAllCell.Length > 0)
+        if (_arrayAllCell != null)
         {
             for (int i = 0; i < _arrayAllCell.Length; i++)
             {

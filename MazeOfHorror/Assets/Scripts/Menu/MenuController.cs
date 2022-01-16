@@ -29,6 +29,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private SaveProgress saveProgress;
     [SerializeField] private LosMenu loseMenu;
     [SerializeField] private MenuStartRandomGame _menuRandomGame;
+    [SerializeField] private PlaySound _playMusic;
+    [SerializeField] private PlaySound _playSound;
 
     [SerializeField] private CanvasGroup gameCanvas;
     [SerializeField] private CanvasGroup globalMenu;
@@ -80,10 +82,10 @@ public class MenuController : MonoBehaviour
 
     public void Global()
     {
+        _playMusic.Play("Menu");
         menuBackground.SetActive(true);
         SetCurrentScreen(Screen.Global);
         screen = Screen.Global;
-
     }
 
     public void NewGame()
@@ -297,12 +299,14 @@ public class MenuController : MonoBehaviour
 
     public void Victory()
     {
+        _playMusic.Stop();
         SetCurrentScreen(Screen.Victory);
         screen = Screen.Victory;
     }
 
     public void Luser()
     {
+        _playMusic.Stop();
         SetCurrentScreen(Screen.Loser);
         screen = Screen.Loser;
         loseMenu.SetDimond();
@@ -316,7 +320,27 @@ public class MenuController : MonoBehaviour
 
     public void TitleMenu()
     {
-        SceneManager.LoadScene("DemoScene");
+        
+    }
+
+    public void Click()
+    {
+        _playSound.Play("Click");
+    }
+
+    public void Okey()
+    {
+        _playSound.Play("Okey");
+    }
+
+    public void Perehod()
+    {
+        _playSound.Play("Perehod");
+    }
+
+    public void Escape()
+    {
+        _playSound.Play("Escape");
     }
 
 

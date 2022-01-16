@@ -9,6 +9,7 @@ public class TestGold : MonoBehaviour
     [SerializeField] Text _textDimond;
     [SerializeField] Text _textLevel;
     [SerializeField] SaveProgress _saveProgress;
+    [SerializeField] SaveLoadGame _saveLoadGame;
     [SerializeField] Text _textSensity;
 
     private int _gold;
@@ -58,7 +59,12 @@ public class TestGold : MonoBehaviour
         _saveProgress.SetPass(0);
         _saveProgress.SetPort(0);
         _saveProgress.SetImmuny(0);
+        _saveProgress.SetCastle(0);
+        _saveProgress.SetDino(0);
         _saveProgress.Save();
+        _saveLoadGame.selectNatura = 0;
+        _saveLoadGame.selectDino = 0;
+        _saveLoadGame.selectCastle = 0;
     }
 
     public void SetSensity(float value)

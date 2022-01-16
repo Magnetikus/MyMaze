@@ -1,0 +1,760 @@
+fileFormatVersion: 2
+guid: 69884a2577a96954a9cde08ba82d8346
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: 7539317211132703449
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimCrossEye_M|Take
+      001|BaseLayer"
+  - first:
+      74: -1433722223765548331
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimerNeck0_M|Take
+      001|BaseLayer"
+  - first:
+      74: 1727952276604811695
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimEye_M|Take
+      001|BaseLayer"
+  - first:
+      74: 3362898158204262190
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimEyeLocatorVisualCenter_L|Take
+      001|BaseLayer"
+  - first:
+      74: -5232871547534845566
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimEyeLocatorVisualCenter_R|Take
+      001|BaseLayer"
+  - first:
+      74: 2464354916175880897
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimParentConstraintEye_M|Take
+      001|BaseLayer"
+  - first:
+      74: -2371691901209487082
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:AimReverseAimConstraintEye_M|Take
+      001|BaseLayer"
+  - first:
+      74: -3023597680646282519
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:BendAimerAtNeck_M|Take
+      001|BaseLayer"
+  - first:
+      74: -8317649636292081179
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:BendNeck_M|Take
+      001|BaseLayer"
+  - first:
+      74: 7822982718356175421
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:BendParentConstraintNeck_M|Take
+      001|BaseLayer"
+  - first:
+      74: 2664495508653427548
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Center_M|Take
+      001|BaseLayer"
+  - first:
+      74: -3747368541526414978
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:FKIKParentConstraintLegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: 8042825988856540774
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:FKIKParentConstraintLegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: -3398098211924609570
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:FKIKParentConstraintLegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: -8415245096491491061
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:FKIKParentConstraintLegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: -3928984844175326280
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:FKIKParentConstraintSpine_M|Take
+      001|BaseLayer"
+  - first:
+      74: -4751031468132288193
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:FKIKParentConstraintSplineTail_M|Take
+      001|BaseLayer"
+  - first:
+      74: 6401469110165925322
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:HipSwingerRoot_M|Take
+      001|BaseLayer"
+  - first:
+      74: 4714310471638927771
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: -6806056434039364513
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: -8656000900939065439
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegBackBall_L|Take
+      001|BaseLayer"
+  - first:
+      74: -7862549213012632645
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegBackBall_R|Take
+      001|BaseLayer"
+  - first:
+      74: 9171683235420443921
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegBackHeel_L|Take
+      001|BaseLayer"
+  - first:
+      74: 5808229831420893929
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegBackHeel_R|Take
+      001|BaseLayer"
+  - first:
+      74: 8119801552455883984
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: -8090610367956777659
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: 3920936058791965628
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegFrontBall_L|Take
+      001|BaseLayer"
+  - first:
+      74: -2334859758972822051
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegFrontBall_R|Take
+      001|BaseLayer"
+  - first:
+      74: 5885072507040611595
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegFrontHeel_L|Take
+      001|BaseLayer"
+  - first:
+      74: -3284989358985502221
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKLegFrontHeel_R|Take
+      001|BaseLayer"
+  - first:
+      74: -692113462336582328
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc1LegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: 2520839351021905968
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc1LegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: -3365797892709327393
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc1LegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: -3334942834120467366
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc1LegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: -2206744613245703829
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc2LegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: -5872602144008277056
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc2LegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: 359157975711200730
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc2LegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: -8979766558679861405
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKmessureLoc2LegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: 6210720881610893853
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKOffsetbackHip_L|Take
+      001|BaseLayer"
+  - first:
+      74: 5954201191284347054
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKOffsetbackHip_R|Take
+      001|BaseLayer"
+  - first:
+      74: 4361101763261027434
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKOffsetfrontHip_L|Take
+      001|BaseLayer"
+  - first:
+      74: -4553469638581244860
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKOffsetfrontHip_R|Take
+      001|BaseLayer"
+  - first:
+      74: -5495182290885726730
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKOffsetRoot_M|Take
+      001|BaseLayer"
+  - first:
+      74: -5113561332103050991
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKOffsetTail0_M|Take
+      001|BaseLayer"
+  - first:
+      74: 4954497328328132889
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintbackHip_L|Take
+      001|BaseLayer"
+  - first:
+      74: 5723180535457447197
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintbackHip_R|Take
+      001|BaseLayer"
+  - first:
+      74: -1000401030453522925
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintfrontHip_L|Take
+      001|BaseLayer"
+  - first:
+      74: -6384227452401644793
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintfrontHip_R|Take
+      001|BaseLayer"
+  - first:
+      74: -8110940165773201599
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintRoot_M|Take
+      001|BaseLayer"
+  - first:
+      74: -4569382876909545593
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSpine0_M|Take
+      001|BaseLayer"
+  - first:
+      74: -2835721345499357576
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSpine2_M|Take
+      001|BaseLayer"
+  - first:
+      74: 1923308691497644403
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSpine4_M|Take
+      001|BaseLayer"
+  - first:
+      74: -4377066857043075745
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSplineTail0_M|Take
+      001|BaseLayer"
+  - first:
+      74: -5728591312727928345
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSplineTail1_M|Take
+      001|BaseLayer"
+  - first:
+      74: 8221335146890720129
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSplineTail2_M|Take
+      001|BaseLayer"
+  - first:
+      74: -1620655990252460338
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintSplineTail3_M|Take
+      001|BaseLayer"
+  - first:
+      74: 6019533009477399984
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKParentConstraintTail0_M|Take
+      001|BaseLayer"
+  - first:
+      74: 3564519909436823635
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegBackBall_L|Take
+      001|BaseLayer"
+  - first:
+      74: -989767134801393268
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegBackBall_R|Take
+      001|BaseLayer"
+  - first:
+      74: 6854848807811281639
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegBackHeel_L|Take
+      001|BaseLayer"
+  - first:
+      74: -4998781641752470810
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegBackHeel_R|Take
+      001|BaseLayer"
+  - first:
+      74: -699919723571393519
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegFrontBall_L|Take
+      001|BaseLayer"
+  - first:
+      74: 3578283000760167450
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegFrontBall_R|Take
+      001|BaseLayer"
+  - first:
+      74: 1279334513473469396
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegFrontHeel_L|Take
+      001|BaseLayer"
+  - first:
+      74: -2273820066162438236
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKRollLegFrontHeel_R|Take
+      001|BaseLayer"
+  - first:
+      74: 1781423705475850644
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKXLegBackAim_L|Take
+      001|BaseLayer"
+  - first:
+      74: 922002742899199697
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKXLegBackAim_R|Take
+      001|BaseLayer"
+  - first:
+      74: -1084623151841124445
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKXLegFrontAim_L|Take
+      001|BaseLayer"
+  - first:
+      74: -5837235025065570971
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKXLegFrontAim_R|Take
+      001|BaseLayer"
+  - first:
+      74: -3283267579798997022
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKXSpineLocator1_M|Take
+      001|BaseLayer"
+  - first:
+      74: 5841347994364775081
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:IKXSpineLocator3_M|Take
+      001|BaseLayer"
+  - first:
+      74: 6658453485612268222
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Main|Take
+      001|BaseLayer"
+  - first:
+      74: -5689462287507173647
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator10|Take
+      001|BaseLayer"
+  - first:
+      74: -2220027636817532227
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator1|Take
+      001|BaseLayer"
+  - first:
+      74: 5239172132025955630
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator2|Take
+      001|BaseLayer"
+  - first:
+      74: -4539103091452293285
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator3|Take
+      001|BaseLayer"
+  - first:
+      74: 8166630683040033498
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator4|Take
+      001|BaseLayer"
+  - first:
+      74: 6702620731893405842
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator5|Take
+      001|BaseLayer"
+  - first:
+      74: 2519997105876225901
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator6|Take
+      001|BaseLayer"
+  - first:
+      74: -3289551634799114867
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator7|Take
+      001|BaseLayer"
+  - first:
+      74: 6583164462106950801
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator8|Take
+      001|BaseLayer"
+  - first:
+      74: 840749065678962664
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:Neck_twistJointsLocator9|Take
+      001|BaseLayer"
+  - first:
+      74: -2494085928538078622
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:NeckBendCurveEnd_M|Take
+      001|BaseLayer"
+  - first:
+      74: 1221746866070828261
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:NeckBendCurveStart_M|Take
+      001|BaseLayer"
+  - first:
+      74: -8956234028046255091
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:NeckPointOnCurveXform1_M|Take
+      001|BaseLayer"
+  - first:
+      74: 5243065212655553513
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:NeckPointOnCurveXform2_M|Take
+      001|BaseLayer"
+  - first:
+      74: -1236406270796434875
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleAimLegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: -8229771613263252848
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleAimLegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: 2550217291045969918
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleAimLegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: 1373603108181040229
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleAimLegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: 3794717386139407506
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleLegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: -1927002222743887924
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleLegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: -6471726633524403428
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleLegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: 234688068675617994
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleLegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: 6394594140526555243
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleParentConstraintLegBack_L|Take
+      001|BaseLayer"
+  - first:
+      74: 8925352263650770267
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleParentConstraintLegBack_R|Take
+      001|BaseLayer"
+  - first:
+      74: 8940322662570669424
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleParentConstraintLegFront_L|Take
+      001|BaseLayer"
+  - first:
+      74: 6938817298038532844
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:PoleParentConstraintLegFront_R|Take
+      001|BaseLayer"
+  - first:
+      74: 696734878082890853
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:RootCenterBtwLegs_M|Take
+      001|BaseLayer"
+  - first:
+      74: 1716800842640861440
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:RootCenterBtwLegsBlended_M|Take
+      001|BaseLayer"
+  - first:
+      74: 4725710629362032582
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwisterNeck0_M|Take
+      001|BaseLayer"
+  - first:
+      74: -2326377137363804047
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwisterNeck1_M|Take
+      001|BaseLayer"
+  - first:
+      74: -409853589271941324
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwisterNeck2_M|Take
+      001|BaseLayer"
+  - first:
+      74: -4374409545917184224
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwistFollowHead_M|Take
+      001|BaseLayer"
+  - first:
+      74: 8786442113409886657
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwistFollowNeck_M|Take
+      001|BaseLayer"
+  - first:
+      74: -8693709909821843922
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwistFollowParentHead_M|Take
+      001|BaseLayer"
+  - first:
+      74: -3263983810133499306
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwistFollowParentNeck_M|Take
+      001|BaseLayer"
+  - first:
+      74: 2771288781236904333
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:TwistFollowRoot_M|Take
+      001|BaseLayer"
+  - first:
+      74: 2928140847947871036
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:UnTwistIKRoot_M|Take
+      001|BaseLayer"
+  - first:
+      74: -5713963787215881619
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:UnTwistPoleVectorHead_M|Take
+      001|BaseLayer"
+  - first:
+      74: -4921140475830492487
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:UnTwistPoleVectorNeck_M|Take
+      001|BaseLayer"
+  - first:
+      74: -8388139104060373064
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|eyu2donghua:VisualTrim|Take
+      001|BaseLayer"
+  - first:
+      74: -6641176737478421468
+    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+  - first:
+      74: 5522812681064789136
+    second: Run
+  - first:
+      74: -1611495645587821059
+    second: Allert
+  - first:
+      74: -7352328410920927275
+    second: Rotation
+  - first:
+      74: 6720303635017113406
+    second: Attack
+  - first:
+      74: 5874199474891123731
+    second: Roar
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyu2donghua_eyu_Material #2
+    second: {fileID: 2100000, guid: 91a0c709f1947ed42b59873cd57bbc42, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.30035335
+        functionName: StepSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.81978804
+        functionName: StepSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Allert
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      internalID: 0
+      firstFrame: 100
+      lastFrame: 140
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.30035335
+        functionName: StepSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8021202
+        functionName: StepSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Rotation
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      internalID: 0
+      firstFrame: 160
+      lastFrame: 240
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.8586573
+        functionName: RotationEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      internalID: 0
+      firstFrame: 260
+      lastFrame: 280
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Roar
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      internalID: 0
+      firstFrame: 300
+      lastFrame: 339
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.8621909
+        functionName: RoarEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

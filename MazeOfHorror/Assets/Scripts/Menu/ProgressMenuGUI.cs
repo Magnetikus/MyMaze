@@ -5,7 +5,12 @@ public class ProgressMenuGUI : MonoBehaviour
 {
 
     [SerializeField] private SaveProgress _saveProgress;
-    [SerializeField] private LoadResurces _loadResurces;
+    [SerializeField] private SaveLoadGame _saveLoadGame;
+    [SerializeField] private PlaySound _playSound;
+    [SerializeField] private GameObject _windowPrice;
+    [SerializeField] private GameObject _ramkaNatura;
+    [SerializeField] private GameObject _ramkaDino;
+    [SerializeField] private GameObject _ramkaCastle;
     [SerializeField] private Text _textLevel;
     [SerializeField] private Text _textLife;
     [SerializeField] private Text _textGold;
@@ -39,6 +44,12 @@ public class ProgressMenuGUI : MonoBehaviour
     private int _amountPassage;
     private int _amountPort;
     private int _amountImmunity;
+
+    private int _dinoBuy;
+    private int _castleBuy;
+    private int _selectNatura;
+    private int _selectDino;
+    private int _selectCastle;
 
     private int _priceLevel;
     private int _priceGold;
@@ -78,6 +89,19 @@ public class ProgressMenuGUI : MonoBehaviour
         Invoke("FromClickMagic", 0.5f);
     }
 
+    public void ClickLocation()
+    {
+        _selectNatura = _saveLoadGame.selectNatura;
+        _selectDino = _saveLoadGame.selectDino;
+        _selectCastle = _saveLoadGame.selectCastle;
+        if (_selectNatura == 1) _ramkaNatura.SetActive(true);
+        else _ramkaNatura.SetActive(false);
+        if (_selectDino == 1) _ramkaDino.SetActive(true);
+        else _ramkaDino.SetActive(false);
+        if (_selectCastle == 1) _ramkaCastle.SetActive(true);
+        else _ramkaCastle.SetActive(false);
+    }
+
     public void FromClickHero()
     {
         ResetColorRect(_amountUpdateSpeed);
@@ -115,6 +139,17 @@ public class ProgressMenuGUI : MonoBehaviour
         _amountPassage = _saveProgress.AmountPassage;
         _amountPort = _saveProgress.AmountPort;
         _amountImmunity = _saveProgress.AmountImmunity;
+        _dinoBuy = _saveProgress.DinoBuy;
+        _castleBuy = _saveProgress.CastleBuy;
+        _selectNatura = _saveLoadGame.selectNatura;
+        _selectDino = _saveLoadGame.selectDino;
+        _selectCastle = _saveLoadGame.selectCastle;
+        if (_selectNatura == 1) _ramkaNatura.SetActive(true);
+        else _ramkaNatura.SetActive(false);
+        if (_selectDino == 1) _ramkaDino.SetActive(true);
+        else _ramkaDino.SetActive(false);
+        if (_selectCastle == 1) _ramkaCastle.SetActive(true);
+        else _ramkaCastle.SetActive(false);
     }
 
     public void SetDataBaseWin(int gold, int dimond, int exp)
@@ -224,25 +259,42 @@ public class ProgressMenuGUI : MonoBehaviour
         int vertical = value / 10;
         int horizontal = value % 10;
         int temp = 0;
+        _windowPrice.SetActive(true);
         if (vertical == 1)
         {
             if (horizontal == 1)
             {
                 temp = _speedPlayer;
+                if (_speedPlayer == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             else if (horizontal == 2)
             {
                 temp = _powerPlayer;
+                if (_powerPlayer == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             else if (horizontal == 3)
             {
                 temp = _mannaPlayer;
+                if (_mannaPlayer == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             _priceLevel = CalculationPriceForSpeedPowerManna(temp)[0];
             _priceGold = CalculationPriceForSpeedPowerManna(temp)[1];
             _priceDimond = CalculationPriceForSpeedPowerManna(temp)[2];
             if (horizontal == 4)
             {
+                if (_lifePlayer == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
                 _priceLevel = CalculationPriceForLife()[0];
                 _priceGold = CalculationPriceForLife()[1];
                 _priceDimond = CalculationPriceForLife()[2];
@@ -253,22 +305,64 @@ public class ProgressMenuGUI : MonoBehaviour
             if (horizontal == 1)
             {
                 temp = _amountMovetWoll;
+                if (_amountMovetWoll == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             else if (horizontal == 2)
             {
                 temp = _amountPassage;
+                if (_amountPassage == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             else if (horizontal == 3)
             {
                 temp = _amountPort;
+                if (_amountPort == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             else if (horizontal == 4)
             {
                 temp = _amountImmunity;
+                if (-_amountImmunity == 10)
+                {
+                    _windowPrice.SetActive(false);
+                }
             }
             _priceLevel = CalculationPriceMagic(temp, horizontal)[0];
             _priceGold = CalculationPriceMagic(temp, horizontal)[1];
             _priceDimond = CalculationPriceMagic(temp, horizontal)[2];
+        }
+        else if (vertical == 3)
+        {
+            if (horizontal == 1)
+            {
+                _windowPrice.SetActive(false);
+            }
+            if (horizontal == 2)
+            {
+                if (_dinoBuy == 1)
+                {
+                    _windowPrice.SetActive(false);
+                }
+                _priceGold = 200;
+                _priceDimond = 20;
+            }
+            if (horizontal == 3)
+            {
+                if (_castleBuy == 1)
+                {
+                    _windowPrice.SetActive(false);
+                }
+                _priceGold = 500;
+                _priceDimond = 50;
+            }
+            _priceLevel = 0;
         }
     }
 
@@ -276,6 +370,7 @@ public class ProgressMenuGUI : MonoBehaviour
     {
         if (_priceLevel <= _levelPlayer && _priceGold <= _amountGold && _priceDimond <= _amountDimond)
         {
+            _playSound.Play("Okey");
             _amountGold -= _priceGold;
             _amountDimond -= _priceDimond;
             switch (_changeResurce)
@@ -335,27 +430,75 @@ public class ProgressMenuGUI : MonoBehaviour
                     }
                     break;
 
+                case (32):
+                    _dinoBuy = 1;
+                    _saveProgress.SetDino(1);
+                    SetPrice(32);
+                    break;
+                case (33):
+                    _castleBuy = 1;
+                    _saveProgress.SetCastle(1);
+                    SetPrice(33);
+                    break;
+
                 default:
                     break;
             }
-
+        }
+        else
+        {
+            _playSound.Play("Error");
         }
     }
 
-    public void LocationCastle()
+    public void SelectNatura()
     {
-        _loadResurces.SetLocation(1);
+        if (_selectNatura == 0)
+        {
+            _selectNatura = 1;
+            _ramkaNatura.SetActive(true);
+            _saveLoadGame.selectNatura = 1;
+        }
+        else
+        {
+            _selectNatura = 0;
+            _ramkaNatura.SetActive(false);
+            _saveLoadGame.selectNatura = 0;
+        }
     }
 
-    public void LocationNature()
+    public void SelectDinopark()
     {
-        _loadResurces.SetLocation(2);
+        if (_selectDino == 0)
+        {
+            _selectDino = 1;
+            _ramkaDino.SetActive(true);
+            _saveLoadGame.selectDino = 1;
+        }
+        else
+        {
+            _selectDino = 0;
+            _ramkaDino.SetActive(false);
+            _saveLoadGame.selectDino = 0;
+        }
     }
 
-    public void LocationSpace()
+    public void SelectCastle()
     {
-        _loadResurces.SetLocation(3);
+        if (_selectCastle == 0)
+        {
+            _selectCastle = 1;
+            _ramkaCastle.SetActive(true);
+            _saveLoadGame.selectCastle = 1;
+        }
+        else
+        {
+            _selectCastle = 0;
+            _ramkaCastle.SetActive(false);
+            _saveLoadGame.selectCastle = 0;
+        }
     }
+
 
     private void OnGUI()
     {

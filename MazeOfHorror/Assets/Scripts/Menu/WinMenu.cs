@@ -7,6 +7,8 @@ public class WinMenu : MonoBehaviour
     [SerializeField] private ConstructorMaze _constructor;
     [SerializeField] private ProgressMenuGUI _progress;
     [SerializeField] private MenuController _menuController;
+    [SerializeField] private PlaySound _playSound;
+    [SerializeField] private PlaySound _playSoundPic;
     [SerializeField] private Animator _animator;
     [SerializeField] private GameObject _starGold;
     [SerializeField] private GameObject _starTreasure;
@@ -95,7 +97,7 @@ public class WinMenu : MonoBehaviour
         {
             _particleSystem.Play();
             _starGold.SetActive(true);
-
+            _playSound.Play("Treasure");
             _animator.speed = 0;
             StartCoroutine(Timer(exp, _resultateExp + 10));
         }
@@ -103,6 +105,7 @@ public class WinMenu : MonoBehaviour
         {
             _starGold.SetActive(false);
             _krestImage.SetActive(true);
+            _playSound.Play("Error");
         }
     }
 
@@ -127,13 +130,14 @@ public class WinMenu : MonoBehaviour
         if (_treasure > 0)
         {
             _starTreasure.SetActive(true);
-
+            _playSound.Play("Treasure");
             _animator.speed = 0;
             StartCoroutine(Timer(exp, _resultateExp + 10));
         }
         else
         {
             _starTreasure.SetActive(false);
+            _playSound.Play("Error");
         }
     }
 
@@ -149,7 +153,7 @@ public class WinMenu : MonoBehaviour
         {
             _particleSystem.Play();
             _starLife.SetActive(true);
-
+            _playSound.Play("Treasure");
             _animator.speed = 0;
             StartCoroutine(Timer(exp, _resultateExp + 10));
         }
@@ -157,6 +161,7 @@ public class WinMenu : MonoBehaviour
         {
             _starLife.SetActive(false);
             _krestImage.SetActive(true);
+            _playSound.Play("Error");
         }
         _buttonRestart.enabled = true;
         _buttonX2.enabled = true;
@@ -179,6 +184,7 @@ public class WinMenu : MonoBehaviour
                     }
                     _startGold--;
                     _gold--;
+                    _playSoundPic.Play("Pic");
                     yield return wait;
                 }
                 _animator.speed = 1;
@@ -193,6 +199,7 @@ public class WinMenu : MonoBehaviour
                     }
                     _startLife--;
                     _life--;
+                    _playSoundPic.Play("Pic");
                     yield return wait;
                 }
                 _animator.speed = 1;
@@ -206,6 +213,7 @@ public class WinMenu : MonoBehaviour
                         break;
                     }
                     _resultateExp++;
+                    _playSoundPic.Play("Pic");
                     yield return wait;
                 }
                 _animator.speed = 1;
@@ -219,6 +227,7 @@ public class WinMenu : MonoBehaviour
                         break;
                     }
                     _resultateGold++;
+                    _playSoundPic.Play("Pic");
                     yield return wait;
                 }
                 break;
@@ -231,6 +240,7 @@ public class WinMenu : MonoBehaviour
                         break;
                     }
                     _resultateDimond++;
+                    _playSoundPic.Play("Pic");
                     yield return wait;
                 }
                 break;
@@ -243,6 +253,7 @@ public class WinMenu : MonoBehaviour
                         break;
                     }
                     _resultateExp++;
+                    _playSoundPic.Play("Pic");
                     yield return wait;
                 }
                 break;

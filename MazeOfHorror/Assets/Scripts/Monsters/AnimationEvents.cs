@@ -19,4 +19,9 @@ public class AnimationEvents : MonoBehaviour
         controller.SetState(MonsterController.State.Idle);
     }
 
+    public void StepSound()
+    {
+        controller.StepSound();
+    }
+
 }

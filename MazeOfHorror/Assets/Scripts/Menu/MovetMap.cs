@@ -6,8 +6,8 @@ public class MovetMap : MonoBehaviour
     [SerializeField] private Slider _slider;
     private Vector2 _moveDdirection;
     private float _distance;
-    private const float _stepZoom = 0.3f;
-    private const float _speedMovet = 0.6f;
+    private const float _stepZoom = 0.2f;
+    private const float _speedMovet = 2f;
 
     private void Update()
     {

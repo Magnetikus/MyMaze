@@ -18,4 +18,9 @@ public class AnimationEventMenu : MonoBehaviour
     {
         controller.SetState(MosterMenu.State.Idle);
     }
+
+    public void StepSound()
+    {
+        controller.StepSound();
+    }
 }

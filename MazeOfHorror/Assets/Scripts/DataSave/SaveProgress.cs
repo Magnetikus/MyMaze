@@ -48,7 +48,16 @@ public class SaveProgress : MonoBehaviour
         get; private set;
     }
 
-    private string _location;
+    public int DinoBuy
+    {
+        get; private set;
+    }
+
+    public int CastleBuy
+    {
+        get; private set;
+    }
+
 
     private const string level = "Level";
     private const string gold = "Gold";
@@ -61,6 +70,8 @@ public class SaveProgress : MonoBehaviour
     private const string passage = "Passage";
     private const string port = "Port";
     private const string immuny = "Immuny";
+    private const string dino = "Dino";
+    private const string castle = "Castle";
 
 
     public void Save()
@@ -76,6 +87,8 @@ public class SaveProgress : MonoBehaviour
         PlayerPrefs.SetInt(passage, AmountPassage);
         PlayerPrefs.SetInt(port, AmountPort);
         PlayerPrefs.SetInt(immuny, AmountImmunity);
+        PlayerPrefs.SetInt(dino, DinoBuy);
+        PlayerPrefs.SetInt(castle, CastleBuy);
 
         PlayerPrefs.Save();
     }
@@ -104,6 +117,10 @@ public class SaveProgress : MonoBehaviour
         else AmountPort = 0;
         if (PlayerPrefs.HasKey(immuny)) AmountImmunity = PlayerPrefs.GetInt(immuny);
         else AmountImmunity = 0;
+        if (PlayerPrefs.HasKey(dino)) DinoBuy = PlayerPrefs.GetInt(dino);
+        else DinoBuy = 0;
+        if (PlayerPrefs.HasKey(castle)) CastleBuy = PlayerPrefs.GetInt(castle);
+        else CastleBuy = 0;
     }
 
     public void SetLevel(int value)
@@ -159,5 +176,15 @@ public class SaveProgress : MonoBehaviour
     public void SetImmuny(int value)
     {
         AmountImmunity = value;
+    }
+
+    public void SetDino(int value)
+    {
+        DinoBuy = value;
+    }
+
+    public void SetCastle(int value)
+    {
+        CastleBuy = value;
     }
 }

@@ -23,6 +23,7 @@ TagManager:
   - LostHeart
   - SystemPassage
   - Teleport
+  - MinimapPoint
   layers:
   - Default
   - TransparentFX

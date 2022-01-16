@@ -29,37 +29,44 @@ public class MonsterController : MonoBehaviour
     public Transform scanerLeft;
     public Transform scanerRight;
 
+    private const float _speedMonster = 10f;
+    private float _speedNormal;
+    private float _speedAttack;
+    private float _speedMaximum;
+    private const float _speedPlayerForChangeInAlert = 0.05f;
+    private const float _distanceToPlayer = 8f;
+    private float _distanceToPlayerForChangeInAlert;
+    private float _distanceToPlayerForChangeInRunTarget;
+    private float _distanceInAttack;
+    private float _realDistanceToPlayer;
 
-    private static float _speedNormal = 10f;
-    private static float _speedAttack = 2 * _speedNormal;
-    private static float _speedMaximum = 4 * _speedNormal;
-    private static float _speedRotation = 10f;
-    private static float _speedPlayerForChangeInAlert = 0.05f;
-    private static float _distanceToPlayerForChangeInAlert = 8f;
-    private static float _distanceToPlayerForChangeInRunTarget = 0.5f * _distanceToPlayerForChangeInAlert;
-    private static float _distanceInAttack = 0.25f * _distanceToPlayerForChangeInAlert;
 
-
-    private List<Vector3> listPoint;
-    private List<float> listScentPlayer;
-    private GameObject player;
-    private Vector3 positionPlayer;
-    private Vector3 positionPlayerOld;
-    private Vector3 positionMovet;
-    private Vector3 positionPlayerOutSight;
-    private GameControler gameContr;
-    private Animator animator;
-    private Rigidbody rb;
+    private List<Vector3> _listPoint;
+    private List<float> _listScentPlayer;
+    private GameObject _player;
+    private Vector3 _positionPlayer;
+    private Vector3 _positionPlayerOld;
+    private Vector3 _positionMovet;
+    private Vector3 _positionPlayerOutSight;
+    private GameControler _gameContr;
+    private Animator _animator;
+    private Rigidbody _rb;
+    private PlaySound _playSound;
+    private bool _isAllert;
     private static readonly int RotationAnim = Animator.StringToHash("Rotation");
     private static readonly int SpeedAnim = Animator.StringToHash("Speed");
     private static readonly int AttackAnim = Animator.StringToHash("Attack");
     private static readonly int RoarAnim = Animator.StringToHash("Roar");
-
+    private static readonly int AllertAnim = Animator.StringToHash("Allert");
 
     public void SetSpeedNormal(float value)
     {
-        _speedNormal += value * 0.1f;
-        _distanceToPlayerForChangeInAlert += value * 0.1f;
+        _speedNormal = _speedMonster + value * 0.1f;
+        _speedAttack = 2 * _speedNormal;
+        _speedMaximum = 4 * _speedNormal;
+        _distanceToPlayerForChangeInAlert = _distanceToPlayer + value * 0.1f;
+        _distanceToPlayerForChangeInRunTarget = 0.5f * _distanceToPlayerForChangeInAlert;
+        _distanceInAttack = 0.25f * _distanceToPlayerForChangeInAlert;
     }
 
     public void Restart()
@@ -72,56 +79,69 @@ public class MonsterController : MonoBehaviour
         state = newState;
     }
 
+    public void StepSound()
+    {
+        if (_realDistanceToPlayer < 15f)
+        {
+            _playSound.Play("Steps");
+        }
+    }
+
     private void Start()
     {
         state = State.Idle;
-        listPoint = new List<Vector3>();
-        listScentPlayer = new List<float>();
-        player = GameObject.Find("Player(Clone)");
-        gameContr = GameObject.Find("Controller").GetComponent<GameControler>();
-        animator = GetComponentInChildren<Animator>();
-        rb = GetComponent<Rigidbody>();
+        _listPoint = new List<Vector3>();
+        _listScentPlayer = new List<float>();
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _gameContr = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControler>();
+        _animator = GetComponentInChildren<Animator>();
+        _rb = GetComponent<Rigidbody>();
+        GetComponent<VisibleOnn>().OffVisible();
+        _playSound = GetComponent<PlaySound>();
     }
 
-    private bool Movet(Vector3 targetPosition, float speedMovet, float speedRotation)
+    private bool Movet(Vector3 targetPosition, float speedMovet, bool isAllert)
     {
-        animator.SetFloat(SpeedAnim, speedMovet / _speedNormal);
+        float speedDel = _speedNormal;
+        if (isAllert) speedDel = _speedAttack;
+        _animator.SetBool(AllertAnim, isAllert);
+        _animator.SetFloat(SpeedAnim, speedMovet / speedDel * 1.3f);
 
         Vector3 distance = targetPosition - transform.position;
         if (distance.magnitude < 0.01f)
         {
-            rb.isKinematic = true;
+            _rb.isKinematic = true;
             transform.position = targetPosition;
-            rb.velocity = Vector3.zero;
-            rb.isKinematic = false;
+            _rb.velocity = Vector3.zero;
+            _rb.isKinematic = false;
             return true;
         }
         Vector3 direction = distance.normalized;
 
         // Rotation
 
-        rb.rotation = Quaternion.LookRotation(direction);
+        _rb.rotation = Quaternion.LookRotation(direction);
 
         if (RaycastForwardToMonsters())
         {
-            rb.velocity = Vector3.zero;
+            _rb.velocity = Vector3.zero;
             return true;
         }
 
         // Movet
 
-        float velocity = rb.velocity.sqrMagnitude;
+        float velocity = _rb.velocity.sqrMagnitude;
 
         if (distance.magnitude > 0.1f)
         {
             if (velocity < _speedMaximum)
             {
-                rb.AddRelativeForce(new Vector3(0, 0, speedMovet));
+                _rb.AddRelativeForce(new Vector3(0, 0, speedMovet));
             }
-            else rb.AddRelativeForce(Vector3.zero);
+            else _rb.AddRelativeForce(Vector3.zero);
             return false;
         }
-        else rb.AddRelativeForce(Vector3.zero);
+        else _rb.AddRelativeForce(Vector3.zero);
 
         transform.position = targetPosition;
         return true;
@@ -132,7 +152,7 @@ public class MonsterController : MonoBehaviour
         Vector3 distance = playerPosition - myPosition;
 
         float angle = Mathf.Abs(Vector3.Angle(transform.forward, distance));
-        if (angle < 120f) return true;
+        if (angle < 100f) return true;
         return false;
     }
 
@@ -146,13 +166,13 @@ public class MonsterController : MonoBehaviour
                 GameObject go = hit.collider.gameObject;
                 if (go.GetComponent<VisibleOnn>().GetBusy() == false)
                 {
-                    listPoint.Add(go.GetComponent<Transform>().position);
-                    listScentPlayer.Add(go.GetComponent<TimerScentPayer>().GetAmountScent());
+                    _listPoint.Add(go.GetComponent<Transform>().position);
+                    _listScentPlayer.Add(go.GetComponent<TimerScentPayer>().GetAmountScent());
                 }
                 
             }
         }
-        return listPoint;
+        return _listPoint;
     }
 
     private List<Vector3> ScanerForward()
@@ -161,12 +181,12 @@ public class MonsterController : MonoBehaviour
         iMonster = RaycastForwardToMonsters();
         if (!iMonster) Scaner(Vector3.forward);
         else Scaner(Vector3.back);
-        return listPoint;
+        return _listPoint;
     }
 
     private bool RaycastToPlayer()
     {
-        if (Physics.Raycast(transform.position, (positionPlayer - transform.position).normalized, out RaycastHit hitRay))
+        if (Physics.Raycast(transform.position, (_positionPlayer - transform.position).normalized, out RaycastHit hitRay))
         {
             if (hitRay.collider.CompareTag("Player"))
             {
@@ -182,7 +202,7 @@ public class MonsterController : MonoBehaviour
 
         if (RaycastForwardToWoll())
         {
-            Vector3 direction = (positionPlayer - transform.position).normalized;
+            Vector3 direction = (_positionPlayer - transform.position).normalized;
             float angle = Vector3.Angle(transform.forward, direction);
             if (angle < 5f)
             {
@@ -194,7 +214,7 @@ public class MonsterController : MonoBehaviour
             float scanerLeftAndRight = ScanerLeftAndRight();
             if (scanerLeftAndRight != 0)
             {
-                rb.AddRelativeForce(new Vector3(scanerLeftAndRight * _speedAttack, 0, 0));
+                _rb.AddRelativeForce(new Vector3(scanerLeftAndRight * _speedAttack, 0, 0));
             }
         }
 
@@ -218,7 +238,7 @@ public class MonsterController : MonoBehaviour
     {
 
         RaycastHit[] hits;
-        hits = Physics.RaycastAll(scanerTransform.position, scanerTransform.TransformDirection(Vector3.forward), 6f);
+        hits = Physics.RaycastAll(scanerTransform.position, scanerTransform.TransformDirection(Vector3.forward), 3f);
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];
@@ -259,24 +279,26 @@ public class MonsterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (player == null) player = GameObject.FindGameObjectWithTag("Player");
-        if (!gameContr.pausedGame)
+        if (_player == null) _player = GameObject.FindGameObjectWithTag("Player");
+        if (!_gameContr.pausedGame)
         {
-            positionPlayer = player.transform.position;
-            float speedPlayerReal = (positionPlayer - positionPlayerOld).magnitude;
-            float distanceToPlayer = (positionPlayer - transform.position).magnitude;
+            _positionPlayer = _player.transform.position;
+            float speedPlayerReal = (_positionPlayer - _positionPlayerOld).magnitude;
+            _realDistanceToPlayer = (_positionPlayer - transform.position).magnitude;
 
             switch (state)
             {
                 case State.Idle:
+                    _isAllert = false;
                     transform.position = transform.position;
-                    positionMovet = transform.position;
-                    animator.SetFloat(SpeedAnim, 0f);
+                    _positionMovet = transform.position;
+                    _animator.SetBool(AllertAnim, _isAllert);
+                    _animator.SetFloat(SpeedAnim, 0f);
                     switch (nameMonster)
                     {
                         case NameMonster.Ear:
 
-                            if (distanceToPlayer < _distanceToPlayerForChangeInAlert && speedPlayerReal > 0f)
+                            if (_realDistanceToPlayer < _distanceToPlayerForChangeInAlert && speedPlayerReal > 0f)
                             {
                                 if (RaycastToPlayer())
                                 {
@@ -287,12 +309,12 @@ public class MonsterController : MonoBehaviour
                             else if (Random.value < 0.05f)
                             {
 
-                                animator.SetTrigger(RotationAnim);
+                                _animator.SetTrigger(RotationAnim);
                                 state = State.Rotation;
                             }
                             else if (Random.value > 0.95f)
                             {
-                                animator.SetTrigger(RoarAnim);
+                                _animator.SetTrigger(RoarAnim);
                                 state = State.Roar;
                             }
                             else
@@ -303,8 +325,8 @@ public class MonsterController : MonoBehaviour
                             break;
 
                         case NameMonster.Eye:
-                            if (distanceToPlayer < _distanceToPlayerForChangeInAlert &&
-                                AnglePlayerAndForwardMonster(positionPlayer, transform.position) && RaycastToPlayer())
+                            if (_realDistanceToPlayer < _distanceToPlayerForChangeInAlert &&
+                                AnglePlayerAndForwardMonster(_positionPlayer, transform.position) && RaycastToPlayer())
                             {
                                 state = State.Alert;
 
@@ -312,12 +334,12 @@ public class MonsterController : MonoBehaviour
                             else if (Random.value < 0.05f)
                             {
 
-                                animator.SetTrigger(RotationAnim);
+                                _animator.SetTrigger(RotationAnim);
                                 state = State.Rotation;
                             }
                             else if (Random.value > 0.95f)
                             {
-                                animator.SetTrigger(RoarAnim);
+                                _animator.SetTrigger(RoarAnim);
                                 state = State.Roar;
                             }
                             else
@@ -330,12 +352,12 @@ public class MonsterController : MonoBehaviour
                             if (Random.value < 0.05f)
                             {
 
-                                animator.SetTrigger(RotationAnim);
+                                _animator.SetTrigger(RotationAnim);
                                 state = State.Rotation;
                             }
                             else if (Random.value > 0.95f)
                             {
-                                animator.SetTrigger(RoarAnim);
+                                _animator.SetTrigger(RoarAnim);
                                 state = State.Roar;
                             }
                             else
@@ -351,32 +373,33 @@ public class MonsterController : MonoBehaviour
 
                 case State.Scaner:
 
-                    animator.SetFloat(SpeedAnim, 0f);
-
-                    listPoint.Clear();
-                    listScentPlayer.Clear();
+                    _isAllert = false;
+                    _animator.SetFloat(SpeedAnim, 0f);
+                    _animator.SetBool(AllertAnim, _isAllert);
+                    _listPoint.Clear();
+                    _listScentPlayer.Clear();
                     ScanerForward();
                     Scaner(Vector3.left);
                     Scaner(Vector3.right);
                     Scaner(Vector3.back);
 
-                    int lenghtListPoint = listPoint.Count;
+                    int lenghtListPoint = _listPoint.Count;
                     float randomValue1 = Random.value;
                     float randomValue2 = Random.value;
                     switch (lenghtListPoint)
                     {
                         case (1):
-                            positionMovet = listPoint[0];
+                            _positionMovet = _listPoint[0];
                             break;
                         case (2):
-                            positionMovet = randomValue1 < 0.99f ? listPoint[0] : listPoint[1];
+                            _positionMovet = randomValue1 < 0.99f ? _listPoint[0] : _listPoint[1];
                             break;
                         case (3):
-                            positionMovet = randomValue1 < 0.99f ? listPoint[0] : randomValue2 > 0.5f ? listPoint[1] : listPoint[2];
+                            _positionMovet = randomValue1 < 0.99f ? _listPoint[0] : randomValue2 > 0.5f ? _listPoint[1] : _listPoint[2];
                             break;
                         case (4):
-                            positionMovet = randomValue1 < 0.99f ? listPoint[0] : randomValue2 > 0.95f ? listPoint[3] :
-                                randomValue1 < 0.5f ? listPoint[1] : listPoint[2];
+                            _positionMovet = randomValue1 < 0.99f ? _listPoint[0] : randomValue2 > 0.95f ? _listPoint[3] :
+                                randomValue1 < 0.5f ? _listPoint[1] : _listPoint[2];
                             break;
                         default:
                             state = State.Idle;
@@ -392,7 +415,7 @@ public class MonsterController : MonoBehaviour
                             break;
                         case NameMonster.Nose:
                             float summa = 0;
-                            foreach (var scent in listScentPlayer) summa += scent;
+                            foreach (var scent in _listScentPlayer) summa += scent;
                             if (summa > 0)
                             {
                                 state = State.Alert;
@@ -407,11 +430,14 @@ public class MonsterController : MonoBehaviour
 
                 case State.Movet:
 
+                    _isAllert = false;
+                    
+
                     switch (nameMonster)
                     {
                         case NameMonster.Ear:
 
-                            if (distanceToPlayer < _distanceToPlayerForChangeInAlert && speedPlayerReal > 0f)
+                            if (_realDistanceToPlayer < _distanceToPlayerForChangeInAlert && speedPlayerReal > 0f)
                             {
                                 if (RaycastToPlayer())
                                 {
@@ -422,8 +448,8 @@ public class MonsterController : MonoBehaviour
                             break;
 
                         case NameMonster.Eye:
-                            if (distanceToPlayer < _distanceToPlayerForChangeInAlert &&
-                                AnglePlayerAndForwardMonster(positionPlayer, transform.position) && RaycastToPlayer())
+                            if (_realDistanceToPlayer < _distanceToPlayerForChangeInAlert &&
+                                AnglePlayerAndForwardMonster(_positionPlayer, transform.position) && RaycastToPlayer())
                             {
                                 state = State.Alert;
 
@@ -435,7 +461,7 @@ public class MonsterController : MonoBehaviour
 
                     }
 
-                    if (Movet(positionMovet, _speedNormal + nameMonster.GetHashCode(), _speedRotation))
+                    if (Movet(_positionMovet, _speedNormal + nameMonster.GetHashCode(), _isAllert))
                     {
                         state = State.Idle;
 
@@ -446,13 +472,15 @@ public class MonsterController : MonoBehaviour
 
                 case State.Alert:
 
-                    if (RaycastToPlayer()) positionPlayerOutSight = player.GetComponentInChildren<TriggerCell>().positionCell;
+                    _isAllert = true;
+
+                    if (RaycastToPlayer()) _positionPlayerOutSight = _player.GetComponentInChildren<TriggerCell>().positionCell;
 
                     switch (nameMonster)
                     {
                         case NameMonster.Ear:
 
-                            if (RaycastToPlayer() && distanceToPlayer < _distanceToPlayerForChangeInRunTarget && speedPlayerReal > _speedPlayerForChangeInAlert)
+                            if (RaycastToPlayer() && _realDistanceToPlayer < _distanceToPlayerForChangeInRunTarget && speedPlayerReal > _speedPlayerForChangeInAlert)
                             {
                                 state = State.RunTarget;
 
@@ -462,7 +490,7 @@ public class MonsterController : MonoBehaviour
                                 CorrectionMovet();
                             }
 
-                            if (Movet(positionPlayerOutSight, _speedAttack, _speedRotation))
+                            if (Movet(_positionPlayerOutSight, _speedAttack, _isAllert))
                             {
                                 state = State.Scaner;
 
@@ -472,7 +500,7 @@ public class MonsterController : MonoBehaviour
 
                         case NameMonster.Eye:
 
-                            if (RaycastToPlayer() && distanceToPlayer < _distanceToPlayerForChangeInRunTarget)
+                            if (RaycastToPlayer() && _realDistanceToPlayer < _distanceToPlayerForChangeInRunTarget)
                             {
                                 state = State.RunTarget;
 
@@ -482,7 +510,7 @@ public class MonsterController : MonoBehaviour
                                 CorrectionMovet();
                             }
 
-                            if (Movet(positionPlayerOutSight, _speedAttack, _speedRotation))
+                            if (Movet(_positionPlayerOutSight, _speedAttack, _isAllert))
                             {
                                 state = State.Scaner;
 
@@ -494,23 +522,23 @@ public class MonsterController : MonoBehaviour
 
                             int index = 0;
                             float temp = 0;
-                            for (int i = 0; i < listScentPlayer.Count; i++)
+                            for (int i = 0; i < _listScentPlayer.Count; i++)
                             {
-                                if (listScentPlayer[i] > temp)
+                                if (_listScentPlayer[i] > temp)
                                 {
                                     index = i;
-                                    temp = listScentPlayer[i];
+                                    temp = _listScentPlayer[i];
                                 }
                             }
 
-                            positionMovet = listPoint[index];
-                            if (RaycastToPlayer() && distanceToPlayer < _distanceToPlayerForChangeInRunTarget)
+                            _positionMovet = _listPoint[index];
+                            if (RaycastToPlayer() && _realDistanceToPlayer < _distanceToPlayerForChangeInRunTarget)
                             {
                                 state = State.RunTarget;
 
                             }
 
-                            if (Movet(positionMovet, _speedAttack, _speedRotation))
+                            if (Movet(_positionMovet, _speedAttack, _isAllert))
                             {
                                 state = State.Scaner;
 
@@ -523,26 +551,28 @@ public class MonsterController : MonoBehaviour
 
                 case State.RunTarget:
 
-                    positionPlayerOutSight = player.GetComponentInChildren<TriggerCell>().positionCell;
+                    _isAllert = true;
+
+                    _positionPlayerOutSight = _player.GetComponentInChildren<TriggerCell>().positionCell;
 
                     if (RaycastToPlayer())
                     {
-                        if (distanceToPlayer < _distanceInAttack)
+                        if (_realDistanceToPlayer < _distanceInAttack)
                         {
-                            rb.velocity = Vector3.zero;
+                            _rb.velocity = Vector3.zero;
                             state = State.Attack;
                         }
 
-                        if (Movet(positionPlayer, _speedAttack + _speedNormal, _speedRotation))
+                        if (Movet(_positionPlayer, _speedAttack + _speedNormal, _isAllert))
                         {
-                            rb.velocity = Vector3.zero;
+                            _rb.velocity = Vector3.zero;
                             state = State.Attack;
                         }
                     }
                     else
                     {
                         CorrectionMovet();
-                        if (Movet(positionPlayerOutSight, _speedAttack + _speedNormal, _speedRotation))
+                        if (Movet(_positionPlayerOutSight, _speedAttack + _speedNormal, _isAllert))
                         {
                             state = State.Alert;
                         }
@@ -551,14 +581,19 @@ public class MonsterController : MonoBehaviour
                     break;
 
                 case State.Attack:
-                    rb.rotation = Quaternion.LookRotation(positionPlayer);
-                    animator.SetTrigger(AttackAnim);
-                    gameContr.PausedGame(true);
+
+                    _gameContr.PausedGame(true);
+                    _playSound.Play("Attack");
+                    //_rb.rotation = Quaternion.LookRotation(_positionPlayer);
+                    _animator.SetTrigger(AttackAnim);
+                    
                     Invoke("MinusLife", 1f);
 
                     break;
 
                 case State.Rotation:
+
+                    _isAllert = false;
 
                     if (nameMonster == NameMonster.Eye)
                     {
@@ -571,27 +606,41 @@ public class MonsterController : MonoBehaviour
                             }
                         }
                     }
-
+                    Invoke("StateIdle", 3f);
                     break;
 
                 case State.Roar:
-                    animator.SetTrigger(RoarAnim);
 
+                    _isAllert = false;
+                    if (_realDistanceToPlayer < 10f)
+                    {
+                        _playSound.Play("Roar");
+                    }
+                    _animator.SetTrigger(RoarAnim);
+                    Invoke("StateIdle", 2f);
                     break;
             }
         }
     }
 
+    private void StateIdle()
+    {
+        if (state == State.Rotation || state == State.Roar)
+        {
+            state = State.Idle;
+        }
+    }
+
     private void MinusLife()
     {
-        gameContr.MinusLifes();
+        _gameContr.MinusLifes();
     }
 
     private void LateUpdate()
     {
-        if (!gameContr.pausedGame)
+        if (!_gameContr.pausedGame)
         {
-            positionPlayerOld = positionPlayer;
+            _positionPlayerOld = _positionPlayer;
         }
     }
 

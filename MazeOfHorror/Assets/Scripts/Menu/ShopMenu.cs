@@ -9,6 +9,7 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] private Text _textLife;
     [SerializeField] private Text _textGold;
     [SerializeField] private Text _textDimond;
+    [SerializeField] private PlaySound _playSound;
 
     private int _level;
     private int _life;
@@ -87,12 +88,18 @@ public class ShopMenu : MonoBehaviour
         SaveAll();
     }
 
+    private void PlaySoundOkey()
+    {
+        _playSound.Play("Okey");
+    }
+
     private void SaveAll()
     {
         _saveProgress.SetGold(_gold);
         _saveProgress.SetDimond(_dimond);
         _saveProgress.SetLevel(_level);
         _saveProgress.Save();
+        PlaySoundOkey();
     }
 
     private void OnGUI()

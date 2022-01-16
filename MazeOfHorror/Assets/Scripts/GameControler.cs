@@ -6,6 +6,7 @@ public class GameControler : MonoBehaviour
 {
 
     private ConstructorMaze _generator;
+    private GameObject _player;
 
     private int _sizeRowsX;
     private int _sizeColsZ;
@@ -21,11 +22,14 @@ public class GameControler : MonoBehaviour
     private int _seconds;
     private int _minutes;
     private int _amountIconesPower;
+    private string _nameMusic;
 
     private int _EXP = 30;
 
     [SerializeField] private MenuController _menuContr;
     [SerializeField] private SaveProgress _saveProgress;
+    [SerializeField] private PlaySound _playMusic;
+    [SerializeField] private PlaySound _playSound;
     [SerializeField] private WinMenu _winMenu;
     [SerializeField] private GameObject[] _iconesPower;
     [SerializeField] private GameObject _menuBackground;
@@ -57,6 +61,7 @@ public class GameControler : MonoBehaviour
     private void Start()
     {
         _generator = GetComponent<ConstructorMaze>();
+        _nameMusic = "Nature1";
     }
 
 
@@ -67,6 +72,7 @@ public class GameControler : MonoBehaviour
         _sizeColsZ = constrMaze[1];
         _startKeys = constrMaze[2];
         _startGold = (_sizeRowsX + _sizeColsZ) / 2;
+        _playMusic.Play(_nameMusic);
         ResetDataBase();
     }
 
@@ -84,9 +90,9 @@ public class GameControler : MonoBehaviour
 
     private void ResetDataBase()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<MovetCube>().ResetEndGame();
-        player.GetComponent<Passage>().PassageEnd();
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _player.GetComponent<MovetCube>().ResetEndGame();
+        _player.GetComponent<Passage>().PassageEnd();
         _menuBackground.SetActive(false);
         _mimimap.SetActive(true);
         _joystick.SetActive(true);
@@ -133,10 +139,10 @@ public class GameControler : MonoBehaviour
             _amountIconesPower = 1;
         }
         IsVisibleIconesPower(true);
-        ImageFillIn100(_iconesPower[0]);
-        ImageFillIn100(_iconesPower[1]);
-        ImageFillIn100(_iconesPower[2]);
-        ImageFillIn100(_iconesPower[3]);
+        foreach (var e in _iconesPower)
+        {
+            ImageFillIn100(e);
+        }
         _treasure = 0;
         Color colorTreasure = _treasureOut.color;
         colorTreasure.a = 0.4f;
@@ -179,6 +185,25 @@ public class GameControler : MonoBehaviour
         _textPort.text = $"{_port}";
         _textInvisy.text = $"{_invisy}";
         _textTimes.text = $" {_minutes:d2} : {_seconds:d2} ";
+    }
+
+    public void SetLocation(int value)
+    {
+        switch (value)
+        {
+            case (1):
+                _nameMusic = Random.value == 0.3f ? "Nature1" : Random.value == 0.5f ? "Nature2" : "Nature3";
+                break;
+            case (2):
+                _nameMusic = Random.value == 0.3f ? "Dino1" : Random.value == 0.5f ? "Dino2" : "Dino3";
+                break;
+            case (3):
+                _nameMusic = Random.value == 0.3f ? "Castle1" : Random.value == 0.5f ? "Castle2" : "Castle3";
+                break;
+            default:
+                _nameMusic = "Nature1";
+                break;
+        }
     }
 
     public void PlayerEnterExit()
@@ -246,12 +271,15 @@ public class GameControler : MonoBehaviour
             pausedGame = false;
         }
         IsVisibleIconesPower(true);
+        foreach (var e in _iconesPower)
+        {
+            ImageFillIn100(e);
+        }
         _iconePower.GetComponent<PowerMovet>().AfterMinusLife();
         _iconePower.GetComponent<PowerPort>().ResetAfterMinusLife();
         _iconePower.GetComponent<PowerPassage>().ChekButton();
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<MovetCube>().ResetFromMinusLife();
-        player.GetComponent<Passage>().ResetFromMinusLife();
+        _player.GetComponent<MovetCube>().ResetFromMinusLife();
+        _player.GetComponent<Passage>().ResetFromMinusLife();
         
     }
 
@@ -355,7 +383,6 @@ public class GameControler : MonoBehaviour
         GameObject[] array = GameObject.FindGameObjectsWithTag(tag);
         foreach (GameObject e in array)
         {
-            print(e.name + " " + e.transform.position);
             if (e.name != "Vision")
             {
                 e.GetComponent<VisibleOnn>().OnSpriteMap();

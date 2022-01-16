@@ -4,6 +4,7 @@ public class MovetCube : MonoBehaviour
 {
     [SerializeField] private FpsMovement _fpsMovement;
     [SerializeField] private GameObject _cubeInHundle;
+    [SerializeField] private PlaySound _playSound;
 
     private GameObject _prefabWoll;
     private GameControler _gameController;
@@ -53,6 +54,7 @@ public class MovetCube : MonoBehaviour
             _fpsMovement.SetSpeedWithOrNotCube(_speedPlayer * (0.5f + _saveProgress.PowerPlayer * 0.05f));
             _cubeInHundle.SetActive(true);
             _secondStepMovetCube = true;
+            _playSound.Play("Movet");
         }
         
     }
@@ -73,6 +75,7 @@ public class MovetCube : MonoBehaviour
             _gameController.MinusCube();
             _firstStepMovetCube = false;
             _secondStepMovetCube = false;
+            _playSound.Play("Stend");
         }
         
     }

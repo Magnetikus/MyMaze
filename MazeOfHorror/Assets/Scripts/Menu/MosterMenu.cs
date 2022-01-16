@@ -28,6 +28,7 @@ public class MosterMenu : MonoBehaviour
     private Vector3 positionMovet;
     private Animator animator;
     private Rigidbody rb;
+    private PlaySound _playSound;
     private static readonly int RotationAnim = Animator.StringToHash("Rotation");
     private static readonly int Speed = Animator.StringToHash("Speed");
     private static readonly int RoarAnim = Animator.StringToHash("Roar");
@@ -37,17 +38,23 @@ public class MosterMenu : MonoBehaviour
         state = newState;
     }
 
+    public void StepSound()
+    {
+        _playSound.Play("Steps");
+    }
+
     private void Start()
     {
         state = State.Idle;
         listPoint = new List<Vector3>();
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        _playSound = GetComponent<PlaySound>();
     }
 
     private bool Movet(Vector3 targetPosition, float speedMovet, float speedRotation)
     {
-        animator.SetFloat(Speed, speedMovet / _speedNormal);
+        animator.SetFloat(Speed, speedMovet / _speedNormal * 1.5f);
         Vector3 distance = targetPosition - transform.position;
         if (distance.magnitude < 0.01f)
         {
@@ -109,6 +116,7 @@ public class MosterMenu : MonoBehaviour
                 else if (Random.value < 0.2f)
                 {
                     animator.SetTrigger(RoarAnim);
+                    _playSound.Play("Roar");
                     state = State.Roar;
                 }
                 else
@@ -162,6 +170,7 @@ public class MosterMenu : MonoBehaviour
                 break;
 
             case State.Roar:
+
                 
                 break;
         }
