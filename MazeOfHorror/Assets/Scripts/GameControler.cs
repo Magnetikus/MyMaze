@@ -72,7 +72,6 @@ public class GameControler : MonoBehaviour
         _sizeColsZ = constrMaze[1];
         _startKeys = constrMaze[2];
         _startGold = (_sizeRowsX + _sizeColsZ) / 2;
-        _playMusic.Play(_nameMusic);
         ResetDataBase();
     }
 
@@ -90,6 +89,7 @@ public class GameControler : MonoBehaviour
 
     private void ResetDataBase()
     {
+        _playMusic.Play(_nameMusic);
         _player = GameObject.FindGameObjectWithTag("Player");
         _player.GetComponent<MovetCube>().ResetEndGame();
         _player.GetComponent<Passage>().PassageEnd();
@@ -97,6 +97,7 @@ public class GameControler : MonoBehaviour
         _mimimap.SetActive(true);
         _joystick.SetActive(true);
         _joystick.GetComponent<JoystickController>().Zero();
+        _joystick.GetComponent<JoystickController>()._isNoInGame = true;
         _joystickLooket.SetActive(true);
         _joystickLooket.GetComponent<JoystickLooket>().Zero();
         _iconePower.SetActive(true);
@@ -149,7 +150,7 @@ public class GameControler : MonoBehaviour
         _treasureOut.color = colorTreasure;
         _textGoldStart.color = new Color(250, 39, 13);
         _textGold.color = Color.white;
-        pausedGame = false;
+        pausedGame = true;
     }
 
     private void ImageFillIn100(GameObject go)
@@ -400,12 +401,15 @@ public class GameControler : MonoBehaviour
 
     public void PlayerWin()
     {
+        _playMusic.Stop();
+        _playSound.Play("Aplomb");
         _mimimap.SetActive(false);
         _joystick.SetActive(false);
         _joystickLooket.SetActive(false);
         _iconePower.SetActive(false);
         pausedGame = true;
         _menuContr.Victory();
+        _winMenu.SetTimeAndSize(_minutes, _seconds, _startGold);
         _winMenu.StartAnimator();
         _winMenu.SetGoldResultate(_startGold, _gold);
         _winMenu.SetLifeResultate(_saveProgress.LifePlayer, _lifes);
@@ -415,6 +419,8 @@ public class GameControler : MonoBehaviour
 
     public void PlayerLose()
     {
+        _playMusic.Stop();
+        _playSound.Play("Loser");
         _mimimap.SetActive(false);
         _joystick.SetActive(false);
         _joystickLooket.SetActive(false);
@@ -425,6 +431,7 @@ public class GameControler : MonoBehaviour
 
     public void GameAfterLose()
     {
+        _playMusic.Play(_nameMusic);
         _mimimap.SetActive(true);
         _joystick.SetActive(true);
         _joystickLooket.SetActive(true);

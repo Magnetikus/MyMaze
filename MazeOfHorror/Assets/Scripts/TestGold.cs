@@ -62,9 +62,11 @@ public class TestGold : MonoBehaviour
         _saveProgress.SetCastle(0);
         _saveProgress.SetDino(0);
         _saveProgress.Save();
-        _saveLoadGame.selectNatura = 0;
+        _saveLoadGame.selectNatura = 1;
         _saveLoadGame.selectDino = 0;
         _saveLoadGame.selectCastle = 0;
+        _saveLoadGame.notFirstEnterGame = 0;
+        _saveLoadGame.Save();
     }
 
     public void SetSensity(float value)

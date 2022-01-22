@@ -10,12 +10,16 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IPointerUp
     private Vector2 _inputVector;
     private float _screenWidth;
     private float _screenHeight;
+    private GameControler _gameController;
+
+    public bool _isNoInGame;
 
     private void Start()
     {
         _screenHeight = Screen.height;
         _screenWidth = Screen.width;
         GetComponent<RectTransform>().sizeDelta = new Vector2(_screenWidth / 2 * 0.9f, _screenHeight * 0.8f);
+        _gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControler>();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -36,6 +40,11 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (_isNoInGame)
+        {
+            _gameController.PausedGame(false);
+            _isNoInGame = false;
+        }
         _background.gameObject.SetActive(true);
         _background.transform.position = eventData.position;
         OnDrag(eventData);

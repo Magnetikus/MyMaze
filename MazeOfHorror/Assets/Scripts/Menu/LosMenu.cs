@@ -12,7 +12,7 @@ public class LosMenu : MonoBehaviour
 
     private int _amountDimond;
 
-    private const int priceDimond = 5;
+    private const int priceDimond = 1;
 
 
 

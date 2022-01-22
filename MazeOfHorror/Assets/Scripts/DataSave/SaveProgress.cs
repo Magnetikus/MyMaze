@@ -58,6 +58,21 @@ public class SaveProgress : MonoBehaviour
         get; private set;
     }
 
+    private string _save = "Magnetikus";
+    (string Type, string Code)[] HackerBack =
+    {
+        ("0", "rg"),
+        ("1", "0s"),
+        ("2", "9H"),
+        ("3", "MK"),
+        ("4", "W8"),
+        ("5", "m2"),
+        ("6", "cv"),
+        ("7", "-4"),
+        ("8", "Q4"),
+        ("9", "fN"),
+        (";", "D1"),
+    };
 
     private const string level = "Level";
     private const string gold = "Gold";
@@ -76,51 +91,109 @@ public class SaveProgress : MonoBehaviour
 
     public void Save()
     {
-        PlayerPrefs.SetInt(level, LevelPlayer);
-        PlayerPrefs.SetInt(gold, AmountGold);
-        PlayerPrefs.SetInt(dimond, AmountDimond);
-        PlayerPrefs.SetInt(life, LifePlayer);
-        PlayerPrefs.SetInt(speed, SpeedPlayer);
-        PlayerPrefs.SetInt(power, PowerPlayer);
-        PlayerPrefs.SetInt(manna, MannaPlayer);
-        PlayerPrefs.SetInt(woll, AmountMovetWoll);
-        PlayerPrefs.SetInt(passage, AmountPassage);
-        PlayerPrefs.SetInt(port, AmountPort);
-        PlayerPrefs.SetInt(immuny, AmountImmunity);
-        PlayerPrefs.SetInt(dino, DinoBuy);
-        PlayerPrefs.SetInt(castle, CastleBuy);
+        string data = LevelPlayer + ";" + AmountGold + ";" + AmountDimond + ";" + LifePlayer + ";" + SpeedPlayer + ";" + PowerPlayer + ";" +
+            MannaPlayer + ";" + AmountMovetWoll + ";" + AmountPassage + ";" + AmountPort + ";" + AmountImmunity + ";" + DinoBuy + ";" + CastleBuy;
+        int i = 0;
+        string myData = "";
+        while (i < data.Length)
+        {
+            int y = 0;
+            while (data[i].ToString() != HackerBack[y].Type)
+            {
+                y++;
+            }
+            myData = myData + HackerBack[y].Code;
+            i++;
+        }
+        PlayerPrefs.SetString(_save, myData);
+
+        //PlayerPrefs.SetInt(level, LevelPlayer);
+        //PlayerPrefs.SetInt(gold, AmountGold);
+        //PlayerPrefs.SetInt(dimond, AmountDimond);
+        //PlayerPrefs.SetInt(life, LifePlayer);
+        //PlayerPrefs.SetInt(speed, SpeedPlayer);
+        //PlayerPrefs.SetInt(power, PowerPlayer);
+        //PlayerPrefs.SetInt(manna, MannaPlayer);
+        //PlayerPrefs.SetInt(woll, AmountMovetWoll);
+        //PlayerPrefs.SetInt(passage, AmountPassage);
+        //PlayerPrefs.SetInt(port, AmountPort);
+        //PlayerPrefs.SetInt(immuny, AmountImmunity);
+        //PlayerPrefs.SetInt(dino, DinoBuy);
+        //PlayerPrefs.SetInt(castle, CastleBuy);
 
         PlayerPrefs.Save();
     }
 
     public void Load()
     {
-        if (PlayerPrefs.HasKey(level)) LevelPlayer = PlayerPrefs.GetInt(level);
-        else LevelPlayer = 0;
-        if (PlayerPrefs.HasKey(gold)) AmountGold = PlayerPrefs.GetInt(gold);
-        else AmountGold = 0;
-        if (PlayerPrefs.HasKey(dimond)) AmountDimond = PlayerPrefs.GetInt(dimond);
-        else AmountDimond = 0;
-        if (PlayerPrefs.HasKey(life)) LifePlayer = PlayerPrefs.GetInt(life);
-        else LifePlayer = 3;
-        if (PlayerPrefs.HasKey(speed)) SpeedPlayer = PlayerPrefs.GetInt(speed);
-        else SpeedPlayer = 3;
-        if (PlayerPrefs.HasKey(power)) PowerPlayer = PlayerPrefs.GetInt(power);
-        else PowerPlayer = 0;
-        if (PlayerPrefs.HasKey(manna)) MannaPlayer = PlayerPrefs.GetInt(manna);
-        else MannaPlayer = 0;
-        if (PlayerPrefs.HasKey(woll)) AmountMovetWoll = PlayerPrefs.GetInt(woll);
-        else AmountMovetWoll = 3;
-        if (PlayerPrefs.HasKey(passage)) AmountPassage = PlayerPrefs.GetInt(passage);
-        else AmountPassage = 0;
-        if (PlayerPrefs.HasKey(port)) AmountPort = PlayerPrefs.GetInt(port);
-        else AmountPort = 0;
-        if (PlayerPrefs.HasKey(immuny)) AmountImmunity = PlayerPrefs.GetInt(immuny);
-        else AmountImmunity = 0;
-        if (PlayerPrefs.HasKey(dino)) DinoBuy = PlayerPrefs.GetInt(dino);
-        else DinoBuy = 0;
-        if (PlayerPrefs.HasKey(castle)) CastleBuy = PlayerPrefs.GetInt(castle);
-        else CastleBuy = 0;
+
+        string data;
+        string[] array = new string[13];
+        if (PlayerPrefs.HasKey(_save))
+        {
+            data = PlayerPrefs.GetString(_save);
+            int i = 0;
+            string myData = "";
+            while (i < data.Length)
+            {
+                int y = 0;
+                string x = data[i].ToString() + data[i + 1].ToString();
+                while (x != HackerBack[y].Code)
+                {
+                    y++;
+                }
+                myData = myData + HackerBack[y].Type;
+                i = i + 2;
+            }
+            array = myData.Split(';');
+        }
+        else
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                array[i] = "0";
+            }
+        }
+        SetLevel(int.Parse(array[0]));
+        SetGold(int.Parse(array[1]));
+        SetDimond(int.Parse(array[2]));
+        SetLife(int.Parse(array[3]));
+        SetSpeed(int.Parse(array[4]));
+        SetPower(int.Parse(array[5]));
+        SetManna(int.Parse(array[6]));
+        SetWoll(int.Parse(array[7]));
+        SetPass(int.Parse(array[8]));
+        SetPort(int.Parse(array[9]));
+        SetImmuny(int.Parse(array[10]));
+        SetDino(int.Parse(array[11]));
+        SetCastle(int.Parse(array[12]));
+
+        //if (PlayerPrefs.HasKey(level)) LevelPlayer = UnityEngine.PlayerPrefs.GetInt(level);
+        //else LevelPlayer = 0;
+        //if (PlayerPrefs.HasKey(gold)) AmountGold = UnityEngine.PlayerPrefs.GetInt(gold);
+        //else AmountGold = 0;
+        //if (PlayerPrefs.HasKey(dimond)) AmountDimond = UnityEngine.PlayerPrefs.GetInt(dimond);
+        //else AmountDimond = 0;
+        //if (PlayerPrefs.HasKey(life)) LifePlayer = UnityEngine.PlayerPrefs.GetInt(life);
+        //else LifePlayer = 3;
+        //if (PlayerPrefs.HasKey(speed)) SpeedPlayer = UnityEngine.PlayerPrefs.GetInt(speed);
+        //else SpeedPlayer = 0;
+        //if (PlayerPrefs.HasKey(power)) PowerPlayer = UnityEngine.PlayerPrefs.GetInt(power);
+        //else PowerPlayer = 0;
+        //if (PlayerPrefs.HasKey(manna)) MannaPlayer = UnityEngine.PlayerPrefs.GetInt(manna);
+        //else MannaPlayer = 0;
+        //if (PlayerPrefs.HasKey(woll)) AmountMovetWoll = UnityEngine.PlayerPrefs.GetInt(woll);
+        //else AmountMovetWoll = 3;
+        //if (PlayerPrefs.HasKey(passage)) AmountPassage = UnityEngine.PlayerPrefs.GetInt(passage);
+        //else AmountPassage = 0;
+        //if (PlayerPrefs.HasKey(port)) AmountPort = UnityEngine.PlayerPrefs.GetInt(port);
+        //else AmountPort = 0;
+        //if (PlayerPrefs.HasKey(immuny)) AmountImmunity = UnityEngine.PlayerPrefs.GetInt(immuny);
+        //else AmountImmunity = 0;
+        //if (PlayerPrefs.HasKey(dino)) DinoBuy = UnityEngine.PlayerPrefs.GetInt(dino);
+        //else DinoBuy = 0;
+        //if (PlayerPrefs.HasKey(castle)) CastleBuy = UnityEngine.PlayerPrefs.GetInt(castle);
+        //else CastleBuy = 0;
     }
 
     public void SetLevel(int value)

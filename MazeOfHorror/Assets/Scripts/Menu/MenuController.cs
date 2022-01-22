@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -17,7 +18,9 @@ public class MenuController : MonoBehaviour
         Constructor,
         Victory,
         Loser,
-        Shop
+        Shop,
+        Tutorial,
+        Title
     }
     private Screen screen;
     private List<int> constrMaze;
@@ -31,6 +34,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] private MenuStartRandomGame _menuRandomGame;
     [SerializeField] private PlaySound _playMusic;
     [SerializeField] private PlaySound _playSound;
+    [SerializeField] private Button _buttonNewGame;
+    [SerializeField] private Button _buttonConstruktor;
+    [SerializeField] private ConstruktorMenu _constrMenu;
 
     [SerializeField] private CanvasGroup gameCanvas;
     [SerializeField] private CanvasGroup globalMenu;
@@ -44,9 +50,12 @@ public class MenuController : MonoBehaviour
     [SerializeField] private CanvasGroup constructor;
     [SerializeField] private CanvasGroup victory;
     [SerializeField] private CanvasGroup loser;
+    [SerializeField] private CanvasGroup tutorial;
+    [SerializeField] private CanvasGroup title;
 
     private int _levelPlayer;
     private int _coefficient;
+    private int _notFirstEnterGame;
 
     private void SetCurrentScreen(Screen screen)
     {
@@ -62,6 +71,8 @@ public class MenuController : MonoBehaviour
         Utility.SetCanvasGroupEnabled(victory, screen == Screen.Victory);
         Utility.SetCanvasGroupEnabled(loser, screen == Screen.Loser);
         Utility.SetCanvasGroupEnabled(shopMenu, screen == Screen.Shop);
+        Utility.SetCanvasGroupEnabled(tutorial, screen == Screen.Tutorial);
+        Utility.SetCanvasGroupEnabled(title, screen == Screen.Title);
     }
 
     private void Start()
@@ -92,6 +103,17 @@ public class MenuController : MonoBehaviour
     {
         SetCurrentScreen(Screen.GameChange);
         screen = Screen.GameChange;
+        _notFirstEnterGame = saveLoadGame.notFirstEnterGame;
+        if (_notFirstEnterGame < 0.5f)
+        {
+            _buttonNewGame.enabled = false;
+            _buttonConstruktor.enabled = false;
+        }
+        else
+        {
+            _buttonNewGame.enabled = true;
+            _buttonConstruktor.enabled = true;
+        }
     }
 
     public void Setting()
@@ -143,11 +165,17 @@ public class MenuController : MonoBehaviour
     {
         SetCurrentScreen(Screen.Constructor);
         screen = Screen.Constructor;
+        _levelPlayer = saveProgress.LevelPlayer;
+        _constrMenu.SetLevelPlayer(_levelPlayer);
     }
 
     public void Tutorial()
     {
-        // В разработке
+        SetCurrentScreen(Screen.Tutorial);
+        screen = Screen.Tutorial;
+        _notFirstEnterGame = 1;
+        saveLoadGame.notFirstEnterGame = 1;
+        saveLoadGame.Save();
     }
 
     public void LoadLevel()
@@ -320,7 +348,8 @@ public class MenuController : MonoBehaviour
 
     public void TitleMenu()
     {
-        
+        SetCurrentScreen(Screen.Title);
+        screen = Screen.Title;
     }
 
     public void Click()

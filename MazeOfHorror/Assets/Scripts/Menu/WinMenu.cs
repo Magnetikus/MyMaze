@@ -6,6 +6,7 @@ public class WinMenu : MonoBehaviour
 {
     [SerializeField] private ConstructorMaze _constructor;
     [SerializeField] private ProgressMenuGUI _progress;
+    [SerializeField] private SaveLoadGame _saveLoadGame;
     [SerializeField] private MenuController _menuController;
     [SerializeField] private PlaySound _playSound;
     [SerializeField] private PlaySound _playSoundPic;
@@ -26,6 +27,9 @@ public class WinMenu : MonoBehaviour
     [SerializeField] private Text _textResultateGold;
     [SerializeField] private Text _textResultateDimond;
     [SerializeField] private Text _textResultateExp;
+    [SerializeField] private Text _textTimeLevel;
+    [SerializeField] private Text _textRecord;
+    [SerializeField] private Text _textTimeLevelInRecord;
 
     private int _startGold;
     private int _gold;
@@ -37,16 +41,48 @@ public class WinMenu : MonoBehaviour
     private int _resultateDimond;
     private int _resultateExp;
 
+    private int _sizeMaze;
+    private int _recordLevel;
+    private int _timeLevel;
+    private int _minutes;
+    private int _seconds;
+    private int _minRecord;
+    private int _secRecord;
+
     private const string gold = "Gold";
     private const string life = "Life";
     private const string exp = "Exp";
     private const string resGold = "ResGold";
     private const string resDimond = "ResDimond";
     private const string resEXP = "ResEXP";
+    private const string goldRecord = "GoldRecord";
 
     private void Start()
     {
         _animator.enabled = false;
+    }
+
+    public void SetTimeAndSize(int minutes, int seconds, int size)
+    {
+        _sizeMaze = size;
+        _timeLevel = minutes * 100 + seconds;
+        _minutes = minutes;
+        _seconds = seconds;
+        _recordLevel = _saveLoadGame.recordEasy;
+        if (_sizeMaze > 23)
+        {
+            _recordLevel = _saveLoadGame.recordMedium;
+        }
+        if (_sizeMaze > 33)
+        {
+            _recordLevel = _saveLoadGame.recordHard;
+        }
+        if (_sizeMaze > 45)
+        {
+            _recordLevel = _saveLoadGame.recordCrazy;
+        }
+        _minRecord = _recordLevel / 100;
+        _secRecord = _recordLevel % 100;
     }
 
     public void StartAnimator()
@@ -163,9 +199,52 @@ public class WinMenu : MonoBehaviour
             _krestImage.SetActive(true);
             _playSound.Play("Error");
         }
+        
+        if (_timeLevel > _recordLevel)
+        {
+            NewRecord();
+        }
+
         _buttonRestart.enabled = true;
         _buttonX2.enabled = true;
         _buttonNext.enabled = true;
+    }
+
+    public void NewRecord()
+    {
+        _animator.SetTrigger("Record");
+        _recordLevel = _timeLevel;
+        if (_sizeMaze <= 23)
+        {
+            _saveLoadGame.recordEasy = _recordLevel;
+        }
+        if (_sizeMaze > 23 && _sizeMaze <= 33)
+        {
+            _saveLoadGame.recordMedium = _recordLevel;
+        }
+        if (_sizeMaze > 33 && _sizeMaze <= 45)
+        {
+            _saveLoadGame.recordHard = _recordLevel;
+        }
+        if (_sizeMaze > 45)
+        {
+            _saveLoadGame.recordCrazy = _recordLevel;
+        }
+    }
+
+    public void MidleRecord()
+    {
+        _particleSystem.Play();
+        _playSound.Play("Treasure");
+        _animator.speed = 0;
+        StartCoroutine(Timer(goldRecord, _gold + 100));
+    }
+
+    public void EndRecord()
+    {
+        print("end record");
+        _minRecord = _minutes;
+        _secRecord = _seconds;
     }
 
 
@@ -184,6 +263,20 @@ public class WinMenu : MonoBehaviour
                     }
                     _startGold--;
                     _gold--;
+                    _playSoundPic.Play("Pic");
+                    yield return wait;
+                }
+                _animator.speed = 1;
+                break;
+
+            case goldRecord:
+                while (true)
+                {
+                    if (_gold == limit)
+                    {
+                        break;
+                    }
+                    _gold += 10;
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
@@ -296,6 +389,10 @@ public class WinMenu : MonoBehaviour
         _resultateGold = 0;
         _resultateDimond = 0;
         _resultateExp = 0;
+        _minutes = 0;
+        _seconds = 0;
+        _minRecord = 0;
+        _secRecord = 0;
     }
 
     private void OnGUI()
@@ -307,6 +404,9 @@ public class WinMenu : MonoBehaviour
         _textResultateGold.text = $"{_resultateGold}";
         _textResultateDimond.text = $"{_resultateDimond}";
         _textResultateExp.text = $"{_resultateExp}";
+        _textTimeLevel.text = $"{_minutes:d2} : {_seconds:d2}";
+        _textRecord.text = $"{_minRecord:d2} : {_secRecord:d2}";
+        _textTimeLevelInRecord.text = $"{_minutes:d2} : {_seconds:d2}";
     }
 
 }

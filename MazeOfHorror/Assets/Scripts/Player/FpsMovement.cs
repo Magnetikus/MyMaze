@@ -6,17 +6,20 @@
 public class FpsMovement : MonoBehaviour
 {
     [SerializeField] private Camera _headCam;
+    [SerializeField] private PlaySound _playSound;
 
     private const float _normalSpeed = 2.5f;        //max 4.5
-    private const float _normalSensitivity = 3.5f;  //max 4.5
+    private const float _normalSensitivity = 4.3f;  //max 4.5
     private const float _minimumVert = -45.0f;
     private const float _maximumVert = 45.0f;
+    private const string _step = "Step";
 
     private static float _speed;
     private static float _sensitivity;
     private float _rotationVert = 0;
     private Vector3 _movement;
     private Vector3 _myPosition;
+    private float _timer;
 
     private CharacterController _charController;
     private GameControler _gameContr;
@@ -37,7 +40,7 @@ public class FpsMovement : MonoBehaviour
     public void SetSpeed(float value)
     {
         _speed = _normalSpeed + value * 0.2f;
-        _sensitivity = _normalSensitivity + value * 0.1f;
+        _sensitivity = _normalSensitivity + value * 0.02f;
     }
 
     public void SetSensity(float value)
@@ -84,6 +87,7 @@ public class FpsMovement : MonoBehaviour
         _movement *= Time.deltaTime;
         _movement = transform.TransformDirection(_movement);
         _charController.Move(_movement);
+        FootStepSound(Mathf.Abs(_movement.sqrMagnitude));
     }
 
     private void RotateCharacter()
@@ -113,5 +117,18 @@ public class FpsMovement : MonoBehaviour
         _myPosition = transform.position;
         _myPosition.y = 5;
         _transformMinimap.position = _myPosition;
+    }
+
+    private void FootStepSound(float movetABS)
+    {
+        if (movetABS > 0)
+        {
+            _timer += movetABS * 25;
+            if (_timer > _normalSpeed)
+            {
+                _playSound.Play(_step);
+                _timer = 0;
+            }
+        }
     }
 }

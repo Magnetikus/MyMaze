@@ -4,7 +4,7 @@ public class JoystickLooket : MonoBehaviour
 {
     private Vector2 _inputVector;
     private float _screenWidth;
-    private float _limitInputVector = 50f;
+    private float _limitInputVector = 70f;
 
     private void Start()
     {

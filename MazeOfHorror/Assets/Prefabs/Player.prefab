@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headCam: {fileID: 2231176276444284887}
+  _playSound: {fileID: 6021259954459544995}
 --- !u!114 &9780016541998539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,6 +395,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: c8c66c93184c63b40b228332e30008bd, type: 3}
   - name: Wave
     audioClip: {fileID: 8300000, guid: 5c1d24e24d093924c9b3216c001de319, type: 3}
+  - name: Step
+    audioClip: {fileID: 8300000, guid: 5c50b46822063e840b0730f370f13328, type: 3}
 --- !u!1 &2231176276444284883
 GameObject:
   m_ObjectHideFlags: 0

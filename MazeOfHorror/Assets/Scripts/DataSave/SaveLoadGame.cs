@@ -11,6 +11,13 @@ public class SaveLoadGame : MonoBehaviour
     public int selectDino;
     public int selectCastle;
 
+    public int notFirstEnterGame;
+
+    public int recordEasy;
+    public int recordMedium;
+    public int recordHard;
+    public int recordCrazy;
+
     public void Save()
     {
         PlayerPrefs.SetFloat("Volume", sliderVolume.value);
@@ -19,6 +26,11 @@ public class SaveLoadGame : MonoBehaviour
         PlayerPrefs.SetInt("NaturaSelect", selectNatura);
         PlayerPrefs.SetInt("DinoSelect", selectDino);
         PlayerPrefs.SetInt("CastleSelect", selectCastle);
+        PlayerPrefs.SetInt("FirstEnter", notFirstEnterGame);
+        PlayerPrefs.SetInt("RecordEasy", recordEasy);
+        PlayerPrefs.SetInt("RecordMedium", recordMedium);
+        PlayerPrefs.SetInt("RecordHard", recordHard);
+        PlayerPrefs.SetInt("RecordCrazy", recordCrazy);
 
         PlayerPrefs.Save();
     }
@@ -33,11 +45,20 @@ public class SaveLoadGame : MonoBehaviour
         if (PlayerPrefs.HasKey("Sound")) sliderSound.value = PlayerPrefs.GetFloat("Sound");
         else sliderSound.value = 1.0f;
         if (PlayerPrefs.HasKey("NaturaSelect")) selectNatura = PlayerPrefs.GetInt("NaturaSelect");
-        else selectNatura = 0;
+        else selectNatura = 1;
         if (PlayerPrefs.HasKey("DinoSelect")) selectDino = PlayerPrefs.GetInt("DinoSelect");
         else selectDino = 0;
         if (PlayerPrefs.HasKey("CastleSelect")) selectCastle = PlayerPrefs.GetInt("CastleSelect");
         else selectCastle = 0;
-
+        if (PlayerPrefs.HasKey("FirstEnter")) notFirstEnterGame = PlayerPrefs.GetInt("FirstEnter");
+        else notFirstEnterGame = 0;
+        if (PlayerPrefs.HasKey("RecordEasy")) recordEasy = PlayerPrefs.GetInt("RecordEasy");
+        else recordEasy = 0;
+        if (PlayerPrefs.HasKey("RecordMedium")) recordMedium = PlayerPrefs.GetInt("RecordMedium");
+        else recordMedium = 0;
+        if (PlayerPrefs.HasKey("RecordHard")) recordHard = PlayerPrefs.GetInt("RecordHard");
+        else recordHard = 0;
+        if (PlayerPrefs.HasKey("RecordCrazy")) recordCrazy = PlayerPrefs.GetInt("RecordCrazy");
+        else recordCrazy = 0;
     }
 }
