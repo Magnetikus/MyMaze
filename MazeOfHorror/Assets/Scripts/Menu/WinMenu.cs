@@ -131,17 +131,17 @@ public class WinMenu : MonoBehaviour
     {
         if (_startGold == _gold)
         {
+            _playSound.Play("Treasure");
             _particleSystem.Play();
             _starGold.SetActive(true);
-            _playSound.Play("Treasure");
             _animator.speed = 0;
-            StartCoroutine(Timer(exp, _resultateExp + 10));
+            StartCoroutine(Timer(resGold, _resultateGold + 30));
         }
         else
         {
+            _playSound.Play("Error");
             _starGold.SetActive(false);
             _krestImage.SetActive(true);
-            _playSound.Play("Error");
         }
     }
 
@@ -165,15 +165,15 @@ public class WinMenu : MonoBehaviour
     {
         if (_treasure > 0)
         {
-            _starTreasure.SetActive(true);
             _playSound.Play("Treasure");
+            _starTreasure.SetActive(true);
             _animator.speed = 0;
-            StartCoroutine(Timer(exp, _resultateExp + 10));
+            StartCoroutine(Timer(resDimond, _resultateDimond + 3));
         }
         else
         {
-            _starTreasure.SetActive(false);
             _playSound.Play("Error");
+            _starTreasure.SetActive(false);
         }
     }
 
@@ -187,17 +187,17 @@ public class WinMenu : MonoBehaviour
     {
         if (_startLife == _life)
         {
+            _playSound.Play("Treasure");
             _particleSystem.Play();
             _starLife.SetActive(true);
-            _playSound.Play("Treasure");
             _animator.speed = 0;
-            StartCoroutine(Timer(exp, _resultateExp + 10));
+            StartCoroutine(Timer(exp, _resultateExp + 30));
         }
         else
         {
+            _playSound.Play("Error");
             _starLife.SetActive(false);
             _krestImage.SetActive(true);
-            _playSound.Play("Error");
         }
         
         if (_timeLevel > _recordLevel)
@@ -234,10 +234,10 @@ public class WinMenu : MonoBehaviour
 
     public void MidleRecord()
     {
-        _particleSystem.Play();
         _playSound.Play("Treasure");
+        _particleSystem.Play();
         _animator.speed = 0;
-        StartCoroutine(Timer(goldRecord, _gold + 100));
+        StartCoroutine(Timer(goldRecord, _resultateGold + 100));
     }
 
     public void EndRecord()
@@ -272,11 +272,11 @@ public class WinMenu : MonoBehaviour
             case goldRecord:
                 while (true)
                 {
-                    if (_gold == limit)
+                    if (_resultateGold == limit)
                     {
                         break;
                     }
-                    _gold += 10;
+                    _resultateGold += 10;
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
@@ -323,6 +323,7 @@ public class WinMenu : MonoBehaviour
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
+                _animator.speed = 1;
                 break;
 
             case resDimond:
@@ -336,6 +337,7 @@ public class WinMenu : MonoBehaviour
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
+                _animator.speed = 1;
                 break;
 
             case resEXP:
@@ -349,6 +351,7 @@ public class WinMenu : MonoBehaviour
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
+                _animator.speed = 1;
                 break;
         }
     }
