@@ -6,6 +6,11 @@ public class SaveProgress : MonoBehaviour
     {
         get; private set;
     }
+
+    public int ProgressLevel
+    {
+        get; private set;
+    }
     public int AmountGold
     {
         get; private set;
@@ -74,25 +79,12 @@ public class SaveProgress : MonoBehaviour
         (";", "D1"),
     };
 
-    private const string level = "Level";
-    private const string gold = "Gold";
-    private const string dimond = "Dimond";
-    private const string life = "Life";
-    private const string speed = "Speed";
-    private const string power = "Power";
-    private const string manna = "Manna";
-    private const string woll = "Woll";
-    private const string passage = "Passage";
-    private const string port = "Port";
-    private const string immuny = "Immuny";
-    private const string dino = "Dino";
-    private const string castle = "Castle";
-
 
     public void Save()
     {
-        string data = LevelPlayer + ";" + AmountGold + ";" + AmountDimond + ";" + LifePlayer + ";" + SpeedPlayer + ";" + PowerPlayer + ";" +
-            MannaPlayer + ";" + AmountMovetWoll + ";" + AmountPassage + ";" + AmountPort + ";" + AmountImmunity + ";" + DinoBuy + ";" + CastleBuy;
+        string data = LevelPlayer + ";" + AmountGold + ";" + AmountDimond + ";" + LifePlayer + ";"
+            + SpeedPlayer + ";" + PowerPlayer + ";" + MannaPlayer + ";" + AmountMovetWoll + ";" + AmountPassage + ";"
+            + AmountPort + ";" + AmountImmunity + ";" + DinoBuy + ";" + CastleBuy + ";" + ProgressLevel;
         int i = 0;
         string myData = "";
         while (i < data.Length)
@@ -107,28 +99,19 @@ public class SaveProgress : MonoBehaviour
         }
         PlayerPrefs.SetString(_save, myData);
 
-        //PlayerPrefs.SetInt(level, LevelPlayer);
-        //PlayerPrefs.SetInt(gold, AmountGold);
-        //PlayerPrefs.SetInt(dimond, AmountDimond);
-        //PlayerPrefs.SetInt(life, LifePlayer);
-        //PlayerPrefs.SetInt(speed, SpeedPlayer);
-        //PlayerPrefs.SetInt(power, PowerPlayer);
-        //PlayerPrefs.SetInt(manna, MannaPlayer);
-        //PlayerPrefs.SetInt(woll, AmountMovetWoll);
-        //PlayerPrefs.SetInt(passage, AmountPassage);
-        //PlayerPrefs.SetInt(port, AmountPort);
-        //PlayerPrefs.SetInt(immuny, AmountImmunity);
-        //PlayerPrefs.SetInt(dino, DinoBuy);
-        //PlayerPrefs.SetInt(castle, CastleBuy);
-
         PlayerPrefs.Save();
     }
 
+
+
     public void Load()
     {
-
         string data;
-        string[] array = new string[13];
+        string[] array = new string[14];
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i] = "0";
+        }
         if (PlayerPrefs.HasKey(_save))
         {
             data = PlayerPrefs.GetString(_save);
@@ -153,6 +136,15 @@ public class SaveProgress : MonoBehaviour
             {
                 array[i] = "0";
             }
+            array[3] = "3";
+            array[7] = "3";
+        }
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (array[i] == null)
+            {
+                array[i] = "0";
+            }
         }
         SetLevel(int.Parse(array[0]));
         SetGold(int.Parse(array[1]));
@@ -167,38 +159,17 @@ public class SaveProgress : MonoBehaviour
         SetImmuny(int.Parse(array[10]));
         SetDino(int.Parse(array[11]));
         SetCastle(int.Parse(array[12]));
-
-        //if (PlayerPrefs.HasKey(level)) LevelPlayer = UnityEngine.PlayerPrefs.GetInt(level);
-        //else LevelPlayer = 0;
-        //if (PlayerPrefs.HasKey(gold)) AmountGold = UnityEngine.PlayerPrefs.GetInt(gold);
-        //else AmountGold = 0;
-        //if (PlayerPrefs.HasKey(dimond)) AmountDimond = UnityEngine.PlayerPrefs.GetInt(dimond);
-        //else AmountDimond = 0;
-        //if (PlayerPrefs.HasKey(life)) LifePlayer = UnityEngine.PlayerPrefs.GetInt(life);
-        //else LifePlayer = 3;
-        //if (PlayerPrefs.HasKey(speed)) SpeedPlayer = UnityEngine.PlayerPrefs.GetInt(speed);
-        //else SpeedPlayer = 0;
-        //if (PlayerPrefs.HasKey(power)) PowerPlayer = UnityEngine.PlayerPrefs.GetInt(power);
-        //else PowerPlayer = 0;
-        //if (PlayerPrefs.HasKey(manna)) MannaPlayer = UnityEngine.PlayerPrefs.GetInt(manna);
-        //else MannaPlayer = 0;
-        //if (PlayerPrefs.HasKey(woll)) AmountMovetWoll = UnityEngine.PlayerPrefs.GetInt(woll);
-        //else AmountMovetWoll = 3;
-        //if (PlayerPrefs.HasKey(passage)) AmountPassage = UnityEngine.PlayerPrefs.GetInt(passage);
-        //else AmountPassage = 0;
-        //if (PlayerPrefs.HasKey(port)) AmountPort = UnityEngine.PlayerPrefs.GetInt(port);
-        //else AmountPort = 0;
-        //if (PlayerPrefs.HasKey(immuny)) AmountImmunity = UnityEngine.PlayerPrefs.GetInt(immuny);
-        //else AmountImmunity = 0;
-        //if (PlayerPrefs.HasKey(dino)) DinoBuy = UnityEngine.PlayerPrefs.GetInt(dino);
-        //else DinoBuy = 0;
-        //if (PlayerPrefs.HasKey(castle)) CastleBuy = UnityEngine.PlayerPrefs.GetInt(castle);
-        //else CastleBuy = 0;
+        SetProgressLevel(int.Parse(array[13]));
     }
 
     public void SetLevel(int value)
     {
         LevelPlayer = value;
+    }
+
+    public void SetProgressLevel(int value)
+    {
+        ProgressLevel = value;
     }
 
     public void SetGold(int value)
@@ -259,5 +230,10 @@ public class SaveProgress : MonoBehaviour
     public void SetCastle(int value)
     {
         CastleBuy = value;
+    }
+
+    private void Start()
+    {
+        Load();
     }
 }

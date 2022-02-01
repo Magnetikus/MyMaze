@@ -143,6 +143,7 @@ public class MenuController : MonoBehaviour
     public void Exit()
     {
         saveProgress.Save();
+        saveLoadGame.Save();
         Application.Quit();
     }
 
@@ -203,7 +204,7 @@ public class MenuController : MonoBehaviour
         {
             _coefficient = 2;
         }
-        constrMaze = new List<int> { 15, 15, 1 * _coefficient, 1 * _coefficient, 1 * _coefficient, 1 * _coefficient };
+        constrMaze = new List<int> { 15, 15, _coefficient, 1 * _coefficient, 1 * _coefficient, 1 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
@@ -225,7 +226,7 @@ public class MenuController : MonoBehaviour
         {
             _coefficient = 3;
         }
-        constrMaze = new List<int> { 25, 25, 2, 2 * _coefficient, 2 * _coefficient, 2 * _coefficient };
+        constrMaze = new List<int> { 25, 25, 1 + _coefficient, 2 * _coefficient, 2 * _coefficient, 2 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
@@ -247,7 +248,7 @@ public class MenuController : MonoBehaviour
         {
             _coefficient = 3;
         }
-        constrMaze = new List<int> { 35, 35, 4, 3 * _coefficient, 3 * _coefficient, 3 * _coefficient };
+        constrMaze = new List<int> { 35, 35, 3 + _coefficient, 3 * _coefficient, 3 * _coefficient, 3 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
@@ -269,7 +270,7 @@ public class MenuController : MonoBehaviour
         {
             _coefficient = 3;
         }
-        constrMaze = new List<int> { 55, 55, 9, 5 * _coefficient, 5 * _coefficient, 5 * _coefficient };
+        constrMaze = new List<int> { 55, 55, 6 + _coefficient, 5 * _coefficient, 5 * _coefficient, 5 * _coefficient };
         gameContr.StartNewGame(constrMaze);
     }
 
@@ -282,10 +283,10 @@ public class MenuController : MonoBehaviour
     public void Paused()
     {
         saveLoadGame.Save();
+        saveProgress.Save();
         SetCurrentScreen(Screen.Paused);
         screen = Screen.Paused;
         gameContr.PausedGame(true);
-
     }
 
     public void Continue()

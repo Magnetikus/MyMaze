@@ -49,6 +49,9 @@ public class WinMenu : MonoBehaviour
     private int _minRecord;
     private int _secRecord;
 
+    private bool _isEndGold;
+    private bool _isEndExp;
+
     private const string gold = "Gold";
     private const string life = "Life";
     private const string exp = "Exp";
@@ -92,6 +95,8 @@ public class WinMenu : MonoBehaviour
         _buttonRestart.enabled = false;
         _buttonX2.enabled = false;
         _buttonNext.enabled = false;
+        _isEndExp = false;
+        _isEndGold = false;
         _starGold.SetActive(false);
         _starLife.SetActive(false);
         _starTreasure.SetActive(false);
@@ -148,6 +153,7 @@ public class WinMenu : MonoBehaviour
     public void Treasure()
     {
         _resultateDimond = _treasure;
+        
         if (_treasure > 0)
         {
             Color color = _treasureImage.color;
@@ -163,12 +169,13 @@ public class WinMenu : MonoBehaviour
 
     public void EndTreasure()
     {
+        _isEndGold = false;
         if (_treasure > 0)
         {
             _playSound.Play("Treasure");
             _starTreasure.SetActive(true);
             _animator.speed = 0;
-            StartCoroutine(Timer(resDimond, _resultateDimond + 3));
+            StartCoroutine(Timer(resDimond, _resultateDimond + 2));
         }
         else
         {
@@ -200,7 +207,7 @@ public class WinMenu : MonoBehaviour
             _krestImage.SetActive(true);
         }
         
-        if (_timeLevel > _recordLevel)
+        if (_timeLevel < _recordLevel && _startGold == _gold && _treasure > 0 && _startLife == _life)
         {
             NewRecord();
         }
@@ -230,6 +237,7 @@ public class WinMenu : MonoBehaviour
         {
             _saveLoadGame.recordCrazy = _recordLevel;
         }
+        _saveLoadGame.Save();
     }
 
     public void MidleRecord()
@@ -242,7 +250,6 @@ public class WinMenu : MonoBehaviour
 
     public void EndRecord()
     {
-        print("end record");
         _minRecord = _minutes;
         _secRecord = _seconds;
     }
@@ -251,7 +258,7 @@ public class WinMenu : MonoBehaviour
     private IEnumerator Timer(string name, int limit)
     {
         yield return null;
-        var wait = new WaitForSeconds(0.1f);
+        var wait = new WaitForSeconds(0.05f);
         switch (name)
         {
             case gold:
@@ -324,6 +331,8 @@ public class WinMenu : MonoBehaviour
                     yield return wait;
                 }
                 _animator.speed = 1;
+                _isEndGold = true;
+                EndX2();
                 break;
 
             case resDimond:
@@ -352,6 +361,8 @@ public class WinMenu : MonoBehaviour
                     yield return wait;
                 }
                 _animator.speed = 1;
+                _isEndExp = true;
+                EndX2();
                 break;
         }
     }
@@ -363,22 +374,32 @@ public class WinMenu : MonoBehaviour
 
     public void X2()
     {
+        _buttonNext.enabled = false;
+        _buttonRestart.enabled = false;
+        _buttonX2.enabled = false;
         int x2Gold = _resultateGold * 2;
         int x2Dimond = _resultateDimond * 2;
         int x2EXP = _resultateExp * 2;
         StartCoroutine(Timer(resGold, x2Gold));
         StartCoroutine(Timer(resDimond, x2Dimond));
         StartCoroutine(Timer(resEXP, x2EXP));
+    }
 
-        _buttonX2.enabled = false;
+    private void EndX2()
+    {
+        if (_isEndExp == true && _isEndGold == true)
+        {
+            _buttonRestart.enabled = true;
+            _buttonNext.enabled = true;
+        }
     }
 
     public void Next()
     {
         _progress.SetDataBaseWin(_resultateGold, _resultateDimond, _resultateExp);
-        ResetDB();
         _constructor.DeleteAll();
         _menuController.Global();
+        ResetDB();
     }
 
     public void ResetDB()
@@ -387,6 +408,7 @@ public class WinMenu : MonoBehaviour
         _animator.enabled = false;
         _startGold = 0;
         _gold = 0;
+        _treasure = 0;
         _startLife = 0;
         _life = 0;
         _resultateGold = 0;
@@ -396,6 +418,7 @@ public class WinMenu : MonoBehaviour
         _seconds = 0;
         _minRecord = 0;
         _secRecord = 0;
+        _recordLevel = 0;
     }
 
     private void OnGUI()

@@ -36,6 +36,7 @@ public class GameControler : MonoBehaviour
     [SerializeField] private GameObject _joystick;
     [SerializeField] private GameObject _joystickLooket;
     [SerializeField] private GameObject _iconePower;
+    [SerializeField] private GameObject _escapeFromMaze;
     [SerializeField] private AmountHeartOut _heartOut;
     [SerializeField] private AmountHeartOut _keyOut;
     [SerializeField] private GameObject _minusLifeImage;
@@ -55,7 +56,7 @@ public class GameControler : MonoBehaviour
     [SerializeField] private GameObject _key3;
     [SerializeField] private GameObject _mimimap;
 
-
+    public InterAd interAd;
     public bool pausedGame { get; private set; }
 
     private void Start()
@@ -73,6 +74,7 @@ public class GameControler : MonoBehaviour
         _startKeys = constrMaze[2];
         _startGold = (_sizeRowsX + _sizeColsZ) / 2;
         ResetDataBase();
+        interAd.ShowAd();
     }
 
     public void PausedGame(bool chek)
@@ -150,6 +152,11 @@ public class GameControler : MonoBehaviour
         _treasureOut.color = colorTreasure;
         _textGoldStart.color = new Color(250, 39, 13);
         _textGold.color = Color.white;
+        //_iconePower.GetComponent<PowerMovet>().AfterMinusLife();
+        //_iconePower.GetComponent<PowerPort>().ResetAfterMinusLife();
+        //_iconePower.GetComponent<PowerPassage>().ChekButton();
+        //_player.GetComponent<MovetCube>().ResetFromMinusLife();
+        //_player.GetComponent<Passage>().ResetFromMinusLife();
         pausedGame = true;
     }
 
@@ -211,7 +218,7 @@ public class GameControler : MonoBehaviour
     {
         if (_keys == 0)
         {
-            PlayerWin();
+            _escapeFromMaze.SetActive(true);
         }
         else
         {
@@ -234,10 +241,17 @@ public class GameControler : MonoBehaviour
 
     public void PlayerExitExit()
     {
-        _key1.SetActive(false);
-        _key2.SetActive(false);
-        _key3.SetActive(false);
-        _imageFindKey.SetActive(false);
+        if (_keys == 0)
+        {
+            _escapeFromMaze.SetActive(false);
+        }
+        else
+        {
+            _key1.SetActive(false);
+            _key2.SetActive(false);
+            _key3.SetActive(false);
+            _imageFindKey.SetActive(false);
+        }
     }
 
     public void MinusLifes()
@@ -407,14 +421,15 @@ public class GameControler : MonoBehaviour
         _joystick.SetActive(false);
         _joystickLooket.SetActive(false);
         _iconePower.SetActive(false);
+
         pausedGame = true;
         _menuContr.Victory();
         _winMenu.SetTimeAndSize(_minutes, _seconds, _startGold);
-        _winMenu.StartAnimator();
         _winMenu.SetGoldResultate(_startGold, _gold);
         _winMenu.SetLifeResultate(_saveProgress.LifePlayer, _lifes);
         _winMenu.SetTreasure(_treasure);
         _winMenu.SetExp(_EXP);
+        _winMenu.StartAnimator();
     }
 
     public void PlayerLose()
@@ -425,6 +440,7 @@ public class GameControler : MonoBehaviour
         _joystick.SetActive(false);
         _joystickLooket.SetActive(false);
         _iconePower.SetActive(false);
+
         pausedGame = true;
         _menuContr.Luser();
     }

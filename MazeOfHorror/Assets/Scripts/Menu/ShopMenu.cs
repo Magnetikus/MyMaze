@@ -45,9 +45,9 @@ public class ShopMenu : MonoBehaviour
 
     public void ADSfromShop()
     {
-        _gold += 500;
-        _dimond += 5;
-        _progressMenu.SetProgressLevel(100);
+        _gold += 200;
+        _dimond += 2;
+        _progressMenu.SetProgressLevel(50);
         _level = _progressMenu.GetLevel();
         SaveAll();
     }

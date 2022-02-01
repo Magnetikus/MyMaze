@@ -90,12 +90,15 @@ public class ConstructorMaze : MonoBehaviour
             {1, 0, 1},
             {1, 1, 1}
         };
+
+        listDeletedObject = new List<GameObject>();
+        transformsMonsters = new List<GameObject>();
     }
 
     public void GenerateNewMaze(List<int> constrMaze)
     {
-        listDeletedObject = new List<GameObject>();
-        transformsMonsters = new List<GameObject>();
+        listDeletedObject.Clear();
+        transformsMonsters.Clear();
         //получение данных
         sizeRows = constrMaze[0];
         sizeCols = constrMaze[1];

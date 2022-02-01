@@ -53,12 +53,17 @@ public class SaveLoadGame : MonoBehaviour
         if (PlayerPrefs.HasKey("FirstEnter")) notFirstEnterGame = PlayerPrefs.GetInt("FirstEnter");
         else notFirstEnterGame = 0;
         if (PlayerPrefs.HasKey("RecordEasy")) recordEasy = PlayerPrefs.GetInt("RecordEasy");
-        else recordEasy = 0;
+        else recordEasy = 1000;
         if (PlayerPrefs.HasKey("RecordMedium")) recordMedium = PlayerPrefs.GetInt("RecordMedium");
-        else recordMedium = 0;
+        else recordMedium = 2000;
         if (PlayerPrefs.HasKey("RecordHard")) recordHard = PlayerPrefs.GetInt("RecordHard");
-        else recordHard = 0;
+        else recordHard = 3000;
         if (PlayerPrefs.HasKey("RecordCrazy")) recordCrazy = PlayerPrefs.GetInt("RecordCrazy");
-        else recordCrazy = 0;
+        else recordCrazy = 5000;
+    }
+
+    private void Start()
+    {
+        Load();
     }
 }
