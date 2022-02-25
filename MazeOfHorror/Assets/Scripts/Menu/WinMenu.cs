@@ -136,17 +136,17 @@ public class WinMenu : MonoBehaviour
     {
         if (_startGold == _gold)
         {
-            _playSound.Play("Treasure");
             _particleSystem.Play();
             _starGold.SetActive(true);
+            _playSound.Play("Treasure");
             _animator.speed = 0;
-            StartCoroutine(Timer(resGold, _resultateGold + 30));
+            StartCoroutine(Timer(exp, _resultateExp + 10));
         }
         else
         {
-            _playSound.Play("Error");
             _starGold.SetActive(false);
             _krestImage.SetActive(true);
+            _playSound.Play("Error");
         }
     }
 
@@ -172,15 +172,19 @@ public class WinMenu : MonoBehaviour
         _isEndGold = false;
         if (_treasure > 0)
         {
-            _playSound.Play("Treasure");
             _starTreasure.SetActive(true);
+            _playSound.Play("Treasure");
             _animator.speed = 0;
+<<<<<<< HEAD
             StartCoroutine(Timer(resDimond, _resultateDimond + 2));
+=======
+            StartCoroutine(Timer(exp, _resultateExp + 10));
+>>>>>>> parent of 2ed1a08 (тестрелиз)
         }
         else
         {
-            _playSound.Play("Error");
             _starTreasure.SetActive(false);
+            _playSound.Play("Error");
         }
     }
 
@@ -194,17 +198,17 @@ public class WinMenu : MonoBehaviour
     {
         if (_startLife == _life)
         {
-            _playSound.Play("Treasure");
             _particleSystem.Play();
             _starLife.SetActive(true);
+            _playSound.Play("Treasure");
             _animator.speed = 0;
-            StartCoroutine(Timer(exp, _resultateExp + 30));
+            StartCoroutine(Timer(exp, _resultateExp + 10));
         }
         else
         {
-            _playSound.Play("Error");
             _starLife.SetActive(false);
             _krestImage.SetActive(true);
+            _playSound.Play("Error");
         }
         
         if (_timeLevel < _recordLevel && _startGold == _gold && _treasure > 0 && _startLife == _life)
@@ -242,10 +246,10 @@ public class WinMenu : MonoBehaviour
 
     public void MidleRecord()
     {
-        _playSound.Play("Treasure");
         _particleSystem.Play();
+        _playSound.Play("Treasure");
         _animator.speed = 0;
-        StartCoroutine(Timer(goldRecord, _resultateGold + 100));
+        StartCoroutine(Timer(goldRecord, _gold + 100));
     }
 
     public void EndRecord()
@@ -279,11 +283,11 @@ public class WinMenu : MonoBehaviour
             case goldRecord:
                 while (true)
                 {
-                    if (_resultateGold == limit)
+                    if (_gold == limit)
                     {
                         break;
                     }
-                    _resultateGold += 10;
+                    _gold += 10;
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
@@ -330,9 +334,12 @@ public class WinMenu : MonoBehaviour
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
+<<<<<<< HEAD
                 _animator.speed = 1;
                 _isEndGold = true;
                 EndX2();
+=======
+>>>>>>> parent of 2ed1a08 (тестрелиз)
                 break;
 
             case resDimond:
@@ -346,7 +353,6 @@ public class WinMenu : MonoBehaviour
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
-                _animator.speed = 1;
                 break;
 
             case resEXP:
@@ -360,9 +366,12 @@ public class WinMenu : MonoBehaviour
                     _playSoundPic.Play("Pic");
                     yield return wait;
                 }
+<<<<<<< HEAD
                 _animator.speed = 1;
                 _isEndExp = true;
                 EndX2();
+=======
+>>>>>>> parent of 2ed1a08 (тестрелиз)
                 break;
         }
     }

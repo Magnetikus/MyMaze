@@ -102,7 +102,7 @@ namespace SimpleLocalizator
 
         private void Start()
         {
-            currentLanguage = Language.Kazakh;
+            currentLanguage = Language.Korean;
         }
 
         void OnDisable()
