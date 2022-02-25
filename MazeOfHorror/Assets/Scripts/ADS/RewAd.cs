@@ -11,7 +11,8 @@ public class RewAd : MonoBehaviour
 
     private RewardedAd _rewardedAd;
     private int _prize;
-    private string _rewardUnitID = "ca-app-pub-3940256099942544/5224354917"; //TEST!!!!!!!!!!!
+    private string _rewardUnitID = "ca-app-pub-6994105792436021/6017135516"; 
+    //private string _rewardUnitID = "ca-app-pub-3940256099942544/5224354917"; //TEST!!!!!!!!!!!
 
     private void Start()
     {

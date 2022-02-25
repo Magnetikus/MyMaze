@@ -51,9 +51,6 @@ public class GameControler : MonoBehaviour
     [SerializeField] private Text _textTimes;
     [SerializeField] private GameObject _imageFindKey;
     [SerializeField] private Text _textFindKey;
-    [SerializeField] private GameObject _key1;
-    [SerializeField] private GameObject _key2;
-    [SerializeField] private GameObject _key3;
     [SerializeField] private GameObject _mimimap;
 
     public InterAd interAd;
@@ -224,18 +221,6 @@ public class GameControler : MonoBehaviour
         {
             _imageFindKey.SetActive(true);
             _textFindKey.text = $"{_keys}";
-            if (_keys % 10 == 1)
-            {
-                _key1.SetActive(true);
-            }
-            else if (_keys % 10 < 5)
-            {
-                _key2.SetActive(true);
-            }
-            else
-            {
-                _key3.SetActive(true);
-            }
         }
     }
 
@@ -247,9 +232,6 @@ public class GameControler : MonoBehaviour
         }
         else
         {
-            _key1.SetActive(false);
-            _key2.SetActive(false);
-            _key3.SetActive(false);
             _imageFindKey.SetActive(false);
         }
     }
@@ -421,7 +403,7 @@ public class GameControler : MonoBehaviour
         _joystick.SetActive(false);
         _joystickLooket.SetActive(false);
         _iconePower.SetActive(false);
-
+        interAd.ShowAd();
         pausedGame = true;
         _menuContr.Victory();
         _winMenu.SetTimeAndSize(_minutes, _seconds, _startGold);
