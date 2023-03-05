@@ -68,8 +68,4 @@ public class PowerPassage : MonoBehaviour
         else _button.enabled = false;
     }
 
-    public void StopCourotine()
-    {
-        StopCoroutine(FillImage());
-    }
 }

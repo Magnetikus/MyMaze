@@ -6,7 +6,6 @@ public class ProgressMenuGUI : MonoBehaviour
 
     [SerializeField] private SaveProgress _saveProgress;
     [SerializeField] private SaveLoadGame _saveLoadGame;
-    [SerializeField] private MenuController _menuController;
     [SerializeField] private PlaySound _playSound;
     [SerializeField] private GameObject _windowPrice;
     [SerializeField] private GameObject _ramkaNatura;
@@ -60,7 +59,6 @@ public class ProgressMenuGUI : MonoBehaviour
     private void Start()
     {
         _changeResurce = 0;
-        UpdateDataBase();
     }
 
     public int GetLevel()
@@ -131,7 +129,6 @@ public class ProgressMenuGUI : MonoBehaviour
     public void UpdateDataBase()
     {
         _levelPlayer = _saveProgress.LevelPlayer;
-        _progressLevel = _saveProgress.ProgressLevel;
         _lifePlayer = _saveProgress.LifePlayer;
         _amountGold = _saveProgress.AmountGold;
         _amountDimond = _saveProgress.AmountDimond;
@@ -163,9 +160,7 @@ public class ProgressMenuGUI : MonoBehaviour
         _saveProgress.SetGold(_amountGold);
         _saveProgress.SetDimond(_amountDimond);
         _saveProgress.SetLevel(_levelPlayer);
-        _saveProgress.SetProgressLevel(_progressLevel);
         _saveProgress.Save();
-        _menuController.ExitInMenu();
     }
 
 
@@ -334,7 +329,7 @@ public class ProgressMenuGUI : MonoBehaviour
             else if (horizontal == 4)
             {
                 temp = _amountImmunity;
-                if (_amountImmunity == 10)
+                if (-_amountImmunity == 10)
                 {
                     _windowPrice.SetActive(false);
                 }
