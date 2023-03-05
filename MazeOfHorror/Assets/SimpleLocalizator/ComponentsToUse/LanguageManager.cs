@@ -50,45 +50,11 @@ namespace SimpleLocalizator {
             currentLang = Language.Russian;
         }
 
-        public void SetDeutschLang()
+        public void SetKazakhLang()
         {
-            currentLang = Language.Deutsch;
+            currentLang = Language.Kazakh;
         }
 
-		public void SetChineseLang()
-		{
-			currentLang = Language.Chinese;
-		}
-
-		public void SetFrenchLang()
-		{
-			currentLang = Language.French;
-		}
-
-		public void SetHindiLang()
-		{
-			currentLang = Language.Hindi;
-		}
-
-		public void SetItalianLang()
-		{
-			currentLang = Language.Italian;
-		}
-
-		public void SetJapaneseLang()
-		{
-			currentLang = Language.Japanese;
-		}
-
-		public void SetKoreanLang()
-		{
-			currentLang = Language.Korean;
-		}
-
-		public void SetSpanishLang()
-		{
-			currentLang = Language.Spanish;
-		}
 		public static Language currentLang {
 			get {
 				return instance._currentLang;

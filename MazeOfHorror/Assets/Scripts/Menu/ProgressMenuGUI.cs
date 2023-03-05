@@ -12,9 +12,6 @@ public class ProgressMenuGUI : MonoBehaviour
     [SerializeField] private GameObject _ramkaNatura;
     [SerializeField] private GameObject _ramkaDino;
     [SerializeField] private GameObject _ramkaCastle;
-    [SerializeField] private GameObject _buttonShop_1;
-    [SerializeField] private GameObject _buttonShop_2;
-    [SerializeField] private GameObject _buttonShop_3;
     [SerializeField] private Text _textLevel;
     [SerializeField] private Text _textLife;
     [SerializeField] private Text _textGold;
@@ -174,7 +171,7 @@ public class ProgressMenuGUI : MonoBehaviour
 
     public void SetProgressLevel(int value)
     {
-        int endProgressLevel = 50 + _levelPlayer * 30;
+        int endProgressLevel = (_levelPlayer + 1) * 100;
         if (_progressLevel + value >= endProgressLevel)
         {
             int toEnd = endProgressLevel - _progressLevel;
@@ -420,22 +417,16 @@ public class ProgressMenuGUI : MonoBehaviour
                     SetPrice(22);
                     break;
                 case (23):
-                    if (_amountPassage > 0)
-                    {
-                        _amountPort++;
-                        _saveProgress.SetPort(_amountPort);
-                        _amountUpdatePort.SetColorRect(_amountPort);
-                        SetPrice(23);
-                    }
+                    _amountPort++;
+                    _saveProgress.SetPort(_amountPort);
+                    _amountUpdatePort.SetColorRect(_amountPort);
+                    SetPrice(23);
                     break;
                 case (24):
-                    if (_amountPort > 0)
-                    {
-                        _amountImmunity++;
-                        _saveProgress.SetImmuny(_amountImmunity);
-                        _amountUpdateImmunity.SetColorRect(_amountImmunity);
-                        SetPrice(24);
-                    }
+                    _amountImmunity++;
+                    _saveProgress.SetImmuny(_amountImmunity);
+                    _amountUpdateImmunity.SetColorRect(_amountImmunity);
+                    SetPrice(24);
                     break;
 
                 case (32):
@@ -519,36 +510,21 @@ public class ProgressMenuGUI : MonoBehaviour
         if (_priceLevel > _levelPlayer)
         {
             _textPriceLevel.color = Color.red;
-            _buttonShop_1.SetActive(true);
         }
-        else
-        {
-            _textPriceLevel.color = Color.white;
-            _buttonShop_1.SetActive(false);
-        }
+        else _textPriceLevel.color = Color.white;
 
-            _textPriceGold.text = $"{_priceGold}";
+        _textPriceGold.text = $"{_priceGold}";
         if (_priceGold > _amountGold)
         {
             _textPriceGold.color = Color.red;
-            _buttonShop_2.SetActive(true);
         }
-        else
-        {
-            _textPriceGold.color = Color.white;
-            _buttonShop_2.SetActive(false);
-        }
+        else _textPriceGold.color = Color.white;
 
-            _textPriceDimond.text = $"{_priceDimond}";
+        _textPriceDimond.text = $"{_priceDimond}";
         if (_priceDimond > _amountDimond)
         {
             _textPriceDimond.color = Color.red;
-            _buttonShop_3.SetActive(true);
         }
-        else
-        {
-            _textPriceDimond.color = Color.white;
-            _buttonShop_3.SetActive(false);
-        }
+        else _textPriceDimond.color = Color.white;
     }
 }
